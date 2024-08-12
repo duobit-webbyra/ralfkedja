@@ -12,9 +12,9 @@ services:
     command: sh -c "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm dev"
     depends_on:
       - mongo
-      # - postgres
-    env_file:
-      - .env
+    environment:
+      - DATABASE_URI=mongodb://mongo:27017/ralfkedja 
+      - PAYLOAD_SECRET=8e6a5a05f2191ae004355566
 
   # Ensure your DATABASE_URI uses 'mongo' as the hostname ie. mongodb://mongo/my-db-name
   mongo:
