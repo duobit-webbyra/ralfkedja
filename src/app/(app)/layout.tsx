@@ -11,7 +11,7 @@ const dmSerifDisplay = DM_Serif_Display({
 
 const mainFont = dmSerifDisplay
 
-import '@/app/style/globals.css'
+import '@/app/styles/globals.scss'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
