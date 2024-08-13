@@ -1,0 +1,55 @@
+@import 'variables.scss';
+
+body {
+  font-family: sans-serif;
+  line-height: 1.5;
+  background: red;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+}
+
+h1 {
+  font-size: $text-lg;
+}
+
+h2 {
+  font-size: $text-md;
+}
+
+h3 {
+  font-size: $text-sm;
+}
+
+p {
+  font-size: $text-base;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
