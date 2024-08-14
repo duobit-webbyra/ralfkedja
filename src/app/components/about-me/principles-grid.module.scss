@@ -1,0 +1,31 @@
+@import 'variables.scss';
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: $content-width;
+
+  & > .text {
+    & > h1 {
+      font-size: $text-base;
+      color: $primary-300;
+      text-transform: uppercase;
+    }
+
+    & > p {
+      color: $primary-100;
+    }
+  }
+
+  & > .cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 8rem;
+  }
+}
