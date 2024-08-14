@@ -1,9 +1,27 @@
 @import 'variables.scss';
 
+:root {
+  --primary-400: #{$primary-400};
+  --primary-300: #{$primary-300};
+  --primary-200: #{$primary-200};
+  --primary-100: #{$primary-100};
+  --secondary-300: #{$secondary-300};
+  --secondary-200: #{$secondary-200};
+  --secondary-100: #{$secondary-100};
+  --tertiary-300: #{$tertiary-300};
+  --tertiary-200: #{$tertiary-200};
+  --tertiary-100: #{$tertiary-100};
+  --text-lg: #{$text-lg};
+  --text-md: #{$text-md};
+  --text-sm: #{$text-sm};
+  --text-base: #{$text-base};
+  --text-xs: #{$text-xs};
+  --rounded-full: #{$rounded-full};
+  --rounded-base: #{$rounded-base};
+}
+
 body {
-  font-family: sans-serif;
-  line-height: 1.5;
-  background: red;
+  background: $tertiary-100;
 }
 
 *,
@@ -30,6 +48,40 @@ h3 {
 
 p {
   font-size: $text-base;
+  color: $primary-400;
+}
+
+span {
+  font-size: $text-base;
+  color: $primary-400;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: $primary-400;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span {
+  font-weight: 500;
+  font-smooth: antialiased;
+  text-rendering: optimizeLegibility !important;
+  -webkit-font-smoothing: antialiased !important;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
 ol,

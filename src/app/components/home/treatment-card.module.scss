@@ -1,0 +1,25 @@
+@import 'variables.scss';
+
+.container {
+  border-radius: $rounded-base;
+  padding-inline: 1.5rem;
+  padding-block: 1rem;
+  border: $border-style;
+  height: 16rem;
+}
+
+.content {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &>.text>h1 {
+    font-size: $text-sm;
+  }
+
+  &>.button {
+    display: flex;
+    justify-content: end;
+  }
+}

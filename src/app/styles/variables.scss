@@ -1,20 +1,40 @@
-$primary-400: #131515;
+$primary-400: #110d09;
+$primary-400-rgb: rgb(17, 13, 9);
+
 $primary-300: #424847;
+$primary-300-rgb: rgb(66, 72, 71);
+
 $primary-200: #586261;
 $primary-100: #828e8c;
 
 $secondary-300: #5b994e;
 $secondary-200: #bbdbb4;
+$secondary-200-rgb: rgb(187, 219, 180);
 $secondary-100: #e8f3e5;
 
-$tertiary-300: #f8de8f;
-$tertiary-200: #fcf0cc;
-$tertiary-100: #fefdf6;
+$tertiary-500: #2f2419;
+$tertiary-500-rgb: rgb(47, 36, 25);
+
+$tertiary-400: #4a3827;
+$tertiary-300: #644d35;
+$tertiary-200: #e1d4c6;
+$tertiary-100: #f6f2ee;
 
 $text-lg: 3rem;
-$text-md: 2.25rem;
+$text-md: 2rem;
 $text-sm: 1.5rem;
 $text-base: 1rem;
+$text-xs: 0.875rem;
 
-$rounded-full: 999px;
+$border-style: 1px solid $primary-400;
+$border-style-alt: 1px solid $tertiary-100;
+
+$rounded-full: 9999px;
 $rounded-base: 1.5rem;
+
+$content-width: 1280px;
+$artboard-width: 1440px;
+
+$media-lg: 1440px;
+$media-md: 1024px;
+$media-sm: 720px;

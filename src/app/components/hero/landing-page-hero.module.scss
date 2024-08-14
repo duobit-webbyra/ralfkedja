@@ -1,0 +1,67 @@
+@import 'variables.scss';
+
+.container {
+  padding-block: 8rem;
+  background: rgba($secondary-200-rgb, 0.15);
+  display: flex;
+  justify-content: center;
+  border-bottom: $border-style;
+}
+
+.content {
+  width: $content-width;
+  justify-content: center;
+  display: flex;
+
+
+  &>.left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    width: 50%;
+
+    &>.review {
+      display: flex;
+      gap: 0.25rem;
+      align-items: center;
+
+      &>p {
+        margin-left: 0.75rem;
+        font-size: $text-xs;
+      }
+    }
+
+    &>h1 {
+      line-height: 1.1;
+      text-align: center;
+    }
+
+    &>p {
+      text-align: center;
+    }
+
+    &>.cta {
+      display: flex;
+      gap: 1rem;
+    }
+  }
+
+  @media (min-width: $content-width) {
+    justify-content: start;
+
+    &>.left {
+      justify-content: start;
+      align-items: start;
+
+      &>h1 {
+        text-align: left;
+      }
+
+      &>p {
+        text-align: left;
+      }
+    }
+  }
+}

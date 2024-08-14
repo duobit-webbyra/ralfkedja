@@ -1,0 +1,50 @@
+import PrimaryButton from '@/app/components/button/primary-button';
+import SecondaryButton from '@/app/components/button/secondary-button';
+import { MdLocalPhone } from 'react-icons/md';
+
+import style from './landing-page-hero.module.scss';
+import ReviewStar from '../graphics/review-star';
+
+export default function LandingPageHero() {
+  return (
+    <div className={style.container}>
+      <div className={style.content}>
+        <div className={style.left}>
+          <h1>Lorem ipsum dolor sit amet, consecturer.</h1>
+          <p>
+            Syftet med behandlingen är att återställa normal funktion i ryggraden med hjälp av
+            framförallt händerna.
+          </p>
+          <div className={style.cta}>
+            <PrimaryButton
+              href={'https://www.bokadirekt.se/places/eskilstuna-kroppsbalansering-25963'}
+            >
+              <p>Boka tid direkt</p>
+            </PrimaryButton>
+            <SecondaryButton>
+              <MdLocalPhone />
+              <a
+                style={{
+                  position: 'absolute',
+                  width: '100%',
+                  height: '100%',
+                  borderRadius: 'var(--rounded-full)',
+                }}
+                href="tel:010-000000"
+              ></a>
+              <p>010-000000</p>
+            </SecondaryButton>
+          </div>
+          <div className={style.review}>
+            <ReviewStar />
+            <ReviewStar />
+            <ReviewStar />
+            <ReviewStar />
+            <ReviewStar />
+            <p>Över 300 nöjda kunder</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
