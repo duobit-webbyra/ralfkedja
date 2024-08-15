@@ -46,12 +46,10 @@ h3 {
   font-size: $text-sm;
 }
 
-p {
-  font-size: $text-base;
-  color: $primary-400;
-}
-
-span {
+p,
+span,
+textarea,
+input {
   font-size: $text-base;
   color: $primary-400;
 }
@@ -72,6 +70,8 @@ h4,
 h5,
 h6,
 p,
+input,
+textarea,
 span {
   font-weight: 500;
   font-smooth: antialiased;

@@ -16,14 +16,16 @@ const mainFont = dmSerifDisplay;
 import '@/app/styles/globals.scss';
 import Nav from '../components/nav/nav';
 import HeaderInfo from '../components/header/info';
+import Footer from '../components/footer/footer';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <body className={mainFont.className}>
         <HeaderInfo />
         <Nav />
         <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );

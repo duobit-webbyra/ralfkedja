@@ -1,0 +1,29 @@
+@import 'variables.scss';
+
+.container {
+  height: 140px;
+  width: 100%;
+  background-color: $tertiary-100;
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  width: $content-width;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & > .info {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    font-size: $text-sm;
+
+    & > .item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
+}
