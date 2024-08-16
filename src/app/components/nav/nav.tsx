@@ -18,7 +18,6 @@ const navigation: NavigationData[] = [
   },
   {
     label: 'Behandlingar',
-    slug: '/behandlingar',
   },
   {
     label: 'Om mig',
