@@ -5,15 +5,17 @@ import Balance from '../graphics/home/balance';
 import Health from '../graphics/home/health';
 import Muscles from '../graphics/home/muscles';
 import Magnet from '../graphics/home/magnet';
+import Title from '../utils/title';
+
 export default function TreatmentGrid() {
   return (
     <div className={style.container}>
       <div className={style.content}>
-        <div className={style.text}>
-          <h1>Behandlingstyper</h1>
-          <h2>Utforska olika behandlingstyper</h2>
-          <p>Främjar balans, hälsa och välmående genom en holistisk ansats</p>
-        </div>
+        <Title
+          heading='Behandlingstyper'
+          subHeading='Utforska olika behandlingstyper'
+          description='Främjar balans, hälsa och välmående genom en holistisk ansats'
+        />
         <div className={style.cards}>
           <TreatmentCard
             title='Strukturell behandling'

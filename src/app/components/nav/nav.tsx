@@ -21,10 +21,6 @@ const navigation: NavigationData[] = [
     slug: '/behandlingar',
   },
   {
-    label: 'Kurser',
-    slug: '/kurser',
-  },
-  {
     label: 'Om mig',
     slug: '/om-mig',
   },
@@ -38,8 +34,12 @@ const navigation: NavigationData[] = [
   },
 ];
 
+import { useSelectedLayoutSegments } from 'next/navigation';
+
 export default function Nav() {
   const pathname = usePathname();
+  const segments = useSelectedLayoutSegments();
+  console.log(segments);
   return (
     <header className={style.container}>
       <div className={style.content}>

@@ -1,9 +1,10 @@
 import LandingPageHero from '@/app/components/hero/landing-page-hero';
 import TreatmentGrid from '@/app/components/home/treatment-grid';
 import Reviews from '../components/home/reviews';
-import AboutMe from '../components/home/about-me';
 import Curve from '../components/graphics/curve';
 import ContactMe from '../components/home/contact-me';
+import AboutMeOverview from '../components/home/about-me';
+
 export default function Page() {
   return (
     <>
@@ -17,8 +18,14 @@ export default function Page() {
       >
         <TreatmentGrid />
       </section>
-      <section style={{}}>
-        <AboutMe />
+
+      <section
+        style={{
+          borderBottom: '1px solid var(--primary-400)',
+          background: 'var(--secondary-100)',
+        }}
+      >
+        <AboutMeOverview />
       </section>
       <section
         style={{
