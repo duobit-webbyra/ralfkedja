@@ -1,0 +1,72 @@
+@import 'variables.scss';
+
+.container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  height: 32rem;
+  overflow: hidden;
+  padding-block: 4rem;
+
+  &>.content {
+    width: $content-width;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    &>.left {
+      display: flex;
+      gap: 1rem;
+      width: 25%;
+      height: 100%;
+      align-items: end;
+
+      @mixin image-base() {
+        width: 100%;
+        position: relative;
+        border: $border-style;
+        border-top-left-radius: $rounded-full;
+        border-top-right-radius: $rounded-full;
+        overflow: hidden;
+      }
+
+      &>.image-1 {
+        height: 50%;
+        @include image-base();
+      }
+
+      &>.image-2 {
+        height: 100%;
+        @include image-base();
+      }
+    }
+
+    &>.right {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      &>.text {
+        &>h1 {
+          font-size: $text-base;
+        }
+
+        &>h2 {
+          font-size: $text-md;
+        }
+      }
+    }
+  }
+
+  &>.hill {
+    position: absolute;
+    height: 1024px;
+    width: 1024px;
+    bottom: 0;
+    right: 0;
+    background: $secondary-200;
+    border-radius: $rounded-full;
+    transform: translate(480px, 640px);
+  }
+}
