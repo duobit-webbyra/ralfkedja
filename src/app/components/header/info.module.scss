@@ -1,11 +1,12 @@
 @import 'variables.scss';
 
 .container {
-  height: 72px;
+  min-height: 72px;
   width: 100%;
   background-color: $tertiary-100;
   display: flex;
   justify-content: center;
+  align-content: start;
 }
 
 .content {
