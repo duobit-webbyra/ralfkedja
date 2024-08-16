@@ -1,7 +1,9 @@
 import LandingPageHero from '@/app/components/hero/landing-page-hero';
 import TreatmentGrid from '@/app/components/home/treatment-grid';
-import Reviews from '../components/home/review';
-
+import Reviews from '../components/home/reviews';
+import AboutMe from '../components/home/about-me';
+import Curve from '../components/graphics/curve';
+import ContactMe from '../components/home/contact-me';
 export default function Page() {
   return (
     <>
@@ -11,18 +13,28 @@ export default function Page() {
       <section
         style={{
           paddingBlock: '4rem',
-          borderBottom: '1px solid var(--primary-400)',
         }}
       >
         <TreatmentGrid />
       </section>
+      <section style={{}}>
+        <AboutMe />
+      </section>
       <section
         style={{
-          backgroundColor: 'var(--primary-300)',
+          backgroundColor: 'var(--primary-200)',
           paddingBlock: '4rem',
         }}
       >
         <Reviews />
+      </section>
+      <section
+        style={{
+          backgroundColor: 'var(--primary-300)',
+        }}
+      >
+        <Curve fillColor='var(--primary-200)' />
+        <ContactMe />
       </section>
     </>
   );

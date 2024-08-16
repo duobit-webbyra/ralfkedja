@@ -1,0 +1,37 @@
+@import 'variables.scss';
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  width: $content-width;
+
+  & > .text {
+    text-align: center;
+
+    & > h1 {
+      font-size: $text-base;
+      color: $tertiary-200;
+      text-transform: uppercase;
+    }
+    & > h2 {
+      color: $tertiary-100;
+    }
+
+    & > p {
+      color: $primary-100;
+    }
+  }
+  & > .reviewcards {
+    display: flex;
+    gap: 2rem;
+    & > * {
+      flex: 1;
+    }
+  }
+}

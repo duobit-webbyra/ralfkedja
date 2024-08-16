@@ -4,8 +4,7 @@
   border-radius: $rounded-base;
   padding-inline: 1.5rem;
   padding-block: 1rem;
-  border: $border-style;
-  height: 16rem;
+  height: 17rem;
 }
 
 .content {
@@ -13,12 +12,15 @@
   height: 100%;
   flex-direction: column;
   justify-content: space-between;
-
-  &>.text>h1 {
-    font-size: $text-sm;
+  & > .text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    & > h1 {
+      font-size: $text-sm;
+    }
   }
-
-  &>.button {
+  & > .button {
     display: flex;
     justify-content: end;
   }

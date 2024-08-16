@@ -1,11 +1,11 @@
 @import 'variables.scss';
 
 .container {
-  padding-block: 8rem;
-  background: rgba($secondary-200-rgb, 0.15);
+  background: linear-gradient(to right, rgba($secondary-200-rgb, 1), rgba($secondary-200-rgb, 0.1)),
+    url('/nature.webp');
+  background-size: cover;
   display: flex;
   justify-content: center;
-  border-bottom: $border-style;
 }
 
 .content {
@@ -13,8 +13,8 @@
   justify-content: center;
   display: flex;
 
-
-  &>.left {
+  & > .left {
+    padding-block: 8rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -22,46 +22,53 @@
     gap: 1rem;
     width: 50%;
 
-    &>.review {
+    & > .review {
       display: flex;
       gap: 0.25rem;
       align-items: center;
 
-      &>p {
+      & > p {
         margin-left: 0.75rem;
         font-size: $text-xs;
       }
     }
 
-    &>h1 {
+    & > h1 {
       line-height: 1.1;
       text-align: center;
     }
 
-    &>p {
+    & > p {
       text-align: center;
     }
 
-    &>.cta {
+    & > .cta {
       display: flex;
       gap: 1rem;
     }
+  }
+  & > .right {
+    display: none;
   }
 
   @media (min-width: $content-width) {
     justify-content: start;
 
-    &>.left {
+    & > .left {
       justify-content: start;
       align-items: start;
 
-      &>h1 {
+      & > h1 {
         text-align: left;
       }
 
-      &>p {
+      & > p {
         text-align: left;
       }
+    }
+    & > .right {
+      display: flex;
+      align-items: flex-end;
     }
   }
 }

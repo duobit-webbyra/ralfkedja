@@ -1,7 +1,10 @@
 import style from './treatment-grid.module.scss';
 
 import TreatmentCard from './treatment-card';
-
+import Balance from '../graphics/home/balance';
+import Health from '../graphics/home/health';
+import Muscles from '../graphics/home/muscles';
+import Magnet from '../graphics/home/magnet';
 export default function TreatmentGrid() {
   return (
     <div className={style.container}>
@@ -14,27 +17,27 @@ export default function TreatmentGrid() {
         <div className={style.cards}>
           <TreatmentCard
             title='Strukturell behandling'
-            description='Syftet med behandling'
+            description='Syftet med behandlingen är att återställa normal funktion i ryggraden med hjälp av framförallt händerna.'
             href='/'
-            icon={<></>}
+            icon={<Health />}
           />
           <TreatmentCard
-            title='Strukturell behandling'
-            description='Syftet med behandling'
+            title='Kroppsbalansering'
+            description='En genomgång av kroppen görs för att söka efter grundorsaken till klientens problem, sen behandlas det med olika "verktyg" utifrån klientens behov.'
             href='/'
-            icon={<></>}
+            icon={<Balance />}
           />
           <TreatmentCard
-            title='Strukturell behandling'
-            description='Syftet med behandling'
-            icon={<></>}
+            title='Kinesiologi'
+            description='Kinesiologi är en metod att kommunicera med en annan persons nervsystem genom att testa spänningen i musklerna.'
             href='/'
+            icon={<Muscles />}
           />
           <TreatmentCard
-            title='Strukturell behandling'
-            description='Syftet med behandling'
+            title='Biomagnetism'
+            description='Biomagnetism ingår också i begreppet magnetbehandlingar, och är en metod baserad på de effekter som starka magneter utövar på kroppen.'
             href='/'
-            icon={<></>}
+            icon={<Magnet />}
           />
         </div>
       </div>

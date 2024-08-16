@@ -1,7 +1,7 @@
 import PrimaryButton from '@/app/components/button/primary-button';
 import SecondaryButton from '@/app/components/button/secondary-button';
 import { MdLocalPhone } from 'react-icons/md';
-
+import Image from 'next/image';
 import style from './landing-page-hero.module.scss';
 import ReviewStar from '../graphics/review-star';
 
@@ -10,11 +10,8 @@ export default function LandingPageHero() {
     <div className={style.container}>
       <div className={style.content}>
         <div className={style.left}>
-          <h1>Lorem ipsum dolor sit amet, consecturer.</h1>
-          <p>
-            Syftet med behandlingen är att återställa normal funktion i ryggraden med hjälp av
-            framförallt händerna.
-          </p>
+          <h1>Balans för Kropp och Själ</h1>
+          <p>Friskvårdande behandlingar för ett hälsosammare liv.</p>
           <div className={style.cta}>
             <PrimaryButton
               href={'https://www.bokadirekt.se/places/eskilstuna-kroppsbalansering-25963'}
@@ -30,7 +27,7 @@ export default function LandingPageHero() {
                   height: '100%',
                   borderRadius: 'var(--rounded-full)',
                 }}
-                href="tel:010-000000"
+                href='tel:010-000000'
               ></a>
               <p>010-000000</p>
             </SecondaryButton>
@@ -43,6 +40,9 @@ export default function LandingPageHero() {
             <ReviewStar />
             <p>Över 300 nöjda kunder</p>
           </div>
+        </div>
+        <div className={style.right}>
+          <Image src='/man.png' alt='hero image' width={600} height={500} />
         </div>
       </div>
     </div>
