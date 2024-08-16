@@ -4,15 +4,17 @@ $nav-height: 72px;
 
 .container {
   position: sticky;
+  position: -webkit-sticky;
   top: 0;
-  height: $nav-height;
+  align-self: flex-start;
+  min-height: $nav-height;
   background-color: rgba($primary-400-rgb, 0.9);
   display: flex;
   justify-content: center;
   align-items: center;
+  align-content: start;
   width: 100%;
   z-index: 9999;
-
   backdrop-filter: blur(32px);
 }
 
