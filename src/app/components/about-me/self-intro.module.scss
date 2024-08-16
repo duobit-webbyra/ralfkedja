@@ -12,24 +12,11 @@
   justify-content: center;
   align-items: center;
 
-  &>.text {
+  & > .text {
     width: 50%;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-
-    &>h1 {
-      font-size: $text-base;
-      color: $primary-300;
-      text-transform: uppercase;
-    }
-
-    &>p {
-      color: $primary-100;
-    }
   }
 
-  &>.image {
+  & > .image {
     width: 560px;
     height: 560px;
     display: flex;

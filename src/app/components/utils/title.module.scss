@@ -3,27 +3,31 @@
 .container {
   text-align: center;
 
-  &>h1 {
+  & > h1 {
     font-size: $text-base;
     color: $primary-300;
     text-transform: uppercase;
   }
 
-  &.inverse>h1 {
+  &.inverse > h1 {
     font-size: $text-base;
     color: $tertiary-200;
     text-transform: uppercase;
   }
 
-  &.inverse>h2 {
+  &.inverse > h2 {
     color: $tertiary-100;
   }
 
-  &>p {
+  & > p {
     color: $primary-100;
   }
 
-  &.inverse>p {
+  &.inverse > p {
     color: $secondary-100;
   }
+}
+
+.left {
+  text-align: left;
 }

@@ -1,16 +1,19 @@
 import React from 'react';
 import style from './contact-me.module.scss';
 import PrimaryButton from '../button/primary-button';
+import Title from '../utils/title';
 
 export default function ContactMe() {
   return (
     <div className={style.container}>
       <div className={style.content}>
-        <div className={style.text}>
-          <h1>Kontakta mig</h1>
-          <h2>Har du frågor eller vill boka tid?</h2>
-          <p>Skicka ett meddelande så återkommer jag så snart jag kan.</p>
-        </div>
+        <Title
+          heading='Kontakta mig'
+          subHeading='Har du frågor eller vill boka tid?'
+          description='Skicka ett meddelande så återkommer jag så snart jag kan.'
+          inverse
+          left
+        />
         <div className={style.contactsection}>
           <div
             style={{
