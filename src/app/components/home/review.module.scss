@@ -11,17 +11,4 @@
   gap: 4rem;
   width: $content-width;
 
-  &>.text {
-    text-align: center;
-
-    &>h1 {
-      font-size: $text-base;
-      color: $primary-300;
-      text-transform: uppercase;
-    }
-
-    &>p {
-      color: $primary-100;
-    }
-  }
 }
