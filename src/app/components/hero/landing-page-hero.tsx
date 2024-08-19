@@ -10,8 +10,10 @@ export default function LandingPageHero() {
     <div className={style.container}>
       <div className={style.content}>
         <div className={style.left}>
-          <h1>Balans för Kropp och Själ</h1>
-          <p>Friskvårdande behandlingar för ett hälsosammare liv.</p>
+          <div className={style.text}>
+            <h1>Balans för Kropp och Själ</h1>
+            <p>Friskvårdande behandlingar för ett hälsosammare liv.</p>
+          </div>
           <div className={style.cta}>
             <PrimaryButton
               href={'https://www.bokadirekt.se/places/eskilstuna-kroppsbalansering-25963'}
