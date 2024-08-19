@@ -1,8 +1,8 @@
 import style from './about-me.module.scss';
 
 import PrimaryButton from '../button/primary-button';
-
 import Image from 'next/image';
+import Title from '../utils/title';
 
 export default function AboutMeOverview() {
   return (
@@ -17,11 +17,12 @@ export default function AboutMeOverview() {
           </div>
         </div>
         <div className={style.right}>
-          <div className={style.text}>
-            <h1>Om mig</h1>
-            <h2>Lorem ipsum sato ackti.</h2>
-            <p></p>
-          </div>
+          <Title
+            heading='Om mig'
+            subHeading='Lorem ipsum'
+            description='Mitt intresse för hälsa och friskvård grundar sig i att jag är uppvuxen på landet på Gotland där min far verkade som kiropraktor och akupunktör under nästan fem decenium. Betydelsen av helheten när man jobbar med friskvård lärde mig min far mig tidigt, att inte bara behandla symtomer utan hela människan.  '
+            left
+          />
           <PrimaryButton>Läs mer</PrimaryButton>
         </div>
       </div>
