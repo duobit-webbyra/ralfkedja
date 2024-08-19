@@ -22,10 +22,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang='en'>
       <body className={mainFont.className}>
-        <HeaderInfo />
-        <Nav />
-        <main>{children}</main>
-        <Footer />
+        <main>
+          <HeaderInfo />
+          <Nav />
+          {children}
+          <Footer />
+        </main>
       </body>
     </html>
   );
