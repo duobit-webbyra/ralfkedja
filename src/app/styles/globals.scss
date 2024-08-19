@@ -22,25 +22,22 @@
 
 body {
   background: $tertiary-100;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  flex-shrink: 0;
 }
 
-html, body {
+html,
+body {
   height: 100%;
 }
 
-*,
-*::before,
-*::after {
+main {
+  min-height: 100%;
+  position: relative;
+}
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  border-width: 0;
-  border-style: solid;
 }
 
 h1 {
