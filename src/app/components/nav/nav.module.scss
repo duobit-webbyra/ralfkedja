@@ -6,16 +6,13 @@ $nav-height: 72px;
   position: sticky;
   position: -webkit-sticky;
   top: 0;
-  align-self: flex-start;
-  min-height: $nav-height;
-  background-color: rgba($primary-400-rgb, 0.9);
+  height: $nav-height;
+  width: 100%;
+  background-color: rgba($primary-400-rgb, 1);
   display: flex;
   justify-content: center;
   align-items: center;
-  align-content: start;
-  width: 100%;
   z-index: 9999;
-  backdrop-filter: blur(32px);
 }
 
 .content {
@@ -49,17 +46,17 @@ $nav-height: 72px;
       &::after {
         content: '';
         position: absolute;
-        left: 0;
         bottom: 0;
         height: 4px;
-        width: 100%;
+        width: 0%;
         background-color: $tertiary-100;
         opacity: 0.0;
-        transition: opacity 200ms ease;
+        transition: opacity 200ms ease, width 200ms ease;
       }
 
       &.active::after {
         opacity: 1.0;
+        width: 100%;
       }
     }
   }
