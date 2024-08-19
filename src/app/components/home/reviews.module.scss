@@ -8,29 +8,32 @@
 .content {
   display: flex;
   flex-direction: column;
-  gap: 4rem;
+  gap: 5rem;
   width: $content-width;
 
-  & > .text {
+  &>.text {
     text-align: center;
 
-    & > h1 {
+    &>h1 {
       font-size: $text-base;
       color: $tertiary-200;
       text-transform: uppercase;
     }
-    & > h2 {
+
+    &>h2 {
       color: $tertiary-100;
     }
 
-    & > p {
+    &>p {
       color: $primary-100;
     }
   }
-  & > .reviewcards {
+
+  &>.review-cards {
     display: flex;
-    gap: 2rem;
-    & > * {
+    gap: 2.5rem;
+
+    &>* {
       flex: 1;
     }
   }

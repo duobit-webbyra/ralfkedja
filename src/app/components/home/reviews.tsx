@@ -11,19 +11,19 @@ export default function Reviews() {
           description='Läs hur mina behandlingar har hjälpt andra att återfå balansen och uppnå bättre hälsa.'
           inverse
         />
-        <div className={style.reviewcards}>
+        <div className={style['review-cards']}>
           <ReviewCard
-            reviewmessage='Inlyssnande, lugn, metodisk. Erbjöd kostnadsfritt återbesök om det inte kändes bra efter ett par dagar. Det är kundfokus och service!'
-            reviewauthor='Helena W.'
+            reviewMessage='Inlyssnande, lugn, metodisk. Erbjöd kostnadsfritt återbesök om det inte kändes bra efter ett par dagar. Det är kundfokus och service!'
+            reviewAuthor='Helena W.'
           />
           <ReviewCard
-            reviewmessage='Mycket kunnig, och trevlig. Väldigt
+            reviewMessage='Mycket kunnig, och trevlig. Väldigt
 förtroendeingivande.'
-            reviewauthor='Marie S.'
+            reviewAuthor='Marie S.'
           />
           <ReviewCard
-            reviewmessage='Wow! Vilket bemötande, vilken behandling! Återkommer gärna!'
-            reviewauthor='Anna W.'
+            reviewMessage='Wow! Vilket bemötande, vilken behandling! Återkommer gärna!'
+            reviewAuthor='Anna W.'
           />
         </div>
       </div>

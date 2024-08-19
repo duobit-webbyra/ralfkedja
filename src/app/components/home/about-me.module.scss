@@ -8,14 +8,14 @@
   overflow: hidden;
   padding-block: 4rem;
 
-  & > .content {
+  &>.content {
     width: $content-width;
     height: 100%;
     display: flex;
     align-items: center;
     gap: 2rem;
 
-    & > .left {
+    &>.left {
       display: flex;
       gap: 1rem;
       width: 25%;
@@ -31,35 +31,38 @@
         overflow: hidden;
       }
 
-      & > .image-1 {
+      &>.image-1 {
         height: 50%;
         @include image-base();
       }
 
-      & > .image-2 {
+      &>.image-2 {
         height: 100%;
         @include image-base();
       }
     }
 
-    & > .right {
+    &>.right {
       display: flex;
       flex-direction: column;
       gap: 1rem;
+      width: 40%;
 
-      & > .text {
-        & > h1 {
+      &>.text {
+        &>h1 {
           font-size: $text-base;
+          text-transform: uppercase;
+          color: $primary-200;
         }
 
-        & > h2 {
+        &>h2 {
           font-size: $text-md;
         }
       }
     }
   }
 
-  & > .hill {
+  &>.hill {
     position: absolute;
     height: 1024px;
     width: 1024px;
