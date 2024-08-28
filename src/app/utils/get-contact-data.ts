@@ -9,7 +9,7 @@ export default async function GetContactData() {
     slug: 'contact',
   });
 
-  if (!data) return null;
+  if (!data) return undefined;
 
   return data;
 }
