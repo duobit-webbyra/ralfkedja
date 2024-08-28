@@ -9,6 +9,8 @@ import sharp from 'sharp';
 import { Users } from './payload/collections/users';
 import { Media } from './payload/collections/media';
 import { Gallery } from './payload/collections/gallery';
+import { Reviews } from './payload/collections/reviews';
+import { Contact } from './payload/globals/contact';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -17,7 +19,8 @@ export default buildConfig({
   admin: {
     user: Users.slug,
   },
-  collections: [Users, Media, Gallery],
+  collections: [Gallery, Media, Reviews, Users],
+  globals: [Contact],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
