@@ -153,6 +153,11 @@ export interface Contact {
   };
   phone: string;
   email: string;
+  socials?: {
+    facebook?: string | null;
+    linkedin?: string | null;
+    instagram?: string | null;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }

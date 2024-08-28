@@ -31,10 +31,10 @@ export default function ContactDetails() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <p>0709-12 21 28</p>
               <div style={{ display: 'flex', gap: '0.5rem' }}>
-                <Link href='https://www.facebook.com/p/Eskilstuna-Kroppsbalansering-100063496813617/?paipv=0&eav=AfZitAiNH54Ly0VzCLoNbz3IIen0t3gZE4gXi8-wZvsCDcVj9MVFmh3NS1VeQpZzX_c&_rdr'>
+                <Link href={`${data?.socials?.facebook}`}>
                   <Facebook />
                 </Link>
-                <Link href='https://www.instagram.com/ralfkedja/'>
+                <Link href={`${data?.socials?.instagram}`}>
                   <Instagram />
                 </Link>
               </div>

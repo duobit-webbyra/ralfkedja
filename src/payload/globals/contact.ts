@@ -34,5 +34,23 @@ export const Contact: GlobalConfig = {
       type: 'email',
       required: true,
     },
+    {
+      name: 'socials',
+      type: 'group',
+      fields: [
+        {
+          name: 'facebook',
+          type: 'text',
+        },
+        {
+          name: 'linkedin',
+          type: 'text',
+        },
+        {
+          name: 'instagram',
+          type: 'text',
+        },
+      ],
+    },
   ],
 };
