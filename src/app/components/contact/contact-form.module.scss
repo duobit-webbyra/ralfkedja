@@ -73,3 +73,14 @@
     }
   }
 }
+
+@media (max-width: $media-sm) {
+  .form {
+    width: 100%;
+
+    & > .formgrid {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}

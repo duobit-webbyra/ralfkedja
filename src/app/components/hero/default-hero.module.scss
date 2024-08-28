@@ -1,0 +1,10 @@
+@import 'variables.scss';
+
+.container {
+  background: linear-gradient(90deg, $secondary-100 0%, $secondary-200 100%);
+  height: 160px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: $text-lg;
+}

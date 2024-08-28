@@ -1,0 +1,24 @@
+@import 'variables.scss';
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: $text-lg;
+}
+
+.content {
+  width: $content-width;
+  align-items: center;
+  & > .text {
+    width: 50%;
+  }
+}
+
+@media (max-width: $media-sm) {
+  .content {
+    & > .text {
+      width: 100%;
+    }
+  }
+}

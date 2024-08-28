@@ -29,3 +29,12 @@
     column-gap: 8rem;
   }
 }
+
+@media (max-width: $media-sm) {
+  .content {
+    & > .cards {
+      grid-template-columns: 1fr;
+      row-gap: 2rem;
+    }
+  }
+}

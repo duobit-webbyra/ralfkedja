@@ -11,30 +11,36 @@
   gap: 5rem;
   width: $content-width;
 
-  &>.text {
+  & > .text {
     text-align: center;
 
-    &>h1 {
+    & > h1 {
       font-size: $text-base;
       color: $tertiary-200;
       text-transform: uppercase;
     }
 
-    &>h2 {
+    & > h2 {
       color: $tertiary-100;
     }
 
-    &>p {
+    & > p {
       color: $primary-100;
     }
   }
 
-  &>.review-cards {
+  & > .review-cards {
     display: flex;
     gap: 2.5rem;
 
-    &>* {
+    & > * {
       flex: 1;
     }
+  }
+}
+
+@media (max-width: $media-sm) {
+  .content > .review-cards {
+    flex-direction: column;
   }
 }

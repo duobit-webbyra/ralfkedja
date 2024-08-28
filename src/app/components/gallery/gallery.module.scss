@@ -1,0 +1,23 @@
+@import 'variables.scss';
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.gallerycontainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+
+  gap: 2rem;
+  width: $content-width;
+}
+
+.galleryitem {
+  position: relative;
+  height: 440px; // Fixed height
+}
+
+.galleryimage {
+  object-fit: cover;
+}

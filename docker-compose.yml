@@ -13,8 +13,9 @@ services:
     depends_on:
       - mongo
     environment:
-      - DATABASE_URI=mongodb://mongo:27017/ralfkedja 
-      - PAYLOAD_SECRET=8e6a5a05f2191ae004355566
+      - DATABASE_URI=mongodb://mongo:27017/ralfkedja
+      - PAYLOAD_SECRET=${PAYLOAD_SECRET}
+      - NEXT_PUBLIC_MAPS_API_KEY=${NEXT_PUBLIC_MAPS_API_KEY}
 
   # Ensure your DATABASE_URI uses 'mongo' as the hostname ie. mongodb://mongo/my-db-name
   mongo:

@@ -14,10 +14,12 @@
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
   },
   "dependencies": {
+    "@googlemaps/js-api-loader": "^1.16.8",
     "@payloadcms/db-mongodb": "3.0.0-beta.77",
     "@payloadcms/next": "3.0.0-beta.77",
     "@payloadcms/plugin-cloud": "3.0.0-beta.77",
     "@payloadcms/richtext-lexical": "3.0.0-beta.77",
+    "@types/google.maps": "^3.55.12",
     "babel-plugin-react-compiler": "0.0.0-experimental-334f00b-20240725",
     "cross-env": "^7.0.3",
     "eslint-config-prettier": "^9.1.0",

@@ -9,6 +9,7 @@ import { usePathname } from 'next/navigation';
 interface NavigationData {
   label: string;
   slug?: string;
+  subItems?: NavigationData[];
 }
 
 const navigation: NavigationData[] = [
@@ -18,6 +19,13 @@ const navigation: NavigationData[] = [
   },
   {
     label: 'Behandlingar',
+    slug: '/behandlingar',
+    subItems: [
+      { label: 'Strukturell Behandling', slug: '/behandlingar/#strukturell-behandling' },
+      { label: 'Kroppsbalansering', slug: '/behandlingar/#kroppsbalansering' },
+      { label: 'Kinesiologi', slug: '/behandlingar/#kinesiologi' },
+      { label: 'Biomagnetism', slug: '/behandlingar/#biomagnetism' },
+    ],
   },
   {
     label: 'Om mig',
@@ -46,7 +54,25 @@ export default function Nav() {
           {navigation.map((item, index) => {
             return (
               <li key={index} className={`${pathname === item?.slug ? style.active : ''}`}>
-                {item.slug ? <Link href={`${item.slug}`}>{item.label}</Link> : <p>{item.label}</p>}
+                <div className={style.navItem}>
+                  {item.slug ? (
+                    <Link href={`${item.slug}`}>{item.label}</Link>
+                  ) : (
+                    <p>{item.label}</p>
+                  )}
+                </div>
+                {item.subItems && (
+                  <ul className={style.dropdown}>
+                    {item.subItems.map((subItem, subIndex) => (
+                      <li
+                        key={subIndex}
+                        className={`${pathname === subItem?.slug ? style.active : ''}`}
+                      >
+                        <Link href={`${subItem.slug}`}>{subItem.label}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
             );
           })}

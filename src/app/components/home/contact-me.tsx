@@ -2,7 +2,7 @@ import React from 'react';
 import style from './contact-me.module.scss';
 import PrimaryButton from '../button/primary-button';
 import Title from '../utils/title';
-
+import Map from '../utils/map';
 export default function ContactMe() {
   return (
     <div className={style.container}>
@@ -14,15 +14,8 @@ export default function ContactMe() {
           inverse
           left
         />
+
         <div className={style.contactsection}>
-          <div
-            style={{
-              backgroundColor: 'var(--primary-100)',
-              width: '100%',
-              borderRadius: '32px',
-              height: '500px',
-            }}
-          ></div>
           <form className={style.form}>
             <div className={style.formgrid}>
               <input className={style.forminput} type='text' placeholder='Namn' />
@@ -34,6 +27,9 @@ export default function ContactMe() {
               <PrimaryButton>Skicka</PrimaryButton>
             </div>
           </form>
+          <div className={style.mapcontainer}>
+            <Map />
+          </div>
         </div>
       </div>
     </div>
