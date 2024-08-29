@@ -1,0 +1,10 @@
+@import 'variables.scss';
+
+.container {
+
+  align-self: start;
+
+  &>p {
+    color: $primary-300;
+  }
+}
