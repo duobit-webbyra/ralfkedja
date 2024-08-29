@@ -13,6 +13,7 @@ export default function Map() {
         version: 'weekly',
       });
 
+      const { Marker } = await loader.importLibrary('marker');
       const { Map } = await loader.importLibrary('maps');
       const position = { lat: 59.3648070446075, lng: 16.515614441733714 };
 
@@ -22,7 +23,11 @@ export default function Map() {
         mapId: 'MY_NEXTJS_MAPID',
       };
 
-      new Map(mapRef.current as HTMLDivElement, mapOptions);
+      const map = new Map(mapRef.current as HTMLDivElement, mapOptions);
+      new Marker({
+        map: map,
+        position: position,
+      });
     };
 
     initMap();
