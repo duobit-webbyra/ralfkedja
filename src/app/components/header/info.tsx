@@ -4,7 +4,11 @@ import { MdOutlineLocationOn } from 'react-icons/md';
 import { MdOutlinePhone } from 'react-icons/md';
 import { MdOutlineMail } from 'react-icons/md';
 
-export default function HeaderInfo() {
+import getContactData from '@/app/utils/get-contact-data';
+
+export default async function HeaderInfo() {
+  const data = await getContactData();
+
   return (
     <div className={style.container}>
       <div className={style.content}>
@@ -19,24 +23,24 @@ export default function HeaderInfo() {
                 lineHeight: '1.25',
               }}
             >
-              <span>Bruksgatan 8B</span>
+              <span>{data?.address.street}</span>
               <span
                 style={{
                   color: 'var(--primary-100)',
                   fontSize: 'var(--text-xs)',
                 }}
               >
-                632 20, Eskilstuna
+                {data?.address.zipcode}, {data?.address.city}
               </span>
             </div>
           </div>
           <div className={style.item}>
             <MdOutlinePhone transform='rotate(10)' />
-            <span>010-0000000</span>
+            <span>{data?.phone}</span>
           </div>
           <div className={style.item}>
             <MdOutlineMail />
-            <span>ralked@hotmail.com</span>
+            <span>{data?.email}</span>
           </div>
         </div>
       </div>

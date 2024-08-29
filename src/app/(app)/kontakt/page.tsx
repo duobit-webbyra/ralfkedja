@@ -4,7 +4,9 @@ import Curve from '@/app/components/graphics/curve';
 import Image from 'next/image';
 import DefaultHero from '@/app/components/hero/default-hero';
 import Map from '@/app/components/utils/map';
-export default function Page() {
+import GetContactData from '@/app/utils/get-contact-data';
+
+export default async function Page() {
   return (
     <>
       <DefaultHero title='Kontakt' />
@@ -13,7 +15,7 @@ export default function Page() {
           paddingTop: '2rem',
         }}
       >
-        <ContactDetails />
+        <ContactDetails data={await GetContactData()} />
       </section>
       <Image
         style={{ position: 'absolute', right: '15%', top: '400px' }}

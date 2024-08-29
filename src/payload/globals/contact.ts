@@ -1,0 +1,56 @@
+import { GlobalConfig } from 'payload';
+
+export const Contact: GlobalConfig = {
+  slug: 'contact',
+  fields: [
+    {
+      name: 'address',
+      type: 'group',
+      fields: [
+        {
+          name: 'street',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'city',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'zipcode',
+          type: 'number',
+          required: true,
+        },
+      ],
+    },
+    {
+      name: 'phone',
+      type: 'text',
+      required: true,
+    },
+    {
+      name: 'email',
+      type: 'email',
+      required: true,
+    },
+    {
+      name: 'socials',
+      type: 'group',
+      fields: [
+        {
+          name: 'facebook',
+          type: 'text',
+        },
+        {
+          name: 'linkedin',
+          type: 'text',
+        },
+        {
+          name: 'instagram',
+          type: 'text',
+        },
+      ],
+    },
+  ],
+};

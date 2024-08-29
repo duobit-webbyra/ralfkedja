@@ -27,7 +27,7 @@
     "eslint-plugin-react": "^7.35.0",
     "graphql": "^16.8.1",
     "next": "15.0.0-canary.63",
-    "payload": "3.0.0-beta.77",
+    "payload": "3.0.0-beta.95",
     "react": "^19.0.0-rc-6230622a1a-20240610",
     "react-dom": "^19.0.0-rc-6230622a1a-20240610",
     "react-icons": "^5.3.0",

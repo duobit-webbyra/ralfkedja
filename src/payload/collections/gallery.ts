@@ -14,15 +14,9 @@ export const Gallery: CollectionConfig = {
     },
     {
       name: 'images',
-      type: 'array',
-      fields: [
-        {
-          name: 'image',
-          type: 'upload',
-          relationTo: 'media',
-          required: true,
-        },
-      ],
+      type: 'upload',
+      relationTo: 'media',
+      required: true,
     },
   ],
 };
