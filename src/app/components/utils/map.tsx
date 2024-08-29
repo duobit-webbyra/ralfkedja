@@ -14,7 +14,6 @@ export default function Map() {
       });
 
       const { Map } = await loader.importLibrary('maps');
-      const { Marker } = (await loader.importLibrary('marker')) as google.maps.MarkerLibrary;
       const position = { lat: 59.3648070446075, lng: 16.515614441733714 };
 
       const mapOptions: google.maps.MapOptions = {
@@ -22,11 +21,8 @@ export default function Map() {
         zoom: 15,
         mapId: 'MY_NEXTJS_MAPID',
       };
-      const map = new Map(mapRef.current as HTMLDivElement, mapOptions);
-      const marker = new Marker({
-        map: map,
-        position: position,
-      });
+
+      new Map(mapRef.current as HTMLDivElement, mapOptions);
     };
 
     initMap();
