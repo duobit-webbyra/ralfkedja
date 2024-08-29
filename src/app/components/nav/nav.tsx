@@ -3,13 +3,14 @@
 import style from './nav.module.scss';
 import PrimaryButton from '../button/primary-button';
 import Link from 'next/link';
-
+import MenuOpenButton from './menu-open-button';
+import MenuCloseButton from './menu-close-button';
 import { usePathname } from 'next/navigation';
+import { useState, useEffect } from 'react';
 
 interface NavigationData {
   label: string;
   slug?: string;
-  subItems?: NavigationData[];
 }
 
 const navigation: NavigationData[] = [
@@ -20,12 +21,6 @@ const navigation: NavigationData[] = [
   {
     label: 'Behandlingar',
     slug: '/behandlingar',
-    subItems: [
-      { label: 'Strukturell Behandling', slug: '/behandlingar/#strukturell-behandling' },
-      { label: 'Kroppsbalansering', slug: '/behandlingar/#kroppsbalansering' },
-      { label: 'Kinesiologi', slug: '/behandlingar/#kinesiologi' },
-      { label: 'Biomagnetism', slug: '/behandlingar/#biomagnetism' },
-    ],
   },
   {
     label: 'Om mig',
@@ -43,7 +38,7 @@ const navigation: NavigationData[] = [
 
 import { useSelectedLayoutSegments } from 'next/navigation';
 
-export default function Nav() {
+export function NavDefault() {
   const pathname = usePathname();
   const segments = useSelectedLayoutSegments();
   console.log(segments);
@@ -55,24 +50,8 @@ export default function Nav() {
             return (
               <li key={index} className={`${pathname === item?.slug ? style.active : ''}`}>
                 <div className={style.navItem}>
-                  {item.slug ? (
-                    <Link href={`${item.slug}`}>{item.label}</Link>
-                  ) : (
-                    <p>{item.label}</p>
-                  )}
+                  <Link href={`${item.slug}`}>{item.label}</Link>
                 </div>
-                {item.subItems && (
-                  <ul className={style.dropdown}>
-                    {item.subItems.map((subItem, subIndex) => (
-                      <li
-                        key={subIndex}
-                        className={`${pathname === subItem?.slug ? style.active : ''}`}
-                      >
-                        <Link href={`${subItem.slug}`}>{subItem.label}</Link>
-                      </li>
-                    ))}
-                  </ul>
-                )}
               </li>
             );
           })}
@@ -82,5 +61,61 @@ export default function Nav() {
         </PrimaryButton>
       </div>
     </header>
+  );
+}
+
+export function NavMobile() {
+  const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add(style.noScroll);
+    } else {
+      document.body.classList.remove(style.noScroll);
+    }
+  }, [isOpen]);
+
+  return (
+    <header className={style.containerMobile}>
+      <PrimaryButton>
+        <p>Boka tid</p>
+      </PrimaryButton>
+      <div className={style.menuicon} onClick={toggleMenu}>
+        <MenuOpenButton />
+      </div>
+
+      <ul className={`${style.menuOpen} ${isOpen ? style.menuOpenActive : ''}`}>
+        <div style={{ display: 'flex', justifyContent: 'end' }}>
+          <div className={style.menuiconclose} onClick={toggleMenu}>
+            <MenuCloseButton />
+          </div>
+        </div>
+        <div className={style.menuitems}>
+          {navigation.map((item, index) => (
+            <li key={index} className={`${pathname === item?.slug ? style.active : ''}`}>
+              <div className={style.navItem}>
+                <Link onClick={toggleMenu} href={`${item.slug}`}>
+                  {item.label}
+                </Link>
+              </div>
+            </li>
+          ))}
+        </div>
+      </ul>
+    </header>
+  );
+}
+
+export default function Nav() {
+  return (
+    <>
+      <NavDefault />
+      <NavMobile />
+    </>
   );
 }
