@@ -27,6 +27,7 @@ export default function AboutMeOverview() {
         </div>
       </div>
       <div className={style.hill}></div>
+      <div className={style.hill2}></div>
     </div>
   );
 }

@@ -21,7 +21,6 @@ export default function Page() {
 
       <section
         style={{
-          borderBottom: '1px solid var(--primary-400)',
           background: 'var(--secondary-100)',
         }}
       >

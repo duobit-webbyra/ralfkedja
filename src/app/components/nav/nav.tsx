@@ -56,7 +56,7 @@ export function NavDefault() {
             );
           })}
         </ul>
-        <PrimaryButton>
+        <PrimaryButton href='https://www.bokadirekt.se/places/eskilstuna-kroppsbalansering-25963'>
           <p>Boka tid</p>
         </PrimaryButton>
       </div>

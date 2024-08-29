@@ -21,7 +21,7 @@ export default function ContactMe() {
           <div className={style.titlecenter}>
             <Title
               heading='Kontakta mig'
-              subHeading='Har du frågor eller vill boka tid?'
+              subHeading='Har du några frågor?'
               description='Skicka ett meddelande så återkommer jag så snart jag kan.'
               inverse
             />
@@ -37,7 +37,6 @@ export default function ContactMe() {
             </div>
             <textarea placeholder='Meddelande'></textarea>
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
-              <SecondaryButton>Boka tid</SecondaryButton>
               <PrimaryButton>Skicka</PrimaryButton>
             </div>
           </form>

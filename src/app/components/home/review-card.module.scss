@@ -5,14 +5,20 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  gap: 2.0rem;
+  gap: 2rem;
+  background: url('/polkapattern.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 1rem 1rem;
+  border-radius: 32px;
 }
 
 .text-container {
   display: flex;
   flex-direction: column;
 
-  &>.text {
+  & > .text {
     color: $tertiary-100;
     text-align: center;
     font-size: 1.25rem;

@@ -4,9 +4,9 @@
   position: relative;
   display: flex;
   justify-content: center;
-  height: 32rem;
+
   overflow: hidden;
-  padding-block: 4rem;
+  padding-block: 6rem;
 
   & > .content {
     width: $content-width;
@@ -14,18 +14,18 @@
     display: flex;
     align-items: center;
     gap: 2rem;
-
+    padding: 0 1rem;
     & > .left {
       display: flex;
       gap: 1rem;
-      width: 25%;
-      height: 100%;
+      width: 40%;
+      height: 24rem;
       align-items: end;
 
       @mixin image-base() {
         width: 100%;
         position: relative;
-        border: $border-style;
+
         border-top-left-radius: $rounded-full;
         border-top-right-radius: $rounded-full;
         overflow: hidden;
@@ -39,6 +39,7 @@
       & > .image-2 {
         height: 100%;
         @include image-base();
+        border-bottom-right-radius: 5000px;
       }
     }
 
@@ -64,12 +65,61 @@
 
   & > .hill {
     position: absolute;
-    height: 1024px;
-    width: 1024px;
+    height: 512px;
+    width: 512px;
     bottom: 0;
     right: 0;
     background: $secondary-200;
     border-radius: $rounded-full;
-    transform: translate(480px, 640px);
+    transform: translate(50%, 50%);
+  }
+  & > .hill2 {
+    position: absolute;
+    height: 256px;
+    width: 256px;
+    top: 0;
+    left: 0;
+    background: $secondary-200;
+    border-radius: $rounded-full;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media (max-width: $media-md) {
+  .container {
+    padding: 4rem 1rem;
+
+    & > .content {
+      flex-direction: column;
+      gap: 2rem;
+
+      & > .left {
+        width: 100%;
+        height: 20rem;
+
+        & > .image-1 {
+          height: 70%;
+        }
+        & > .image-2 {
+          border-bottom-right-radius: 3000px;
+        }
+      }
+
+      & > .right {
+        width: 100%;
+      }
+    }
+  }
+  .hill {
+    display: none;
+  }
+  .hill2 {
+    display: none;
+  }
+}
+
+@media (max-width: $media-sm) {
+  .left {
+    height: 16rem;
   }
 }
