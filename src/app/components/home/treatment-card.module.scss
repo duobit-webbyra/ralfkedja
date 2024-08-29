@@ -1,7 +1,6 @@
 @import 'variables.scss';
 
 .container {
-  padding-inline: 1.5rem;
   padding-block: 1rem;
   height: 18rem;
 }
@@ -12,17 +11,17 @@
   flex-direction: column;
   justify-content: space-between;
 
-  &>.text {
+  & > .text {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 
-    &>h1 {
+    & > h1 {
       font-size: $text-sm;
     }
   }
 
-  &>.button {
+  & > .button {
     display: flex;
     justify-content: end;
   }

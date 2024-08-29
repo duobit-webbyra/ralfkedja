@@ -41,15 +41,8 @@
   }
 }
 
-@media (min-width: $media-sm) and (max-width: $media-md) {
-  .content {
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-
-    & > .info {
-      flex-direction: column;
-      gap: 1.5rem;
-    }
+@media (max-width: $media-sm) {
+  .container {
+    display: none;
   }
 }

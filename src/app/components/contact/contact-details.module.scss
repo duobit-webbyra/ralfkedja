@@ -39,8 +39,11 @@
   }
 }
 
-@media (max-width: $media-sm) {
-  .content > .title {
-    width: 100%;
+@media (max-width: $content-width) {
+  .content {
+    padding: 0 1rem;
+    & > .title {
+      width: 100%;
+    }
   }
 }

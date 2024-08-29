@@ -82,9 +82,10 @@ export function NavMobile() {
 
   return (
     <header className={style.containerMobile}>
-      <PrimaryButton>
-        <p>Boka tid</p>
-      </PrimaryButton>
+      <Link style={{ color: 'var(--tertiary-100)', fontSize: 'var(--text-md)' }} href='/'>
+        Ralf Kedja
+      </Link>
+
       <div className={style.menuicon} onClick={toggleMenu}>
         <MenuOpenButton />
       </div>
@@ -95,6 +96,7 @@ export function NavMobile() {
             <MenuCloseButton />
           </div>
         </div>
+
         <div className={style.menuitems}>
           {navigation.map((item, index) => (
             <li key={index} className={`${pathname === item?.slug ? style.active : ''}`}>
@@ -105,6 +107,9 @@ export function NavMobile() {
               </div>
             </li>
           ))}
+          <PrimaryButton href='https://www.bokadirekt.se/places/eskilstuna-kroppsbalansering-25963'>
+            <p>Boka tid</p>
+          </PrimaryButton>
         </div>
       </ul>
     </header>

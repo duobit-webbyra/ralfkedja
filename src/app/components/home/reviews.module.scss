@@ -39,8 +39,11 @@
   }
 }
 
-@media (max-width: $media-sm) {
-  .content > .review-cards {
-    flex-direction: column;
+@media (max-width: $media-md) {
+  .content {
+    padding: 0 1rem;
+    & > .review-cards {
+      flex-direction: column;
+    }
   }
 }

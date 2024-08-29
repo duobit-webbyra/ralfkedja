@@ -14,22 +14,28 @@
   & > .cards {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    column-gap: 1rem;
+    column-gap: 2rem;
   }
 }
 
 @media (max-width: $media-sm) {
-  .content > .cards {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  .content {
+    padding: 0 1rem;
+    & > .cards {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
   }
 }
 
-@media (min-width: $media-sm) and (max-width: $media-md) {
-  .content > .cards {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+@media (min-width: $media-sm) and (max-width: $media-lg) {
+  .content {
+    padding: 0 1rem;
+    & > .cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4rem;
+    }
   }
 }
