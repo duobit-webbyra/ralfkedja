@@ -14,10 +14,6 @@
   gap: 3.75rem;
   width: $content-width;
   align-items: center;
-
-  & > .text {
-    align-self: start;
-  }
 }
 
 @media (max-width: $media-sm) {

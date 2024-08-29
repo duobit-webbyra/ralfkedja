@@ -1,6 +1,8 @@
 import React from 'react';
 import style from './strukturell-behandling.module.scss';
 import Title from '../utils/title';
+import TreatmentItem from './treatment-item';
+
 export default function Kinesiologi() {
   return (
     <div className={style.container}>
@@ -13,25 +15,23 @@ export default function Kinesiologi() {
         />
 
         <div style={{ width: 'auto', height: '264px' }}></div>
-        <div className={style.text}>
-          <p>Hur går det till?</p>
-          <p>
+        <TreatmentItem
+          heading='Hur går det till?'
+          description='
             Terapeuten arbetar för att återställa normal funktion i leder, muskler och nervsystem.
             Den huvudsakliga behandlingsmetoden är justering som består av olika handgrepp för att
             mobilisera en led eller ett ryggradsområde. Antalet behandlingar som ordineras beror på
-            vilka besvär man har och hur länge man har haft dem.
-          </p>
-        </div>
-        <div className={style.text}>
-          <p>Vilka besvär kan behandlas?</p>
-          <p>
+            vilka besvär man har och hur länge man har haft dem.'
+        />
+        <TreatmentItem
+          heading='Vilka besvär kan behandlas?'
+          description='
             Terapeuten behandlar klienter som söker för smärttillstånd i rörelseapparaten. Besvären
             som behandlas kan vara såväl akuta som kroniska. Vanliga exempel på besvär som behandlas
             är: rygg- och nackbesvär, ryggskott, ischias, huvudvärk, migrän, yrsel, andnings- och
             matsmältningsbesvär, premenstruella smärtor, sträckningar, muskel- och ledvärk,
-            tennisarmbåge, idrottsskador, förslitningsskador och stress.
-          </p>
-        </div>
+            tennisarmbåge, idrottsskador, förslitningsskador och stress.'
+        />
       </div>
     </div>
   );
