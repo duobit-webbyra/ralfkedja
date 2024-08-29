@@ -9,7 +9,7 @@ export default function HeaderInfo() {
   return (
     <div className={style.container}>
       <div className={style.content}>
-        <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+        <div className={style.namecopyright}>
           <p style={{ fontSize: 'var(--text-md)' }}>Ralf Kedja</p>
           <p
             style={{

@@ -26,3 +26,17 @@
     justify-content: end;
   }
 }
+
+@media (max-width: $media-sm) {
+  .container {
+    height: 100%;
+  }
+  .content {
+    align-items: center;
+    gap: 2rem;
+    & > .text {
+      text-align: center;
+      align-items: center;
+    }
+  }
+}

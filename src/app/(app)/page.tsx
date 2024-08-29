@@ -13,6 +13,20 @@ export default function Page() {
       </section>
       <section
         style={{
+          backgroundColor: 'var(--primary-300)',
+          padding: '1rem 0',
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          color: 'var(--secondary-100)',
+          fontSize: '1.5rem',
+          textAlign: 'center',
+        }}
+      >
+        29/08 är jag borta på semester och kommer tillbaka 06/09
+      </section>
+      <section
+        style={{
           paddingBlock: '4rem',
         }}
       >

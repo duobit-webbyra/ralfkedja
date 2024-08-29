@@ -19,7 +19,7 @@ export default function TreatmentCard({ title, description, href, icon }: Treatm
     <div className={style.container}>
       <div className={style.content}>
         <div className={style.text}>
-          {icon}
+          <div>{icon}</div>
           <h1>{title}</h1>
           <p>{description}</p>
         </div>
