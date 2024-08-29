@@ -1,24 +1,26 @@
 @import 'variables.scss';
 
 .container {
-  height: 16rem;
+  height: max-content;
 }
 
-.content > .text {
+.content>.text {
   display: flex;
   height: 100%;
   flex-direction: column;
   justify-content: space-between;
   gap: 0.8rem;
-  & > p {
+
+  &>p {
     color: $primary-300;
   }
-  & > .title {
+
+  &>.title {
     display: flex;
     align-items: center;
     gap: 1rem;
 
-    & > h1 {
+    &>h1 {
       font-size: $text-sm;
     }
   }
