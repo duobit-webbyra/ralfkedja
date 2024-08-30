@@ -6,10 +6,15 @@
   flex-direction: column;
   gap: 0.5rem;
 
-  & > p {
+  & h1 {
+    font-size: $text-sm;
+  }
+
+  &>p {
     color: $primary-300;
   }
-  & > .title {
+
+  &>.title {
     display: flex;
     gap: 0.5rem;
   }
