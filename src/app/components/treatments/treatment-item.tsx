@@ -10,10 +10,10 @@ export default function TreatmentItem({ heading, description }: TreatmentItemPro
   return (
     <div className={style.container}>
       <div className={style.title}>
-        <div style={{ height: '32px', width: '32px' }}>
+        <div style={{ height: '32px', width: '32px', rotate: '260deg' }}>
           <Leaf />
         </div>
-        <h3>{heading}</h3>
+        <h1>{heading}</h1>
       </div>
       <p>{description}</p>
     </div>

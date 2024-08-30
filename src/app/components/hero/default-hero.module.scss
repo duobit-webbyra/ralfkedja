@@ -1,14 +1,18 @@
 @import 'variables.scss';
 
 .container {
-  background-color: #e8f3e5;
-  background-image: url('/herobg.png'),
-    linear-gradient(90deg, $secondary-100 0%, $secondary-200 100%);
-  background-repeat: no-repeat;
-  background-size: cover;
+  position: relative;
+  overflow: hidden;
+  background-color: $secondary-200;
   height: 160px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: $text-lg;
+
+  &>img {
+    opacity: 0.4;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
 }
