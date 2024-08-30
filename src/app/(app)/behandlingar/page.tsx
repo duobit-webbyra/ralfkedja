@@ -36,13 +36,12 @@ export default function page() {
             <Kinesiologi />
           </section>
         </div>
-        <section
-          id='biomagnetism'
-          style={{ backgroundColor: 'var(--secondary-100)', padding: '8rem 0' }}
-        >
+        <section id='biomagnetism' style={{ padding: '8rem 0' }}>
           <Biomagnetism />
         </section>
-        <DefaultCTA />
+        <section style={{ backgroundColor: 'var(--secondary-100)', padding: '2rem 0' }}>
+          <DefaultCTA />
+        </section>
       </div>
     </>
   );
