@@ -22,6 +22,7 @@ export interface Config {
     defaultIDType: string;
   };
   globals: {
+    announcement: Announcement;
     contact: Contact;
   };
   locale: null;
@@ -139,6 +140,17 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "announcement".
+ */
+export interface Announcement {
+  id: string;
+  activate?: boolean | null;
+  message?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
