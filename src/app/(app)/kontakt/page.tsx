@@ -3,7 +3,8 @@ import ContactForm from '@/app/components/contact/contact-form';
 import Curve from '@/app/components/graphics/curve';
 import DefaultHero from '@/app/components/hero/default-hero';
 import Map from '@/app/components/utils/map';
-import GetContactData from '@/app/utils/get-contact-data';
+import getContactData from '@/app/utils/get-contact-data';
+import Title from '@/app/components/utils/title';
 
 export default async function Page() {
   return (
@@ -14,9 +15,8 @@ export default async function Page() {
           paddingTop: '2rem',
         }}
       >
-        <ContactDetails data={await GetContactData()} />
+        <ContactDetails data={await getContactData()} />
       </section>
-
       <section
         style={{
           backgroundColor: 'var(--primary-300)',
@@ -25,8 +25,19 @@ export default async function Page() {
         <div style={{ width: '100%' }}>
           <Curve fillColor='var(--tertiary-100)' />
         </div>
-
-        <ContactForm />
+        <Title
+          heading='Hör av dig'
+          subHeading='Fyll i formuläret'
+          description='Jag ser fram emot att höra från dig!'
+          inverse
+        />
+        <div
+          style={{
+            width: 'var(--content-width)',
+          }}
+        >
+          <ContactForm layout='grid' />
+        </div>
       </section>
       <div style={{ width: '100%', height: '500px' }}>
         <Map />
