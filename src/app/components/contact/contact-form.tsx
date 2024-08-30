@@ -1,6 +1,5 @@
 import React from 'react';
 import style from './contact-form.module.scss';
-import PrimaryButton from '../button/primary-button';
 
 interface ContactFormProps {
   layout: 'grid' | 'flex';

@@ -1,7 +1,7 @@
 @import 'variables.scss';
 
 .container {
-  padding-block: 8rem;
+  padding-block: 4rem;
   display: flex;
   justify-content: center;
 }
@@ -44,6 +44,10 @@
     padding: 0 1rem;
     & > .title {
       width: 100%;
+    }
+    & > .detailsgrid {
+      width: 100%;
+      column-gap: 0;
     }
   }
 }
