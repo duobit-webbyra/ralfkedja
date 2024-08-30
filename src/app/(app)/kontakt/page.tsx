@@ -3,8 +3,8 @@ import ContactForm from '@/app/components/contact/contact-form';
 import Curve from '@/app/components/graphics/curve';
 import DefaultHero from '@/app/components/hero/default-hero';
 import Map from '@/app/components/utils/map';
-import getContactData from '@/app/utils/get-contact-data';
 import Title from '@/app/components/utils/title';
+import getContactData from '@/app/utils/get-contact-data';
 
 export default async function Page() {
   return (
