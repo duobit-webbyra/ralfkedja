@@ -24,5 +24,12 @@
   .content {
     grid-template-columns: 1fr;
     row-gap: 2rem;
+    padding: 0 1rem;
+  }
+}
+
+@media (min-width: $media-sm) and (max-width: $content-width) {
+  .content {
+    padding: 0 1rem;
   }
 }
