@@ -26,7 +26,7 @@ export default function ContactDetails({ data }: ContactDetailsProps) {
             <div>
               <p>{data?.address.street}</p>
               <p>
-                {data?.address.zipcode}, {data?.address.street}
+                {data?.address.zipcode}, {data?.address.city}
               </p>
             </div>
           </div>

@@ -18,16 +18,14 @@
 
 .contactsection {
   display: flex;
-  width: 100%;
-
   gap: 2rem;
 
-  & > .mapcontainer {
-    width: 100%;
-    flex-grow: 1;
+  &>.mapcontainer {
+    width: 75%;
     overflow: hidden;
     border-radius: 16px;
     border: none !important;
+
     &:focus {
       outline: none;
       border: none !important;
@@ -41,28 +39,32 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  & > .formgrid {
+
+  &>.formgrid {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 
-    & > .forminput {
+    &>.forminput {
       background-color: $tertiary-100;
       padding: 12px 1rem;
       border-radius: 100px;
       border: 1px solid;
       border-color: $primary-400;
       font-family: dmSerifDisplay;
+
       &::placeholder {
         font-family: dmSerifDisplay;
       }
+
       &:focus {
         outline: none;
         box-shadow: none;
       }
     }
   }
-  & > textarea {
+
+  &>textarea {
     background-color: $tertiary-100;
     padding: 12px 1rem;
     border-radius: 20px;
@@ -74,12 +76,14 @@
     &::placeholder {
       font-family: dmSerifDisplay;
     }
+
     &:focus {
       outline: none;
       box-shadow: none;
     }
   }
 }
+
 .titlecenter {
   display: none;
 }
@@ -88,31 +92,37 @@
   .container {
     padding: 8rem 0 0 0;
   }
+
   .titleleft {
     display: none;
   }
+
   .titlecenter {
     display: block;
   }
+
   .form {
     padding: 0 1rem;
   }
+
   .content {
     display: flex;
     flex-direction: column;
     gap: 2rem;
     width: 100%;
 
-    & > .contactsection {
+    &>.contactsection {
       flex-direction: column;
 
-      & > .mapcontainer {
+      &>.mapcontainer {
+        width: 100%;
         height: 500px;
         overflow: hidden;
         border-radius: 0px;
       }
     }
   }
+
   .form {
     width: 100%;
     max-width: 500px;

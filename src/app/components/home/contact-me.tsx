@@ -1,14 +1,15 @@
 import React from 'react';
 import style from './contact-me.module.scss';
-import PrimaryButton from '../button/primary-button';
 import Title from '../utils/title';
 import Map from '../utils/map';
-import SecondaryButton from '../button/secondary-button';
+
+import ContactForm from '../contact/contact-form';
+
 export default function ContactMe() {
   return (
     <div className={style.container}>
       <div className={style.content}>
-        <div style={{ padding: '0 1rem' }}>
+        <div>
           <div className={style.titleleft}>
             <Title
               heading='Kontakta mig'
@@ -29,17 +30,7 @@ export default function ContactMe() {
         </div>
 
         <div className={style.contactsection}>
-          <form className={style.form}>
-            <div className={style.formgrid}>
-              <input className={style.forminput} type='text' placeholder='Namn' />
-              <input className={style.forminput} type='email' placeholder='E-mail' />
-              <input className={style.forminput} type='text' placeholder='Ämne' />
-            </div>
-            <textarea placeholder='Meddelande'></textarea>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
-              <PrimaryButton>Skicka</PrimaryButton>
-            </div>
-          </form>
+          <ContactForm layout='flex' />
           <div className={style.mapcontainer}>
             <Map />
           </div>
