@@ -1,10 +1,16 @@
 @import 'variables.scss';
 
 .container {
-
   align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 
-  &>p {
+  & > p {
     color: $primary-300;
+  }
+  & > .title {
+    display: flex;
+    gap: 0.5rem;
   }
 }
