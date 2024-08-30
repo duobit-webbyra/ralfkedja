@@ -8,11 +8,7 @@ export default async function Page() {
   return (
     <>
       <DefaultHero title='Kontakt' />
-      <section
-        style={{
-          paddingTop: '2rem',
-        }}
-      >
+      <section>
         <ContactDetails data={await getContactData()} />
       </section>
       <section

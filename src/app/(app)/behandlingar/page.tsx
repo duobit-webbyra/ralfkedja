@@ -10,36 +10,28 @@ export default function page() {
     <>
       <DefaultHero title='Behandlingar' />
       <div>
-        <section id='strukturell-behandling' style={{ padding: '8rem 0' }}>
+        <section id='strukturell-behandling' style={{ padding: '4rem 0' }}>
           <StrukturellBehandling />
         </section>
-        <div style={{ position: 'relative' }}>
-          <section id='kroppsbalansering' style={{ padding: '8rem 0' }}>
-            <Kroppsbalansering />
-          </section>
-          <div
-            style={{
-              position: 'absolute',
-              width: '560px',
-              height: '560px',
-              backgroundColor: 'var(--primary-300)',
-              top: '50%',
-              right: '20%',
-              transform: 'translate(0%, -50%)',
-              borderRadius: '100%',
-            }}
-          ></div>
-          <section
-            id='kinesiologi'
-            style={{ backgroundColor: 'var(--tertiary-200)', padding: '8rem 0' }}
-          >
-            <Kinesiologi />
-          </section>
-        </div>
-        <section id='biomagnetism' style={{ padding: '8rem 0' }}>
+
+        <section
+          id='kroppsbalansering'
+          style={{ backgroundColor: 'var(--tertiary-200)', padding: '4rem 0' }}
+        >
+          <Kroppsbalansering />
+        </section>
+
+        <section id='kinesiologi' style={{ padding: '4rem 0' }}>
+          <Kinesiologi />
+        </section>
+
+        <section
+          id='biomagnetism'
+          style={{ backgroundColor: 'var(--secondary-100)', padding: '4rem 0' }}
+        >
           <Biomagnetism />
         </section>
-        <section style={{ backgroundColor: 'var(--secondary-100)', padding: '2rem 0' }}>
+        <section style={{ backgroundColor: 'var(--tertiary-200)', padding: '2rem 0' }}>
           <DefaultCTA />
         </section>
       </div>

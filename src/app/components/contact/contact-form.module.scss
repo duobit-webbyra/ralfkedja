@@ -1,7 +1,6 @@
 @import 'variables.scss';
 
 .container {
-
   width: 100%;
 
   .content {
@@ -9,17 +8,16 @@
     flex-direction: column;
     gap: 4rem;
 
-    &>.form {
+    & > .form {
       display: flex;
       flex-direction: column;
       gap: 1rem;
 
-      &>textarea {
+      & > textarea {
         resize: none;
       }
 
-      &>.inputs {
-
+      & > .inputs {
         &.grid {
           display: grid;
           grid-template-rows: auto auto;
@@ -33,7 +31,7 @@
           gap: 1rem;
         }
 
-        &>.forminput {
+        & > .forminput {
           background-color: $tertiary-100;
           padding: 12px 1rem;
           border-radius: 100px;
@@ -54,7 +52,7 @@
         }
       }
 
-      &>textarea {
+      & > textarea {
         background-color: $tertiary-100;
         padding: 12px 1rem;
         border-radius: 20px;
@@ -76,7 +74,6 @@
       }
     }
   }
-
 }
 
 @media (max-width: $media-sm) {
@@ -87,7 +84,7 @@
   .form {
     width: 100%;
 
-    &>.formgrid {
+    & > .formgrid {
       display: flex;
       flex-direction: column;
     }

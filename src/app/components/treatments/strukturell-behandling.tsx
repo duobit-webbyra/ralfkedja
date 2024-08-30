@@ -1,5 +1,5 @@
 import React from 'react';
-import style from './strukturell-behandling.module.scss';
+import style from './treatment.module.scss';
 import Title from '../utils/title';
 import TreatmentItem from './treatment-item';
 

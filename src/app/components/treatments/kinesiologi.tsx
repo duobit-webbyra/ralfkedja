@@ -1,5 +1,5 @@
 import React from 'react';
-import style from './strukturell-behandling.module.scss';
+import style from './treatment.module.scss';
 import Title from '../utils/title';
 import TreatmentItem from './treatment-item';
 
@@ -14,7 +14,9 @@ export default function Kinesiologi() {
           left
         />
 
-        <div style={{ width: 'auto', height: '264px' }}></div>
+        <div
+          style={{ width: 'auto', height: '264px', backgroundColor: 'var(--secondary-100)' }}
+        ></div>
         <TreatmentItem
           heading='Hur går det till?'
           description='
