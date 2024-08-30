@@ -12,14 +12,14 @@
   flex-direction: column;
   gap: 4rem;
 
-  & > .title {
+  &>.title {
     display: flex;
     flex-direction: column;
     width: 50%;
-    gap: 0.5rem;
+    gap: 0.25rem;
   }
 
-  & > .detailsgrid {
+  &>.detailsgrid {
     width: 50%;
     display: grid;
     grid-template-rows: auto auto;
@@ -27,10 +27,9 @@
     column-gap: 4rem;
     row-gap: 4rem;
 
-    & > .detail {
+    &>.detail {
       display: flex;
       flex-direction: column;
-      gap: 0.25rem;
 
       & p {
         color: $primary-300;
@@ -42,10 +41,12 @@
 @media (max-width: $content-width) {
   .content {
     padding: 0 1rem;
-    & > .title {
+
+    &>.title {
       width: 100%;
     }
-    & > .detailsgrid {
+
+    &>.detailsgrid {
       width: 100%;
       column-gap: 0;
     }

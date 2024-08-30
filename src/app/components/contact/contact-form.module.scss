@@ -37,8 +37,7 @@
           background-color: $tertiary-100;
           padding: 12px 1rem;
           border-radius: 100px;
-          border: 1px solid;
-          border-color: $primary-400;
+          border: 0px solid;
           font-family: dmSerifDisplay;
 
           &::placeholder {
@@ -49,6 +48,8 @@
           &:focus {
             outline: none;
             box-shadow: none;
+            outline: 4px solid;
+            outline-color: $secondary-200;
           }
         }
       }
@@ -57,8 +58,7 @@
         background-color: $tertiary-100;
         padding: 12px 1rem;
         border-radius: 20px;
-        border: 1px solid;
-        border-color: $primary-400;
+        border: 0px solid;
         min-height: 200px;
         font-family: dmSerifDisplay;
 
@@ -70,6 +70,8 @@
         &:focus {
           outline: none;
           box-shadow: none;
+          outline: 4px solid;
+          outline-color: $secondary-200;
         }
       }
     }
