@@ -1,4 +1,6 @@
 import React from 'react';
+
+import PrimaryButton from '../button/primary-button';
 import style from './contact-form.module.scss';
 
 interface ContactFormProps {
