@@ -1,6 +1,6 @@
 import React from 'react';
 import style from './contact-form.module.scss';
-import PrimaryButton from '../button/primary-button';
+import EmailForm from '../utils/email-form';
 
 export default function ContactForm() {
   return (
@@ -16,18 +16,7 @@ export default function ContactForm() {
             <p> Jag ser fram emot att höra från dig!</p>
           </div>
         </div>
-        <form className={style.form}>
-          <div className={style.formgrid}>
-            <input className={style.forminput} type='text' placeholder='Namn' />
-            <input className={style.forminput} type='tel' placeholder='Telefon' />
-            <input className={style.forminput} type='email' placeholder='E-mail' />
-            <input className={style.forminput} type='text' placeholder='Ämne' />
-          </div>
-          <textarea placeholder='Meddelande'></textarea>
-          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <PrimaryButton>Skicka</PrimaryButton>
-          </div>
-        </form>
+        <EmailForm />
       </div>
     </div>
   );
