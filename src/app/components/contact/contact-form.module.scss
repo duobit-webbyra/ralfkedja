@@ -78,15 +78,15 @@
 
 @media (max-width: $media-sm) {
   .container {
-    padding: 8rem 1rem;
-  }
-
-  .form {
-    width: 100%;
-
-    & > .formgrid {
-      display: flex;
-      flex-direction: column;
+    .content {
+      & > .form {
+        & > .inputs {
+          &.grid {
+            display: flex;
+            flex-direction: column;
+          }
+        }
+      }
     }
   }
 }

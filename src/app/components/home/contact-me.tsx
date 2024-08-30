@@ -30,7 +30,10 @@ export default function ContactMe() {
         </div>
 
         <div className={style.contactsection}>
-          <ContactForm layout='flex' />
+          <div className={style.form}>
+            <ContactForm layout='flex' />
+          </div>
+
           <div className={style.mapcontainer}>
             <Map />
           </div>
