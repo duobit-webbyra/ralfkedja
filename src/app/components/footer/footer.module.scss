@@ -5,6 +5,7 @@
   width: 100%;
   background-color: $tertiary-100;
   display: flex;
+  align-items: center;
   justify-content: center;
   margin-top: auto;
 }
@@ -12,26 +13,40 @@
 .content {
   width: $content-width;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+
   padding: 0 1rem;
-
-  & > .info {
+  & > .inforow {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 3rem;
-    font-size: $text-sm;
-
-    & > .item {
+    & > .info {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 3rem;
+      font-size: $text-sm;
+
+      & > .item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+    }
+    & .namecopyright {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
     }
   }
-  & .namecopyright {
+  & > .attribution {
     display: flex;
+    justify-content: end;
     align-items: center;
-    gap: 2rem;
+    gap: 4px;
+    .logo {
+      width: 4em; // Set width to match text size
+    }
   }
 }
 
@@ -41,15 +56,21 @@
     align-items: start;
     flex-direction: column;
     gap: 2rem;
-    & > .info {
+    & > .inforow {
       flex-direction: column;
-      gap: 1rem;
+      gap: 2rem;
       align-items: start;
-    }
-    & .namecopyright {
-      flex-direction: column;
-      align-items: start;
-      gap: 0;
+
+      & > .info {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: start;
+      }
+      & .namecopyright {
+        flex-direction: column;
+        align-items: start;
+        gap: 0;
+      }
     }
   }
 }
