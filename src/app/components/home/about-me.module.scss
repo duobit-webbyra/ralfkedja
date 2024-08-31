@@ -65,13 +65,9 @@
 
   & > .hill {
     position: absolute;
-    height: 512px;
-    width: 512px;
+
     bottom: 0;
     right: 0;
-    background: $secondary-200;
-    border-radius: $rounded-full;
-    transform: translate(50%, 50%);
   }
   & > .hill2 {
     position: absolute;
@@ -82,6 +78,11 @@
     background: $secondary-200;
     border-radius: $rounded-full;
     transform: translate(-50%, -50%);
+  }
+}
+@media (max-width: $media-sm) {
+  .left {
+    height: 16rem;
   }
 }
 
@@ -110,16 +111,13 @@
       }
     }
   }
+}
+
+@media (max-width: $media-md) {
   .hill {
     display: none;
   }
   .hill2 {
     display: none;
-  }
-}
-
-@media (max-width: $media-sm) {
-  .left {
-    height: 16rem;
   }
 }

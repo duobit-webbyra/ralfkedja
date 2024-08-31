@@ -3,7 +3,7 @@ import style from './about-me.module.scss';
 import PrimaryButton from '../button/primary-button';
 import Image from 'next/image';
 import Title from '../utils/title';
-
+import LeafHill from '../graphics/home/leafhill';
 export default function AboutMeOverview() {
   return (
     <div className={style.container}>
@@ -26,7 +26,9 @@ export default function AboutMeOverview() {
           <PrimaryButton>Läs mer</PrimaryButton>
         </div>
       </div>
-      <div className={style.hill}></div>
+      <div className={style.hill}>
+        <LeafHill />
+      </div>
       <div className={style.hill2}></div>
     </div>
   );

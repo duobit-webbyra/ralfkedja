@@ -35,7 +35,13 @@
     & > .cards {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 4rem;
+      gap: auto;
     }
+  }
+}
+
+@media (max-width: 1550px) {
+  .leaf {
+    display: none;
   }
 }
