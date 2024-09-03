@@ -8,16 +8,16 @@
     flex-direction: column;
     gap: 4rem;
 
-    & > .form {
+    &>.form {
       display: flex;
       flex-direction: column;
       gap: 1rem;
 
-      & > textarea {
+      &>textarea {
         resize: none;
       }
 
-      & > .inputs {
+      &>.inputs {
         &.grid {
           display: grid;
           grid-template-rows: auto auto;
@@ -31,10 +31,11 @@
           gap: 1rem;
         }
 
-        & > .forminput {
+        &>.forminput {
           background-color: $tertiary-100;
           padding: 12px 1rem;
           border-radius: 100px;
+
           border: 0px solid;
           font-family: dmSerifDisplay;
 
@@ -52,7 +53,7 @@
         }
       }
 
-      & > textarea {
+      &>textarea {
         background-color: $tertiary-100;
         padding: 12px 1rem;
         border-radius: 20px;
@@ -79,8 +80,8 @@
 @media (max-width: $media-sm) {
   .container {
     .content {
-      & > .form {
-        & > .inputs {
+      &>.form {
+        &>.inputs {
           &.grid {
             display: flex;
             flex-direction: column;

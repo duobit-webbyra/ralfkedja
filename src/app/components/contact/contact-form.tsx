@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 
 import style from './contact-form.module.scss';
+import SecondaryButton from '../button/secondary-button';
+import PrimaryButton from '../button/primary-button';
 
 interface ContactFormProps {
   layout: 'grid' | 'flex';
@@ -95,9 +97,9 @@ export default function ContactForm({ layout }: ContactFormProps) {
             name='message'
             required
           ></textarea>
-          <button type='submit' disabled={loading}>
+          <PrimaryButton type='submit' disabled={loading}>
             Send Message
-          </button>
+          </PrimaryButton>
         </form>
       </div>
     </div>
