@@ -24,7 +24,7 @@ export default function TreatmentCard({ title, description, href, icon }: Treatm
           <p>{description}</p>
         </div>
         <div className={style.button}>
-          <PrimaryButton>
+          <PrimaryButton href={href}>
             <p>Läs mer</p>
           </PrimaryButton>
         </div>
