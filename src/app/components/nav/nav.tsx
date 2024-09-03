@@ -56,9 +56,15 @@ export function NavDefault() {
             );
           })}
         </ul>
-        <PrimaryButton href='https://www.bokadirekt.se/places/eskilstuna-kroppsbalansering-25963'>
-          <p>Boka tid</p>
-        </PrimaryButton>
+        <div
+          style={{
+            width: '8rem',
+          }}
+        >
+          <PrimaryButton href='https://www.bokadirekt.se/places/eskilstuna-kroppsbalansering-25963'>
+            <p>Boka tid</p>
+          </PrimaryButton>
+        </div>
       </div>
     </header>
   );
@@ -69,35 +75,29 @@ export function NavMobile() {
   const pathname = usePathname();
 
   const toggleMenu = () => {
-    setIsOpen(!isOpen);
+    setIsOpen((e) => !e);
   };
 
   useEffect(() => {
     if (isOpen) {
-      document.body.classList.add(style.noScroll);
+      document.body.classList.add(style.scroll);
     } else {
-      document.body.classList.remove(style.noScroll);
+      document.body.classList.remove(style.scroll);
     }
   }, [isOpen]);
 
   return (
-    <header className={style.containerMobile}>
+    <header className={style['container-mobile']}>
       <Link style={{ color: 'var(--tertiary-100)', fontSize: 'var(--text-md)' }} href='/'>
         Ralf Kedja
       </Link>
 
       <div className={style.menuicon} onClick={toggleMenu}>
-        <MenuOpenButton />
+        {!isOpen ? <MenuOpenButton /> : <MenuCloseButton />}
       </div>
 
-      <ul className={`${style.menuOpen} ${isOpen ? style.menuOpenActive : ''}`}>
-        <div style={{ display: 'flex', justifyContent: 'end' }}>
-          <div className={style.menuiconclose} onClick={toggleMenu}>
-            <MenuCloseButton />
-          </div>
-        </div>
-
-        <div className={style.menuitems}>
+      <ul className={`${style['menu']} ${isOpen && style['menu-open']}`}>
+        <div className={style['menu-items']}>
           {navigation.map((item, index) => (
             <li key={index} className={`${pathname === item?.slug ? style.active : ''}`}>
               <div className={style.navItem}>
@@ -107,9 +107,15 @@ export function NavMobile() {
               </div>
             </li>
           ))}
-          <PrimaryButton href='https://www.bokadirekt.se/places/eskilstuna-kroppsbalansering-25963'>
-            <p>Boka tid</p>
-          </PrimaryButton>
+          <div
+            style={{
+              width: '50%',
+            }}
+          >
+            <PrimaryButton href='https://www.bokadirekt.se/places/eskilstuna-kroppsbalansering-25963'>
+              <p>Boka tid</p>
+            </PrimaryButton>
+          </div>
         </div>
       </ul>
     </header>

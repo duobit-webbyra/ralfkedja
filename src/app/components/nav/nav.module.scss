@@ -23,29 +23,33 @@ $nav-height: 72px;
   align-items: center;
   padding: 0 1rem;
 
-  & > .nav {
+  @media (max-width: $media-lg) {
+    width: 100%;
+  }
+
+  &>.nav {
     display: flex;
     align-items: center;
     gap: 2.5rem;
     color: $tertiary-100;
     height: 100%;
 
-    & > li {
+    &>li {
       position: relative;
       height: 100%;
       display: flex;
       align-items: center;
 
-      & > .navItem {
+      &>.navItem {
         display: flex;
         align-items: center;
         position: relative;
 
-        & > a:hover {
+        &>a:hover {
           color: $tertiary-200;
         }
 
-        & > p {
+        &>p {
           color: inherit;
         }
       }
@@ -74,7 +78,7 @@ $nav-height: 72px;
 }
 
 @media (max-width: $media-sm) {
-  .containerMobile {
+  .container-mobile {
     position: sticky;
     position: -webkit-sticky;
     top: 0;
@@ -86,31 +90,42 @@ $nav-height: 72px;
     align-items: center;
     z-index: 9999;
     padding: 0 1rem;
+
+    &>.menuicon {
+      width: 32px;
+      height: 32px;
+      color: $tertiary-100;
+      z-index: 9999;
+    }
   }
+
   .container {
     display: none;
   }
-  .menuicon {
-    width: 32px;
-    height: 32px;
-    color: $tertiary-100;
-  }
-  .menuOpen {
-    position: fixed;
+
+
+  .menu {
+    position: absolute;
     top: 0;
-    right: 0;
-    height: 100%;
+    left: 0;
+    height: 100vh;
     width: 100%;
-    background-color: rgba($primary-400, 1);
+    background-color: rgba($primary-400-rgb, 1);
     display: flex;
     flex-direction: column;
-
     transform: translateY(-100%);
     transition: transform 0.3s ease-in-out;
-    z-index: 10000;
+    z-index: 5000;
     padding: 1.5rem 1rem;
+    opacity: 0;
   }
-  .menuitems {
+
+  .menu-open {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+
+  .menu-items {
     height: 100%;
     width: 100%;
     display: flex;
@@ -121,14 +136,13 @@ $nav-height: 72px;
     color: $tertiary-100;
     gap: 3rem;
   }
-  .menuOpenActive {
-    transform: translateX(0);
-  }
+
   .menuiconclose {
     width: 32px;
     height: 32px;
   }
-  .noScroll {
+
+  .scroll {
     overflow: hidden;
   }
 }
