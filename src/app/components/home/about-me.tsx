@@ -23,7 +23,7 @@ export default function AboutMeOverview() {
             description='Mitt intresse för hälsa och friskvård grundar sig i att jag är uppvuxen på landet på Gotland där min far verkade som kiropraktor och akupunktör under nästan fem decenium. Betydelsen av helheten när man jobbar med friskvård lärde mig min far mig tidigt, att inte bara behandla symtomer utan hela människan.  '
             left
           />
-          <PrimaryButton>Läs mer</PrimaryButton>
+          <PrimaryButton href='/om-mig'>Läs mer</PrimaryButton>
         </div>
       </div>
       <div className={style.hill}>
