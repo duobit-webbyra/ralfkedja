@@ -12,10 +12,15 @@
   width: $content-width;
 
   @media (max-width: $media-lg) {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     width: 100%;
     padding-inline: 1rem;
+
+    @media (max-width: $media-md) {
+      grid-template-columns: 1fr;
+    }
   }
+
 }
 
 .gallery-item {
