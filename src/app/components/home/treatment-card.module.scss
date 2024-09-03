@@ -11,17 +11,18 @@
   flex-direction: column;
   justify-content: space-between;
 
-  & > .text {
+  &>.text {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 
-    & > h1 {
+    &>h1 {
       font-size: $text-sm;
     }
   }
 
-  & > .button {
+  &>.button {
+    width: max-content;
     display: flex;
     justify-content: end;
   }
@@ -31,10 +32,12 @@
   .container {
     height: 100%;
   }
+
   .content {
     align-items: center;
     gap: 2rem;
-    & > .text {
+
+    &>.text {
       text-align: center;
       align-items: center;
     }
