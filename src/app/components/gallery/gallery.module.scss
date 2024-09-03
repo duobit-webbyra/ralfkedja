@@ -1,23 +1,28 @@
 @import 'variables.scss';
+
 .container {
   display: flex;
   justify-content: center;
 }
 
-.gallerycontainer {
+.gallery-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-
-  gap: 2rem;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.5rem;
   width: $content-width;
+
+  @media (max-width: $media-lg) {
+    grid-template-columns: 1fr;
+    width: 100%;
+    padding-inline: 1rem;
+  }
 }
 
-.galleryitem {
+.gallery-item {
   position: relative;
-  height: 440px; // Fixed height
+  height: 16rem; // Fixed height
 }
 
-.galleryimage {
+.gallery-image {
   object-fit: cover;
 }
