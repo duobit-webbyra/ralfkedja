@@ -98,7 +98,7 @@ export default function ContactForm({ layout }: ContactFormProps) {
             required
           ></textarea>
           <PrimaryButton type='submit' disabled={loading}>
-            Send Message
+            Skicka
           </PrimaryButton>
         </form>
       </div>
