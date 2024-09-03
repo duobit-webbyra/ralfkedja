@@ -8,8 +8,12 @@
   padding: 3.5rem 0;
   gap: 1.5rem;
 
-  & > .text {
+  &>.text {
     text-transform: uppercase;
     font-weight: 500;
+  }
+
+  &>.button {
+    width: max-content;
   }
 }

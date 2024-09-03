@@ -5,7 +5,9 @@ export default function DefaultCTA() {
   return (
     <div className={style.container}>
       <h3 className={style.text}>Har du frågor eller vill boka tid?</h3>
-      <SecondaryButton href='/kontakt'>KONTAKTA MIG</SecondaryButton>
+      <div className={style.button}>
+        <SecondaryButton href='/kontakt'>KONTAKTA MIG</SecondaryButton>
+      </div>
     </div>
   );
 }
