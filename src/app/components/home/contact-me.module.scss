@@ -8,9 +8,11 @@
   gap: 2.5rem;
   padding: 8rem 0;
 }
+
 .form {
   width: 50%;
 }
+
 .content {
   display: flex;
   flex-direction: column;
@@ -22,7 +24,7 @@
   display: flex;
   gap: 2rem;
 
-  & > .mapcontainer {
+  &>.mapcontainer {
     width: 75%;
     overflow: hidden;
     border-radius: 16px;
@@ -41,7 +43,7 @@
 
 @media (max-width: $content-width) {
   .container {
-    padding: 8rem 0 0 0;
+    padding: 4rem 0 0rem 0;
   }
 
   .titleleft {
@@ -60,11 +62,11 @@
     width: 100%;
     padding: 0;
 
-    & > .contactsection {
+    &>.contactsection {
       flex-direction: column;
       align-items: center;
 
-      & > .mapcontainer {
+      &>.mapcontainer {
         width: 100%;
         height: 500px;
         overflow: hidden;
