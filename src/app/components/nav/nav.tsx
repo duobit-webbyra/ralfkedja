@@ -96,7 +96,7 @@ export function NavMobile() {
         {!isOpen ? <MenuOpenButton /> : <MenuCloseButton />}
       </div>
 
-      <ul className={`${style['menu']} ${isOpen && style['menu-open']}`}>
+      <ul className={`${style['menu']} ${isOpen ? style['menu-open'] : style['menu-close']}`}>
         <div className={style['menu-items']}>
           {navigation.map((item, index) => (
             <li key={index} className={`${pathname === item?.slug ? style.active : ''}`}>
