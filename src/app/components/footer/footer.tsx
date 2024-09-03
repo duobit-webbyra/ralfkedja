@@ -1,17 +1,15 @@
 import style from './footer.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
-import { MdOutlineLocationOn } from 'react-icons/md';
-import { MdOutlinePhone } from 'react-icons/md';
-import { MdOutlineMail } from 'react-icons/md';
 import { FaRegCopyright } from 'react-icons/fa';
+import ShortInfo from '../utils/short-info';
 
-export default function HeaderInfo() {
+export default function Footer() {
   return (
-    <div className={style.container}>
+    <footer className={style.container}>
       <div className={style.content}>
-        <div className={style.inforow}>
-          <div className={style.namecopyright}>
+        <div className={style['info-row']}>
+          <div className={style['name-copyright']}>
             <p style={{ fontSize: 'var(--text-md)' }}>Ralf Kedja</p>
             <p
               style={{
@@ -25,37 +23,7 @@ export default function HeaderInfo() {
               Copyright <FaRegCopyright /> 2024
             </p>
           </div>
-
-          <div className={style.info}>
-            <div className={style.item}>
-              <MdOutlineLocationOn />
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  lineHeight: '1.25',
-                }}
-              >
-                <span>Bruksgatan 8B</span>
-                <span
-                  style={{
-                    color: 'var(--primary-100)',
-                    fontSize: 'var(--text-xs)',
-                  }}
-                >
-                  632 20, Eskilstuna
-                </span>
-              </div>
-            </div>
-            <div className={style.item}>
-              <MdOutlinePhone transform='rotate(10)' />
-              <span>010-0000000</span>
-            </div>
-            <div className={style.item}>
-              <MdOutlineMail />
-              <span>ralked@hotmail.com</span>
-            </div>
-          </div>
+          <ShortInfo />
         </div>
         <div className={style.attribution}>
           <p>Sida producerad av</p>
@@ -70,6 +38,6 @@ export default function HeaderInfo() {
           </Link>
         </div>
       </div>
-    </div>
+    </footer>
   );
 }
