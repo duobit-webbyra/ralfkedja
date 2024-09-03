@@ -12,6 +12,7 @@
 
 .content {
   width: $content-width;
+
   display: flex;
   flex-direction: column;
   gap: 4rem;
@@ -62,12 +63,13 @@
 
 @media (max-width: $media-md) {
   .content {
+    width: 100%;
     padding: 1rem 1rem;
     align-items: start;
     flex-direction: column;
     gap: 2rem;
 
-    &>.inforow {
+    &>.info-row {
       flex-direction: column;
       gap: 2rem;
       align-items: start;
@@ -78,7 +80,7 @@
         align-items: start;
       }
 
-      & .namecopyright {
+      & .name-copyright {
         flex-direction: column;
         align-items: start;
         gap: 0;
