@@ -8,6 +8,9 @@ export default function Biomagnetism() {
   return (
     <div className={style.container}>
       <div className={style.content}>
+        <div
+          style={{ width: 'auto', height: '264px', backgroundColor: 'var(--secondary-200)' }}
+        ></div>
         <Title
           heading='Biomagnetism'
           subHeading='Biomagnetiska behandlingar'
@@ -15,9 +18,6 @@ export default function Biomagnetism() {
           left
         />
 
-        <div
-          style={{ width: 'auto', height: '264px', backgroundColor: 'var(--secondary-200)' }}
-        ></div>
         <TreatmentItem
           heading='Hur går det till?'
           description='

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import style from './gallery.module.scss';
 import Image from 'next/image';
 import config from '@payload-config';
@@ -19,7 +19,7 @@ const GalleryGrid = async () => {
         <div className={style['gallery-container']}>
           {data.map((item, index) => (
             <div key={index} className={style['gallery-item']}>
-              <div className={style.images}>
+              <div>
                 <Image
                   key={index}
                   src={`${(item.images as Media).url}`}

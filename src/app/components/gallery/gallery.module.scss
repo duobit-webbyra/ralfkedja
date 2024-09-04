@@ -7,7 +7,7 @@
 
 .gallery-container {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 0.5rem;
   width: $content-width;
 
@@ -20,14 +20,9 @@
       grid-template-columns: 1fr;
     }
   }
-
 }
 
 .gallery-item {
   position: relative;
-  height: 16rem; // Fixed height
-}
-
-.gallery-image {
-  object-fit: cover;
+  height: 24rem; // Fixed height
 }

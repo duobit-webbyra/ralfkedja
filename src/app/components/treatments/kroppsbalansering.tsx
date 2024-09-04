@@ -5,7 +5,10 @@ import Title from '../utils/title';
 export default function Kroppsbalansering() {
   return (
     <div className={style.container}>
-      <div className={style.content}>
+      <div className={style.content} style={{ 'row-gap': '0' }}>
+        <div
+          style={{ width: 'auto', height: '264px', backgroundColor: 'var(--secondary-100)' }}
+        ></div>
         <Title
           heading='Kroppsbalansering'
           subHeading='Integrerad kroppsbalansering'
