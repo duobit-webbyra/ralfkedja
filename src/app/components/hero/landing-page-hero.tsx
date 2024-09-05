@@ -5,6 +5,34 @@ import Image from 'next/image';
 import style from './landing-page-hero.module.scss';
 import ReviewStar from '../graphics/review-star';
 
+import config from '@payload-config';
+import { getPayloadHMR } from '@payloadcms/next/utilities';
+
+async function PhoneNumber() {
+
+  const payload = await getPayloadHMR({config});
+
+  const data = await payload.findGlobal({
+    slug: 'contact'
+  });
+
+  return (
+    <SecondaryButton>
+      <MdLocalPhone />
+      <a
+        style={{
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          borderRadius: 'var(--rounded-full)',
+        }}
+        href='tel:010-000000'
+      ></a>
+      <p>{data.}</p>
+    </SecondaryButton>
+  )
+}
+
 export default function LandingPageHero() {
   return (
     <div className={style.container}>
@@ -20,19 +48,20 @@ export default function LandingPageHero() {
             >
               <p>Boka tid direkt</p>
             </PrimaryButton>
-            <SecondaryButton>
-              <MdLocalPhone />
-              <a
-                style={{
-                  position: 'absolute',
-                  width: '100%',
-                  height: '100%',
-                  borderRadius: 'var(--rounded-full)',
-                }}
-                href='tel:010-000000'
-              ></a>
-              <p>010-000000</p>
-            </SecondaryButton>
+            <PhoneNumber />
+            {/* <SecondaryButton> */}
+            {/*   <MdLocalPhone /> */}
+            {/*   <a */}
+            {/*     style={{ */}
+            {/*       position: 'absolute', */}
+            {/*       width: '100%', */}
+            {/*       height: '100%', */}
+            {/*       borderRadius: 'var(--rounded-full)', */}
+            {/*     }} */}
+            {/*     href='tel:010-000000' */}
+            {/*   ></a> */}
+            {/*   <p>010-000000</p> */}
+            {/* </SecondaryButton> */}
           </div>
           <div className={style.review}>
             <ReviewStar />

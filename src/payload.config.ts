@@ -12,6 +12,7 @@ import { Gallery } from './payload/collections/gallery';
 import { Reviews } from './payload/collections/reviews';
 import { Contact } from './payload/globals/contact';
 import { Announcement } from './payload/globals/announcement';
+import { HighlightReviews } from './payload/globals/highlight-reviews';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -21,7 +22,7 @@ export default buildConfig({
     user: Users.slug,
   },
   collections: [Gallery, Media, Reviews, Users],
-  globals: [Announcement, Contact],
+  globals: [Announcement, Contact, HighlightReviews],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

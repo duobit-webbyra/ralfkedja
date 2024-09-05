@@ -1,7 +1,28 @@
 import style from './reviews.module.scss';
 import ReviewCard from './review-card';
 import Title from '../utils/title';
-export default function Reviews() {
+
+import config from '@payload-config';
+import { getPayloadHMR } from '@payloadcms/next/utilities';
+import { Review } from '@/payload-types';
+
+const parseReviewAuthor = (name: string) => {
+  const firstName = name.split(' ')[0];
+  const lastName = name.split(' ')[1];
+
+  return firstName + ' ' + lastName[0] + '.';
+};
+
+export default async function Reviews() {
+  const payload = await getPayloadHMR({ config });
+  const data = await payload.findGlobal({
+    slug: 'highlight-reviews',
+  });
+
+  const reviewOne = data.reviews?.['review-one'] as Review;
+  const reviewTwo = data.reviews?.['review-two'] as Review;
+  const reviewThree = data.reviews?.['review-three'] as Review;
+
   return (
     <div className={style.container}>
       <div className={style.content}>
@@ -13,17 +34,16 @@ export default function Reviews() {
         />
         <div className={style['review-cards']}>
           <ReviewCard
-            reviewMessage='Inlyssnande, lugn, metodisk. Erbjöd kostnadsfritt återbesök om det inte kändes bra efter ett par dagar. Det är kundfokus och service!'
-            reviewAuthor='Helena W.'
+            reviewMessage={reviewOne.feedback}
+            reviewAuthor={parseReviewAuthor(reviewOne.name)}
           />
           <ReviewCard
-            reviewMessage='Mycket kunnig, och trevlig. Väldigt
-förtroendeingivande.'
-            reviewAuthor='Marie S.'
+            reviewMessage={reviewTwo.feedback}
+            reviewAuthor={parseReviewAuthor(reviewTwo.name)}
           />
           <ReviewCard
-            reviewMessage='Wow! Vilket bemötande, vilken behandling! Återkommer gärna!'
-            reviewAuthor='Anna W.'
+            reviewMessage={reviewThree.feedback}
+            reviewAuthor={parseReviewAuthor(reviewThree.name)}
           />
         </div>
       </div>

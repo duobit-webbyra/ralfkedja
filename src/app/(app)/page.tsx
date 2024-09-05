@@ -20,7 +20,6 @@ export default function Page() {
       >
         <TreatmentGrid />
       </section>
-
       <section
         style={{
           background: 'var(--secondary-100)',

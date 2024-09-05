@@ -24,6 +24,7 @@ export interface Config {
   globals: {
     announcement: Announcement;
     contact: Contact;
+    'highlight-reviews': HighlightReview;
   };
   locale: null;
   user: User & {
@@ -169,6 +170,20 @@ export interface Contact {
     facebook?: string | null;
     linkedin?: string | null;
     instagram?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "highlight-reviews".
+ */
+export interface HighlightReview {
+  id: string;
+  reviews?: {
+    'review-one'?: (string | null) | Review;
+    'review-two'?: (string | null) | Review;
+    'review-three'?: (string | null) | Review;
   };
   updatedAt?: string | null;
   createdAt?: string | null;

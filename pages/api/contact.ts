@@ -26,7 +26,7 @@ export default async function ContactAPI(req: any, res: any) {
   try {
     const mail = await transporter.sendMail({
       from: user,
-      to: 'kevinhormiz@gmail.com',
+      to: 'marwinhormiz@gmail.com',
       replyTo: data.email,
       subject: data.subject,
       html: `
