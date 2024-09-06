@@ -35,7 +35,7 @@ export const Contact: GlobalConfig = {
       required: true,
     },
     {
-      name: 'socials',
+      name: 'links',
       type: 'group',
       fields: [
         {
@@ -48,6 +48,10 @@ export const Contact: GlobalConfig = {
         },
         {
           name: 'instagram',
+          type: 'text',
+        },
+        {
+          name: 'booking',
           type: 'text',
         },
       ],
