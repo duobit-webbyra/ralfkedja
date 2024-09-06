@@ -8,12 +8,11 @@ import ReviewStar from '../graphics/review-star';
 import config from '@payload-config';
 import { getPayloadHMR } from '@payloadcms/next/utilities';
 
+const payload = await getPayloadHMR({ config });
+
 async function PhoneNumber() {
-
-  const payload = await getPayloadHMR({config});
-
   const data = await payload.findGlobal({
-    slug: 'contact'
+    slug: 'contact',
   });
 
   return (
@@ -26,11 +25,11 @@ async function PhoneNumber() {
           height: '100%',
           borderRadius: 'var(--rounded-full)',
         }}
-        href='tel:010-000000'
+        href={`tel:${data.phone}`}
       ></a>
-      <p>{data.}</p>
+      <p>{data.phone}</p>
     </SecondaryButton>
-  )
+  );
 }
 
 export default function LandingPageHero() {
@@ -49,19 +48,6 @@ export default function LandingPageHero() {
               <p>Boka tid direkt</p>
             </PrimaryButton>
             <PhoneNumber />
-            {/* <SecondaryButton> */}
-            {/*   <MdLocalPhone /> */}
-            {/*   <a */}
-            {/*     style={{ */}
-            {/*       position: 'absolute', */}
-            {/*       width: '100%', */}
-            {/*       height: '100%', */}
-            {/*       borderRadius: 'var(--rounded-full)', */}
-            {/*     }} */}
-            {/*     href='tel:010-000000' */}
-            {/*   ></a> */}
-            {/*   <p>010-000000</p> */}
-            {/* </SecondaryButton> */}
           </div>
           <div className={style.review}>
             <ReviewStar />
@@ -73,7 +59,7 @@ export default function LandingPageHero() {
           </div>
         </div>
         <div className={style.right}>
-          <Image src='/man.png' alt='hero image' width={600} height={500} />
+          <Image src="/man.png" alt="hero image" width={600} height={500} />
         </div>
       </div>
     </div>
