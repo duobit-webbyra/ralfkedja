@@ -9,27 +9,47 @@
 }
 
 .content {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: auto auto;
+  display: flex;
+  flex-direction: column;
   gap: 3.75rem;
   width: $content-width;
-  align-items: center;
 
-  & > .text {
-    align-self: start;
+  & > .title-image {
+    display: flex;
+    gap: 3.75rem;
+    align-items: center;
+    & > * {
+      flex: 1;
+    }
+  }
+  .reverse {
+    flex-direction: row-reverse;
+  }
+
+  & > .treatment-items {
+    display: flex;
+    gap: 3.75rem;
+    & > * {
+      flex: 1;
+    }
   }
 }
 
 @media (max-width: $media-sm) {
   .content {
-    grid-template-columns: 1fr;
-    row-gap: 2rem;
-    padding: 0 1rem;
+    & > .title-image {
+      flex-direction: column;
+    }
+    .reverse {
+      flex-direction: column;
+    }
+    & > .treatment-items {
+      flex-direction: column;
+    }
   }
 }
 
-@media (min-width: $media-sm) and (max-width: $content-width) {
+@media (max-width: $content-width) {
   .content {
     padding: 0 1rem;
   }

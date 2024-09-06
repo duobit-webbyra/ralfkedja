@@ -16,7 +16,6 @@ async function PhoneNumber() {
 
   return (
     <SecondaryButton>
-      <MdLocalPhone />
       <a
         style={{
           position: 'absolute',
@@ -26,7 +25,11 @@ async function PhoneNumber() {
         }}
         href={`tel:${data.phone}`}
       ></a>
-      <p>{data.phone}</p>
+
+      <p style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <MdLocalPhone />
+        {data.phone}
+      </p>
     </SecondaryButton>
   );
 }

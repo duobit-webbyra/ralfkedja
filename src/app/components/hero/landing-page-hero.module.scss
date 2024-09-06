@@ -1,10 +1,12 @@
 @use 'variables.scss' as *;
 
 .container {
-  background: linear-gradient(to right,
-          rgba($secondary-100-rgb, 0.95) 35%,
-          rgba($secondary-200-rgb, 0.5)),
-  url('/nature.webp');
+  background: linear-gradient(
+      to right,
+      rgba($secondary-100-rgb, 0.95) 35%,
+      rgba($secondary-200-rgb, 0.5)
+    ),
+    url('/nature.webp');
   background-size: cover;
   display: flex;
   justify-content: center;
@@ -49,7 +51,11 @@
 
     & > .cta {
       display: flex;
+      flex-direction: column;
       gap: 1rem;
+      @media (min-width: $media-sm) {
+        flex-direction: row;
+      }
 
       & button {
         width: max-content;
@@ -71,7 +77,6 @@
       gap: 1rem;
 
       & > .text {
-
         & > h1,
         & > p {
           text-align: left;
