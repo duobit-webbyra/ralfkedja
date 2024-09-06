@@ -1,12 +1,15 @@
 import style from './reviews.module.scss';
 import ReviewCard from './review-card';
-import Title from '../utils/title';
+import Title from '@/app/components/utils/title';
 
 import config from '@payload-config';
 import { getPayloadHMR } from '@payloadcms/next/utilities';
 import { Review } from '@/payload-types';
 
-const parseReviewAuthor = (name: string) => {
+const parseReviewAuthor = (name: string | undefined) => {
+
+  if (!name) return '';
+
   const firstName = name.split(' ')[0];
   const lastName = name.split(' ')[1];
 
@@ -19,31 +22,31 @@ export default async function Reviews() {
     slug: 'highlight-reviews',
   });
 
-  const reviewOne = data.reviews?.['review-one'] as Review;
-  const reviewTwo = data.reviews?.['review-two'] as Review;
-  const reviewThree = data.reviews?.['review-three'] as Review;
+  const reviewOne = data.reviews?.['review-one'] as Review | undefined;
+  const reviewTwo = data.reviews?.['review-two'] as Review | undefined;
+  const reviewThree = data.reviews?.['review-three'] as Review | undefined;
 
   return (
     <div className={style.container}>
       <div className={style.content}>
         <Title
-          heading='Kundrecensioner'
-          subHeading='Vad mina kunder säger om sina upplevelser'
-          description='Läs hur mina behandlingar har hjälpt andra att återfå balansen och uppnå bättre hälsa.'
+          heading="Kundrecensioner"
+          subHeading="Vad mina kunder säger om sina upplevelser"
+          description="Läs hur mina behandlingar har hjälpt andra att återfå balansen och uppnå bättre hälsa."
           inverse
         />
         <div className={style['review-cards']}>
           <ReviewCard
-            reviewMessage={reviewOne.feedback}
-            reviewAuthor={parseReviewAuthor(reviewOne.name)}
+            reviewMessage={`${reviewOne?.feedback}`}
+            reviewAuthor={parseReviewAuthor(reviewOne?.name)}
           />
           <ReviewCard
-            reviewMessage={reviewTwo.feedback}
-            reviewAuthor={parseReviewAuthor(reviewTwo.name)}
+            reviewMessage={`${reviewTwo?.feedback}`}
+            reviewAuthor={parseReviewAuthor(reviewTwo?.name)}
           />
           <ReviewCard
-            reviewMessage={reviewThree.feedback}
-            reviewAuthor={parseReviewAuthor(reviewThree.name)}
+            reviewMessage={`${reviewThree?.feedback}`}
+            reviewAuthor={parseReviewAuthor(reviewThree?.name)}
           />
         </div>
       </div>
