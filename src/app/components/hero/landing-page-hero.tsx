@@ -1,16 +1,15 @@
-import PrimaryButton from '@/app/components/button/primary-button';
 import SecondaryButton from '@/app/components/button/secondary-button';
 import { MdLocalPhone } from 'react-icons/md';
 import Image from 'next/image';
-import style from './landing-page-hero.module.scss';
 import ReviewStar from '../graphics/review-star';
+import BookDirectly from '../utils/book-directly';
 
 import config from '@payload-config';
 import { getPayloadHMR } from '@payloadcms/next/utilities';
-
-const payload = await getPayloadHMR({ config });
+import style from './landing-page-hero.module.scss';
 
 async function PhoneNumber() {
+  const payload = await getPayloadHMR({ config });
   const data = await payload.findGlobal({
     slug: 'contact',
   });
@@ -42,11 +41,7 @@ export default function LandingPageHero() {
             <p>Friskvårdande behandlingar för ett hälsosammare liv.</p>
           </div>
           <div className={style.cta}>
-            <PrimaryButton
-              href={'https://www.bokadirekt.se/places/eskilstuna-kroppsbalansering-25963'}
-            >
-              <p>Boka tid direkt</p>
-            </PrimaryButton>
+            <BookDirectly>Boka tid direkt</BookDirectly>
             <PhoneNumber />
           </div>
           <div className={style.review}>
@@ -59,7 +54,7 @@ export default function LandingPageHero() {
           </div>
         </div>
         <div className={style.right}>
-          <Image src="/man.png" alt="hero image" width={600} height={500} />
+          <Image src='/man.png' alt='hero image' width={600} height={500} />
         </div>
       </div>
     </div>
