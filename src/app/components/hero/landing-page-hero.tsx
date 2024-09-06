@@ -17,7 +17,6 @@ async function PhoneNumber() {
 
   return (
     <SecondaryButton>
-      <MdLocalPhone />
       <a
         style={{
           position: 'absolute',
@@ -27,7 +26,11 @@ async function PhoneNumber() {
         }}
         href={`tel:${data.phone}`}
       ></a>
-      <p>{data.phone}</p>
+
+      <p style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <MdLocalPhone />
+        {data.phone}
+      </p>
     </SecondaryButton>
   );
 }
@@ -59,7 +62,7 @@ export default function LandingPageHero() {
           </div>
         </div>
         <div className={style.right}>
-          <Image src="/man.png" alt="hero image" width={600} height={500} />
+          <Image src='/man.png' alt='hero image' width={600} height={500} />
         </div>
       </div>
     </div>

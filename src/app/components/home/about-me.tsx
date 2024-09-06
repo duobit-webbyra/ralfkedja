@@ -28,7 +28,9 @@ export default function AboutMeOverview() {
               width: 'max-content',
             }}
           >
-            <PrimaryButton href='/om-mig'>Läs mer</PrimaryButton>
+            <PrimaryButton href='/om-mig'>
+              <p>Läs mer</p>
+            </PrimaryButton>
           </div>
         </div>
       </div>
