@@ -15,7 +15,7 @@ export default function Map() {
 
       const { Marker } = await loader.importLibrary('marker');
       const { Map } = await loader.importLibrary('maps');
-      const position = { lat: 59.3648070446075, lng: 16.515614441733714 };
+      const position = { lat: 59.362857095991195, lng: 16.514192397638258 };
 
       const mapOptions: google.maps.MapOptions = {
         center: position,

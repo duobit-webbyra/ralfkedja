@@ -29,6 +29,7 @@
         border-top-left-radius: $rounded-full;
         border-top-right-radius: $rounded-full;
         overflow: hidden;
+        filter: grayscale(1);
       }
 
       & > .image-1 {

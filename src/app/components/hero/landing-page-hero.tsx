@@ -62,7 +62,7 @@ export default function LandingPageHero() {
           </div>
         </div>
         <div className={style.right}>
-          <Image src='/man.png' alt='hero image' width={600} height={500} />
+          <Image src='/ralf-cutout.png' alt='hero image' width={300} height={500} sizes='30vw' />
         </div>
       </div>
     </div>

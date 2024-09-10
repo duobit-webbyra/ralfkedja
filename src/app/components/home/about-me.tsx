@@ -10,10 +10,22 @@ export default function AboutMeOverview() {
       <div className={style.content}>
         <div className={style.left}>
           <div className={style['image-1']}>
-            <Image src='/procedure.jpg' alt='' fill style={{ objectFit: 'cover' }} />
+            <Image
+              src='/ralf-about-me1.jpg'
+              alt=''
+              fill
+              style={{ objectFit: 'cover' }}
+              sizes=' (max-width: 1024px) 50vw, 30vw'
+            />
           </div>
           <div className={style['image-2']}>
-            <Image src='/lecture.jpg' alt='' fill style={{ objectFit: 'cover' }} />
+            <Image
+              src='/ralf-about-me2.jpg'
+              alt=''
+              fill
+              style={{ objectFit: 'cover' }}
+              sizes=' (max-width: 1024px) 50vw, 30vw'
+            />
           </div>
         </div>
         <div className={style.right}>
