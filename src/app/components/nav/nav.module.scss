@@ -62,7 +62,9 @@ $nav-height: 72px;
         width: 0%;
         background-color: $tertiary-100;
         opacity: 0;
-        transition: opacity 200ms ease, width 200ms ease;
+        transition:
+          opacity 200ms ease,
+          width 200ms ease;
       }
 
       &.active::after {

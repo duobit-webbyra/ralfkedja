@@ -1,7 +1,7 @@
-import { withPayload } from '@payloadcms/next/withPayload'
+import { withPayload } from '@payloadcms/next/withPayload';
 
-import path from 'path'
-const __dirname = process.cwd()
+import path from 'path';
+const __dirname = process.cwd();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -9,9 +9,6 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'src', 'app', 'styles')],
   },
-  experimental: {
-    reactCompiler: true,
-  },
-}
+};
 
-export default withPayload(nextConfig)
+export default withPayload(nextConfig);

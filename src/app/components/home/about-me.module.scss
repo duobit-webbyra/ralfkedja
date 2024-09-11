@@ -20,7 +20,7 @@
       gap: 1rem;
       width: 40%;
       height: 24rem;
-      align-items: end;
+      justify-content: flex-end;
 
       @mixin image-base() {
         width: 100%;

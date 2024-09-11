@@ -39,10 +39,10 @@ export default function ContactDetails({ data }: ContactDetailsProps) {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <p>{data?.phone}</p>
               <div style={{ display: 'flex', gap: '0.5rem' }}>
-                <Link href={`${data?.socials?.facebook}`}>
+                <Link href={`${data?.links?.facebook}`}>
                   <Facebook />
                 </Link>
-                <Link href={`${data?.socials?.instagram}`}>
+                <Link href={`${data?.links?.instagram}`}>
                   <Instagram />
                 </Link>
               </div>
