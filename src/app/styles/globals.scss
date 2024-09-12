@@ -24,17 +24,12 @@
 }
 
 body {
+  height: auto;
   background: $tertiary-100;
-}
-
-html,
-body {
-  height: 100%;
 }
 
 main {
   min-height: 100%;
-  position: relative;
 }
 
 * {

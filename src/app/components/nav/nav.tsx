@@ -44,26 +44,24 @@ export function NavDefault() {
   const segments = useSelectedLayoutSegments();
 
   return (
-    <div className={style.container}>
-      <div className={style.content}>
-        <ul className={style.nav}>
-          {navigation.map((item, index) => {
-            return (
-              <li key={index} className={`${pathname === item?.slug ? style.active : ''}`}>
-                <div className={style.navItem}>
-                  <Link href={`${item.slug}`}>{item.label}</Link>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-        <div
-          style={{
-            width: '8rem',
-          }}
-        >
-          <BookDirectly>Boka tid</BookDirectly>
-        </div>
+    <div className={style.content}>
+      <ul className={style.nav}>
+        {navigation.map((item, index) => {
+          return (
+            <li key={index} className={`${pathname === item?.slug ? style.active : ''}`}>
+              <div className={style.navItem}>
+                <Link href={`${item.slug}`}>{item.label}</Link>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+      <div
+        style={{
+          width: '8rem',
+        }}
+      >
+        <BookDirectly>Boka tid</BookDirectly>
       </div>
     </div>
   );
@@ -124,7 +122,7 @@ export function NavMobile() {
 export default function Nav() {
   return (
     <>
-      <header>
+      <header className={style.container}>
         <NavDefault />
         <NavMobile />
       </header>
