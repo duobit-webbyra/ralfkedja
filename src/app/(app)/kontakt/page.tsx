@@ -4,6 +4,12 @@ import DefaultHero from '@/app/components/hero/default-hero';
 import Map from '@/app/components/utils/map';
 import getContactData from '@/app/utils/get-contact-data';
 
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Ralf Kedja | Kontakt'
+};
+
 export default async function Page() {
   return (
     <>

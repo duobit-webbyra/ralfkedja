@@ -5,6 +5,11 @@ import Curve from '../components/graphics/curve';
 import ContactMe from '../components/home/contact-me';
 import AboutMeOverview from '../components/home/about-me';
 import Announcement from '../components/announcement/announcement';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Ralf Kedja'
+};
 
 export default function Page() {
   return (

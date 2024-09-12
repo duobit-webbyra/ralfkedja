@@ -2,6 +2,13 @@ import PrinciplesGrid from '@/app/components/about-me/principles-grid';
 import SelfIntro from '@/app/components/about-me/self-intro';
 import DefaultHero from '@/app/components/hero/default-hero';
 import DiplomaBanner from '@/app/components/utils/diploma-banner';
+
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Ralf Kedja | Om mig'
+};
+
 export default function Page() {
   return (
     <>

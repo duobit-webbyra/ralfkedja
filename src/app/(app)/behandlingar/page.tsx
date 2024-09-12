@@ -6,6 +6,12 @@ import Kroppsbalansering from '@/app/components/treatments/kroppsbalansering';
 import Kinesiologi from '@/app/components/treatments/kinesiologi';
 import Biomagnetism from '@/app/components/treatments/biomagnetism';
 
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Ralf Kedja | Behandlingar'
+};
+
 export default function Page() {
   return (
     <>
