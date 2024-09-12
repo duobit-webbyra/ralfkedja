@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <main
+    <div
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -38,6 +38,6 @@ export default function Page() {
           <SecondaryButton href='/kontakt'>Kontakta mig</SecondaryButton>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
