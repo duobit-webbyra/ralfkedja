@@ -1,3 +1,4 @@
+/* eslint no-undef: "off" */
 'use client';
 import React from 'react';
 import { useEffect, useRef } from 'react';
@@ -23,12 +24,13 @@ export default function Map() {
       };
 
       const map = new Map(mapRef.current as HTMLDivElement, mapOptions);
-      const { AdvancedMarkerElement } = await google.maps.importLibrary('marker');
-      const marker = new AdvancedMarkerElement({
-        //const marker = new google.maps.Marker({
+      new google.maps.Marker({
         map,
         position: position,
       });
+      // new Marker({
+      //   //const marker = new google.maps.Marker({
+      // });
     };
 
     initMap();
