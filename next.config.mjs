@@ -6,6 +6,7 @@ const __dirname = process.cwd();
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Your Next.js config here
+  output: 'standalone',
   sassOptions: {
     includePaths: [path.join(__dirname, 'src', 'app', 'styles')],
   },
