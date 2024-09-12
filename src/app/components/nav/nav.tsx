@@ -7,6 +7,7 @@ import MenuOpenButton from './menu-open-button';
 import MenuCloseButton from './menu-close-button';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import BookDirectly from '../utils/book-directly';
 
 interface NavigationData {
   label: string;
@@ -41,9 +42,9 @@ import { useSelectedLayoutSegments } from 'next/navigation';
 export function NavDefault() {
   const pathname = usePathname();
   const segments = useSelectedLayoutSegments();
-  console.log(segments);
+
   return (
-    <header className={style.container}>
+    <div className={style.container}>
       <div className={style.content}>
         <ul className={style.nav}>
           {navigation.map((item, index) => {
@@ -61,12 +62,10 @@ export function NavDefault() {
             width: '8rem',
           }}
         >
-          <PrimaryButton href='https://www.bokadirekt.se/places/eskilstuna-kroppsbalansering-25963'>
-            <p>Boka tid</p>
-          </PrimaryButton>
+          <BookDirectly>Boka tid</BookDirectly>
         </div>
       </div>
-    </header>
+    </div>
   );
 }
 
@@ -87,7 +86,7 @@ export function NavMobile() {
   }, [isOpen]);
 
   return (
-    <header className={style['container-mobile']}>
+    <div className={style['container-mobile']}>
       <Link style={{ color: 'var(--tertiary-100)', fontSize: 'var(--text-md)' }} href='/'>
         Ralf Kedja
       </Link>
@@ -118,15 +117,17 @@ export function NavMobile() {
           </div>
         </div>
       </ul>
-    </header>
+    </div>
   );
 }
 
 export default function Nav() {
   return (
     <>
-      <NavDefault />
-      <NavMobile />
+      <header>
+        <NavDefault />
+        <NavMobile />
+      </header>
     </>
   );
 }

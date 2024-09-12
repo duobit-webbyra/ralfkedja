@@ -166,10 +166,11 @@ export interface Contact {
   };
   phone: string;
   email: string;
-  socials?: {
+  links?: {
     facebook?: string | null;
     linkedin?: string | null;
     instagram?: string | null;
+    booking?: string | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
