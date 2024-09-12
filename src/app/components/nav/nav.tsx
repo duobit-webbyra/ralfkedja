@@ -37,11 +37,8 @@ const navigation: NavigationData[] = [
   },
 ];
 
-import { useSelectedLayoutSegments } from 'next/navigation';
-
 export function NavDefault() {
   const pathname = usePathname();
-  const segments = useSelectedLayoutSegments();
 
   return (
     <div className={style.content}>

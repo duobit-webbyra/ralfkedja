@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 
 import style from './contact-form.module.scss';
-import SecondaryButton from '../button/secondary-button';
 import PrimaryButton from '../button/primary-button';
 
 interface ContactFormProps {

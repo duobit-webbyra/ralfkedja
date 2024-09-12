@@ -1,6 +1,5 @@
 import { getPayloadHMR } from '@payloadcms/next/utilities';
 import config from '@payload-config';
-import { SlowBuffer } from 'buffer';
 
 export default async function Announcement() {
   const payload = await getPayloadHMR({ config });

@@ -1,6 +1,6 @@
+// import { getPayloadHMR } from '@payloadcms/next/utilities';
 import PrimaryButton from '@/app/components/button/primary-button';
-import { getPayloadHMR } from '@payloadcms/next/utilities';
-import config from '@payload-config';
+// import config from '@payload-config';
 
 export default function BookDirectly({ children }: { children: string }) {
   // const payload = await getPayloadHMR({ config });
