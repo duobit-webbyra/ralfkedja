@@ -1,12 +1,10 @@
 @import 'variables.scss';
 
-$nav-height: 72px;
-
 .container {
   position: sticky;
   position: -webkit-sticky;
   top: 0;
-  height: $nav-height;
+  height: var(--nav-height);
   width: 100%;
   background-color: rgba($primary-400-rgb, 1);
   display: flex;
@@ -82,7 +80,7 @@ $nav-height: 72px;
     position: sticky;
     position: -webkit-sticky;
     top: 0;
-    height: $nav-height;
+    height: var(--nav-height);
     width: 100%;
     background-color: rgba($primary-400-rgb, 1);
     display: flex;
