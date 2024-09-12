@@ -1,6 +1,7 @@
 import PrinciplesGrid from '@/app/components/about-me/principles-grid';
 import SelfIntro from '@/app/components/about-me/self-intro';
 import DefaultHero from '@/app/components/hero/default-hero';
+import DiplomaBanner from '@/app/components/utils/diploma-banner';
 export default function Page() {
   return (
     <>
@@ -19,6 +20,13 @@ export default function Page() {
         }}
       >
         <PrinciplesGrid />
+      </section>
+      <section
+        style={{
+          paddingBlock: '4rem',
+        }}
+      >
+        <DiplomaBanner />
       </section>
     </>
   );

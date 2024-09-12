@@ -33,10 +33,15 @@
 
 @media (max-width: $media-sm) {
   .content {
-    padding: 0 1rem;
     & > .cards {
       grid-template-columns: 1fr;
       row-gap: 2rem;
     }
+  }
+}
+
+@media (max-width: $content-width) {
+  .content {
+    padding: 0 1rem;
   }
 }
