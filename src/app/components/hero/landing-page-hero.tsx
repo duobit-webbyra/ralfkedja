@@ -57,7 +57,14 @@ export default function LandingPageHero() {
           </div>
         </div>
         <div className={style.right}>
-          <Image src='/ralf-cutout.png' alt='hero image' width={300} height={500} sizes='30vw' />
+          <div style={{ position: 'relative', height: '100%', width: '300px' }}>
+            <Image
+              src='/ralf-cutout.png'
+              alt='Ralf Kedja - Kroppsbalansering, Eskilstuna'
+              fill
+              style={{ objectFit: 'cover' }}
+            />
+          </div>
         </div>
       </div>
     </div>

@@ -13,7 +13,6 @@ export default function Map() {
         version: 'weekly',
       });
 
-      const { Marker } = await loader.importLibrary('marker');
       const { Map } = await loader.importLibrary('maps');
       const position = { lat: 59.362857095991195, lng: 16.514192397638258 };
 
@@ -24,8 +23,10 @@ export default function Map() {
       };
 
       const map = new Map(mapRef.current as HTMLDivElement, mapOptions);
-      new Marker({
-        map: map,
+      const { AdvancedMarkerElement } = await google.maps.importLibrary('marker');
+      const marker = new AdvancedMarkerElement({
+        //const marker = new google.maps.Marker({
+        map,
         position: position,
       });
     };
