@@ -3,14 +3,14 @@
 .container {
   position: relative;
   overflow: hidden;
-  background-color: $secondary-200;
+  background-color: $secondary-100;
   height: 160px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: $text-lg;
 
-  &>img {
+  & > img {
     opacity: 0.4;
     background-repeat: no-repeat;
     background-size: cover;

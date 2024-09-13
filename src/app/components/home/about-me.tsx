@@ -12,28 +12,28 @@ export default function AboutMeOverview() {
         <div className={style.left}>
           <div className={style['image-1']}>
             <Image
-              src='/ralf-about-me1.jpg'
+              src='/lektion.webp'
               alt=''
               fill
               style={{ objectFit: 'cover' }}
-              sizes=' (max-width: 1024px) 50vw, 30vw'
+              sizes='(max-width: 600px) 40vw, (max-width: 1024px) 50vw, 30vw'
             />
           </div>
           <div className={style['image-2']}>
             <Image
-              src='/ralf-about-me2.jpg'
+              src='/om-mig.webp'
               alt=''
               fill
               style={{ objectFit: 'cover' }}
-              sizes=' (max-width: 1024px) 50vw, 30vw'
+              sizes='(max-width: 600px) 40vw, (max-width: 1024px) 50vw, 30vw'
             />
           </div>
         </div>
         <div className={style.right}>
           <Title
             heading='Om mig'
-            subHeading='Lorem ipsum'
-            description='Mitt intresse för hälsa och friskvård grundar sig i att jag är uppvuxen på landet på Gotland där min far verkade som kiropraktor och akupunktör under nästan fem decenium. Betydelsen av helheten när man jobbar med friskvård lärde mig min far mig tidigt, att inte bara behandla symtomer utan hela människan.  '
+            subHeading='Ralf Kedja'
+            description='Mitt intresse för hälsa och friskvård har sina rötter i min uppväxt på landsbygden på Gotland, där min far arbetade som kiropraktor och akupunktör i nästan fem decennier. Han lärde mig tidigt vikten av att se till helheten när man arbetar med friskvård – att inte bara fokusera på symptomen, utan att behandla hela människan.'
             left
           />
           <div

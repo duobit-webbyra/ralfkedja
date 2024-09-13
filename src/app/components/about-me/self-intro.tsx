@@ -4,8 +4,8 @@ import Title from '../utils/title';
 import Image from 'next/image';
 export default function SelfIntro() {
   const description = [
-    'Mitt namn är Ralf Kedja och jag jobbar med Kroppsbalansering, kostrådgivning, coaching och träning för dig som vill må bättre! Jag är Diplomerad kinesiolog, utbildad på Svenska Kinesiologiskolan och i Touch For Health Kinesiology som är världens största kinesiologisystem. Jag är även utbildad och diplomerad terapeut i mjuk chiropraktic och strukturell Osteopathy av Ackermann institutet samt diplomerad och licensierad kostrådgivare.',
-    'Mitt intresse för hälsa och friskvård grundar sig i att jag är uppvuxen på landet på Gotland där min far verkade som kiropraktor och akupunktör under nästan fem decenium. Betydelsen av helheten när man jobbar med friskvård lärde mig min far mig tidigt, att inte bara behandla symtomer utan hela människan. Mitt synsätt när jag jobbar med kroppsbalansering utgår från fyra principer.',
+    'Jag heter Ralf Kedja och specialiserar mig på kroppsbalansering, kostrådgivning, coaching och träning för dig som vill förbättra ditt välbefinnande. Jag är diplomerad kinesiolog, utbildad vid Svenska Kinesiologiskolan och i Touch For Health Kinesiology, det största kinesiologisystemet globalt. Dessutom är jag utbildad och diplomerad terapeut i mjuk kiropraktik och strukturell osteopati vid Ackermann Institutet samt diplomerad och licensierad kostrådgivare.',
+    'Mitt intresse för hälsa och friskvård har sina rötter på Gotland, där jag växte upp på landet. Min far arbetade som kiropraktor och akupunktör i nästan fem decennier, och hans helhetssyn på friskvård har präglat min egen filosofi. Jag har tidigt lärt mig vikten av att inte bara behandla symptom utan att se till hela människan. När jag arbetar med kroppsbalansering utgår jag från fyra grundläggande principer som säkerställer en helhetssyn på din hälsa och välbefinnande.',
   ];
   return (
     <div className={style.container}>
@@ -17,7 +17,7 @@ export default function SelfIntro() {
         <div className={style['image-container']}>
           <div className={style['image-inner']}>
             <Image
-              src='/ralf-cutout.png'
+              src='/ralf-hem.webp'
               alt='Ralf Kedja - Kroppsbalansering, Eskilstuna'
               fill
               className={style['image-element']}

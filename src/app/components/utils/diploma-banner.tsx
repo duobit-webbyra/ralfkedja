@@ -19,7 +19,7 @@ export default function DiplomaBanner() {
               <Image
                 src={diploma.src}
                 alt={diploma.alt}
-                layout='fill'
+                fill
                 className={style['image-element']}
                 sizes='(max-width: 600px) 35vw,(max-width: 1024) 45vw, 12vw'
               />

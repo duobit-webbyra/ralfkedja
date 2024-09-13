@@ -6,7 +6,9 @@ import DiplomaBanner from '@/app/components/utils/diploma-banner';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Ralf Kedja | Om mig'
+  title: 'Ralf Kedja | Om mig',
+  description:
+    'Lär känna Ralf Kedja, expert på kroppsbalansering och hälsa. Läs om min bakgrund, utbildning och engagemang för att hjälpa dig må bättre.',
 };
 
 export default function Page() {
@@ -31,6 +33,7 @@ export default function Page() {
       <section
         style={{
           paddingBlock: '4rem',
+          backgroundColor: 'var(--tertiary-200)',
         }}
       >
         <DiplomaBanner />

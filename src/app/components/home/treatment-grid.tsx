@@ -19,25 +19,25 @@ export default function TreatmentGrid() {
         <div style={{ position: 'relative' }} className={style.cards}>
           <TreatmentCard
             title='Strukturell behandling'
-            description='Syftet med behandlingen är att återställa normal funktion i ryggraden med hjälp av framförallt händerna.'
+            description='Behandlingen syftar till att återställa normal funktion i ryggraden och lederna med hjälp av framförallt händerna.'
             href='/behandlingar#strukturell-behandling'
             icon={<Health />}
           />
           <TreatmentCard
             title='Kroppsbalansering'
-            description='En genomgång av kroppen görs för att söka efter grundorsaken till klientens problem, sen behandlas det med olika "verktyg" utifrån klientens behov.'
+            description='En helhetsgenomgång av kroppen görs för att hitta grundorsaken till problemet och behandlas sedan med olika metoder anpassade efter klientens behov.'
             href='/behandlingar#kroppsbalansering'
             icon={<Balance />}
           />
           <TreatmentCard
             title='Kinesiologi'
-            description='Kinesiologi är en metod att kommunicera med en annan persons nervsystem genom att testa spänningen i musklerna.'
+            description='En metod för att kommunicera med nervsystemet genom att testa muskelspänningar för att identifiera och behandla obalanser i kroppen.'
             href='/behandlingar#kinesiologi'
             icon={<Muscles />}
           />
           <TreatmentCard
             title='Biomagnetism'
-            description='Biomagnetism ingår också i begreppet magnetbehandlingar, och är en metod baserad på de effekter som starka magneter utövar på kroppen.'
+            description='Biomagnetism ingår i begreppet magnetbehandlingar, och är en metod baserad på de effekter som starka magneter utövar på kroppen.'
             href='/behandlingar#biomagnetism'
             icon={<Magnet />}
           />

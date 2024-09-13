@@ -12,33 +12,28 @@ export default function StrukturellBehandling() {
           <Title
             heading='Strukturell Behandling'
             subHeading='Kotbalansering & Ackermannmetoden'
-            description='Syftet med behandlingen är att återställa normal funktion i ryggraden med hjälp av framförallt händerna. Ackermannmetoden omfattar diagnostik, behandling, rehabilitering och förebyggande av smärtor i ryggen. '
+            description='Strukturell behandling syftar till att återställa normal funktion i ryggraden och kroppens leder genom manuella tekniker. Ackermannmetoden, som är en central del av behandlingen, används för att diagnostisera, behandla och förebygga ryggsmärtor, samt för att rehabilitera kroppen för ökad rörlighet och lindring av obalanser. '
             left
           />
 
           <div style={{ position: 'relative', height: '320px', width: '100%', minHeight: '320px' }}>
-            <Image src='/nature.webp' fill alt='Picture of the author' objectFit='cover' />
+            <Image
+              src='/strukturell-behandling.webp'
+              fill
+              alt='Strukturell behandling'
+              sizes='(max-width: 720px) 100vw, 50vw'
+              style={{ objectFit: 'cover', background: 'var(--secondary-100)' }}
+            />
           </div>
         </div>
         <div className={style['treatment-items']}>
           <TreatmentItem
             heading='Hur går det till?'
-            description='
-            Terapeuten arbetar för att återställa normal funktion i leder, muskler och nervsystem.
-            Den huvudsakliga behandlingsmetoden är justering som består av olika handgrepp för att
-            mobilisera en led eller ett ryggradsområde. Antalet behandlingar som ordineras beror på
-            vilka besvär man har och hur länge man har haft dem.
-        '
+            description='Terapeuten tillämpar specifika handgrepp och justeringstekniker för att mobilisera leder och ryggradsområden. Målet är att återställa normal funktion i leder, muskler och nervsystem, vilket hjälper till att förbättra rörelseomfång och minska smärta. Behandlingens omfattning och antalet sessioner anpassas utifrån patientens specifika besvär och hur länge de har pågått.'
           />
           <TreatmentItem
             heading='Vilka besvär kan behandlas?'
-            description='
-            Terapeuten behandlar klienter som söker för smärttillstånd i rörelseapparaten. Besvären
-            som behandlas kan vara såväl akuta som kroniska. Vanliga exempel på besvär som behandlas
-            är: rygg- och nackbesvär, ryggskott, ischias, huvudvärk, migrän, yrsel, andnings- och
-            matsmältningsbesvär, premenstruella smärtor, sträckningar, muskel- och ledvärk,
-            tennisarmbåge, idrottsskador, förslitningsskador och stress.
-        '
+            description='Strukturell behandling är effektiv för både akuta och kroniska smärttillstånd i rörelseapparaten. Vanliga problem som behandlas inkluderar rygg- och nacksmärtor, ryggskott, ischias, huvudvärk, migrän, yrsel, andnings- och matsmältningsbesvär, premenstruella smärtor, muskel- och ledvärk, tennisarmbåge, idrottsskador, förslitningsskador och stressrelaterade spänningar.'
           />
         </div>
       </div>

@@ -7,7 +7,9 @@ import getContactData from '@/app/utils/get-contact-data';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Ralf Kedja | Kontakt'
+  title: 'Ralf Kedja | Kontakt',
+  description:
+    'Kontakta mig för att boka tid eller få mer information. Här hittar du kontaktuppgifter inklusive adress, telefonnummer och e-postadress.',
 };
 
 export default async function Page() {

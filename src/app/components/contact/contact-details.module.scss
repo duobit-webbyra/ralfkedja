@@ -9,31 +9,45 @@
 .content {
   width: $content-width;
   display: flex;
-  flex-direction: column;
   gap: 4rem;
 
-  &>.title {
+  & > .left {
+    width: 50%;
     display: flex;
     flex-direction: column;
-    width: 50%;
-    gap: 0.25rem;
-  }
+    gap: 4rem;
 
-  &>.detailsgrid {
-    width: 50%;
-    display: grid;
-    grid-template-rows: auto auto;
-    grid-auto-flow: column;
-    column-gap: 4rem;
-    row-gap: 4rem;
-
-    &>.detail {
+    & > .title {
       display: flex;
       flex-direction: column;
+      gap: 0.25rem;
+    }
 
-      & p {
-        color: $primary-300;
+    & > .detailsgrid {
+      display: grid;
+      grid-template-rows: auto auto;
+      grid-auto-flow: column;
+      column-gap: 4rem;
+      row-gap: 4rem;
+
+      & > .detail {
+        display: flex;
+        flex-direction: column;
+
+        & p {
+          color: $primary-300;
+        }
       }
+    }
+  }
+
+  & > .right {
+    width: 50%;
+    position: relative;
+    height: auto;
+
+    & > .image-element {
+      object-fit: cover;
     }
   }
 }
@@ -41,13 +55,16 @@
 @media (max-width: $content-width) {
   .content {
     padding: 0 1rem;
+    flex-direction: column;
 
-    &>.title {
+    & > .left {
       width: 100%;
     }
+    & > .right {
+      display: hidden;
+    }
 
-    &>.detailsgrid {
-      width: 100%;
+    & > .detailsgrid {
       column-gap: 0;
     }
   }

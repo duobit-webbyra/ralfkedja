@@ -20,7 +20,7 @@
       gap: 1rem;
       width: 40%;
       height: 24rem;
-      justify-content: flex-end;
+      align-items: end;
 
       @mixin image-base() {
         width: 100%;
@@ -33,7 +33,7 @@
       }
 
       & > .image-1 {
-        height: 50%;
+        height: 70%;
         @include image-base();
       }
 
@@ -82,17 +82,18 @@
   }
 }
 @media (max-width: $media-sm) {
-  .left {
-    height: 16rem;
+  .container {
+    & > .content {
+      flex-direction: column;
+    }
   }
 }
 
-@media (max-width: $media-md) {
+@media (max-width: $media-lg) {
   .container {
     padding: 4rem 1rem;
 
     & > .content {
-      flex-direction: column;
       gap: 2rem;
 
       & > .left {
@@ -111,14 +112,11 @@
         width: 100%;
       }
     }
-  }
-}
-
-@media (max-width: $media-md) {
-  .hill {
-    display: none;
-  }
-  .hill2 {
-    display: none;
+    .hill {
+      display: none;
+    }
+    .hill2 {
+      display: none;
+    }
   }
 }

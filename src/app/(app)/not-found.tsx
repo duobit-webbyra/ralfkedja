@@ -3,6 +3,7 @@ import PrimaryButton from '../components/button/primary-button';
 import SecondaryButton from '../components/button/secondary-button';
 export const metadata: Metadata = {
   title: '404 hittas ej',
+  description: 'Sidan kunde inte hittas',
 };
 
 export default function Page() {
