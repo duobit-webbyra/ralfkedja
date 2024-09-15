@@ -3,13 +3,14 @@
 .container {
   background: linear-gradient(
       to right,
-      rgba($secondary-100-rgb, 0.85) 35%,
-      rgba($secondary-200-rgb, 0.1) 65%
+      rgba($secondary-100-rgb, 0.85),
+      rgba($secondary-200-rgb, 0.1) 100%
     ),
     url('/nature.webp');
   background-size: cover;
   display: flex;
   justify-content: center;
+  
 }
 
 .content {
@@ -30,11 +31,19 @@
     & > .review {
       display: flex;
       gap: 0.25rem;
-      align-items: center;
+      
+      @media (max-width: $content-width) {
+        flex-direction: column-reverse;
+        align-items: center;
+        
+      }
 
       & > p {
-        margin-left: 0.75rem;
         font-size: $text-xs;
+        margin-left: 0.75rem;
+        @media (max-width: $content-width) {
+          margin-left: 0;
+        }
       }
     }
 

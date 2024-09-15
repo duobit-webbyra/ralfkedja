@@ -48,11 +48,13 @@ export default function LandingPageHero() {
             <PhoneNumber />
           </div>
           <div className={style.review}>
+            <div style={{display:"flex"}}>
             <ReviewStar />
             <ReviewStar />
             <ReviewStar />
             <ReviewStar />
             <ReviewStar />
+            </div>
             <p>Över 300 nöjda kunder</p>
           </div>
         </div>
