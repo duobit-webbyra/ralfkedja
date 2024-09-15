@@ -4,7 +4,7 @@ import SecondaryButton from '../button/secondary-button';
 export default function DefaultCTA() {
   return (
     <div className={style.container}>
-      <h3 className={style.text}>Har du frågor eller vill boka tid?</h3>
+      <h3 className={style.text}>Har du frågor du vill ställa mig?</h3>
       <div className={style.button}>
         <SecondaryButton href='/kontakt'>
           <p>KONTAKTA MIG</p>
