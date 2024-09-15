@@ -59,6 +59,7 @@
 
     & > .left {
       width: 100%;
+      gap: 2rem;
     }
     & > .right {
       display: hidden;
@@ -66,6 +67,17 @@
 
     & > .detailsgrid {
       column-gap: 0;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .content {
+    & > .left {
+      & > .detailsgrid {
+        display: flex;
+        flex-direction: column;
+      }
     }
   }
 }
