@@ -9,7 +9,7 @@ import Biomagnetism from '@/app/components/treatments/biomagnetism';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Ralf Kedja | Behandlingar'
+  title: 'Ralf Kedja | Behandlingar',
 };
 
 export default function Page() {

@@ -9,6 +9,8 @@ import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import BookDirectly from '../utils/book-directly';
 
+import { useMediaQuery } from 'react-responsive';
+
 interface NavigationData {
   label: string;
   slug?: string;
@@ -81,7 +83,7 @@ export function NavMobile() {
   }, [isOpen]);
 
   return (
-    <div className={style['container-mobile']}>
+    <div className={style['content-mobile']}>
       <Link style={{ color: 'var(--tertiary-100)', fontSize: 'var(--text-md)' }} href='/'>
         Ralf Kedja
       </Link>
@@ -117,12 +119,13 @@ export function NavMobile() {
 }
 
 export default function Nav() {
+  const isMobile = useMediaQuery({
+    query: '(max-width: 720px)',
+  });
+
   return (
     <>
-      <header className={style.container}>
-        <NavDefault />
-        <NavMobile />
-      </header>
+      <header className={style.container}>{!isMobile ? <NavDefault /> : <NavMobile />}</header>
     </>
   );
 }
