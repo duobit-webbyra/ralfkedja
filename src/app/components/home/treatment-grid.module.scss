@@ -11,10 +11,15 @@
   gap: 4rem;
   width: $artboard-width;
 
+  @media (min-width: 1024px) and (max-width: $media-lg) {
+    width: 1024px;
+  }
+
+
   & > .cards {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    column-gap: 2rem;
+    gap: 2rem;
   }
 }
 

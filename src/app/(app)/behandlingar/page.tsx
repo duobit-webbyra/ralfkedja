@@ -10,6 +10,8 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Ralf Kedja | Behandlingar',
+  description:
+    'Upptäck de olika behandlingar som erbjuds inom kroppsbalansering, kinesiologi och biomagnetism. Läs om metoderna och deras fördelar.',
 };
 
 export default function Page() {

@@ -119,13 +119,12 @@ export function NavMobile() {
 }
 
 export default function Nav() {
-  const isMobile = useMediaQuery({
-    query: '(max-width: 720px)',
-  });
-
   return (
     <>
-      <header className={style.container}>{!isMobile ? <NavDefault /> : <NavMobile />}</header>
+      <header className={style.container}>
+        <NavDefault />
+        <NavMobile />
+      </header>
     </>
   );
 }

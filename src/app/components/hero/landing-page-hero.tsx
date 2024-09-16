@@ -37,6 +37,18 @@ async function PhoneNumber() {
 export default function LandingPageHero() {
   return (
     <div className={style.container}>
+      <Image
+        src='/nature.webp'
+        alt=''
+        fill
+        style={{
+          objectFit: 'cover',
+          backgroundPosition: 'center',
+        }}
+        quality={25}
+        sizes='100vh'
+      />
+      <div className={style.gradient} />
       <div className={style.content}>
         <div className={style.left}>
           <div className={style.text}>
@@ -48,12 +60,12 @@ export default function LandingPageHero() {
             <PhoneNumber />
           </div>
           <div className={style.review}>
-            <div style={{display:"flex"}}>
-            <ReviewStar />
-            <ReviewStar />
-            <ReviewStar />
-            <ReviewStar />
-            <ReviewStar />
+            <div style={{ display: 'flex' }}>
+              <ReviewStar />
+              <ReviewStar />
+              <ReviewStar />
+              <ReviewStar />
+              <ReviewStar />
             </div>
             <p>Över 300 nöjda kunder</p>
           </div>
