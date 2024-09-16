@@ -20,7 +20,7 @@ const GalleryGrid = async () => {
           className={style.photographer}
           style={{ display: 'flex', width: '100%', justifyContent: 'end', fontStyle: 'italic' }}
         >
-          Fotograf: Nikola Damjanovic
+          Fotografer: N&M Eskilstuna
         </p>
         {data.length > 0 ? (
           <div className={style['gallery-container']}>
