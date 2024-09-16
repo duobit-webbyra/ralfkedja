@@ -26,15 +26,32 @@ export default async function ContactAPI(req: any, res: any) {
   try {
     const mail = await transporter.sendMail({
       from: user,
-      to: 'marwinhormiz@gmail.com',
+      to: 'kevinhormiz@gmail.com',
       replyTo: data.email,
       subject: data.subject,
       html: `
-      <p> Namn: ${name}</p>
-      <p> E-mail: ${email}</p>
-      <p> Telefon: ${phone}</p>
-      <p> Message: ${message}</p>
-      `,
+      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+        <h2>Kontaktinformation</h2>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <td style="padding: 8px; border: 1px solid #ddd;"><strong>Namn:</strong></td>
+            <td style="padding: 8px; border: 1px solid #ddd;">${name}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid #ddd;"><strong>E-mail:</strong></td>
+            <td style="padding: 8px; border: 1px solid #ddd;">${email}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid #ddd;"><strong>Telefon:</strong></td>
+            <td style="padding: 8px; border: 1px solid #ddd;">${phone}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid #ddd;"><strong>Meddelande:</strong></td>
+            <td style="padding: 8px; border: 1px solid #ddd;">${message}</td>
+          </tr>
+        </table>
+      </div>
+    `,
     });
     console.log('Message sent:', mail.messageId);
 
