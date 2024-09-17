@@ -5,6 +5,8 @@ import Image from 'next/image';
 import Title from '../utils/title';
 import LeafHill from '../graphics/home/leafhill';
 
+import assetPrefix from '@/app/utils/asset-prefix';
+
 export default function AboutMeOverview() {
   return (
     <div className={style.container}>
@@ -12,7 +14,7 @@ export default function AboutMeOverview() {
         <div className={style.left}>
           <div className={style['image-1']}>
             <Image
-              src='/lektion.webp'
+              src={assetPrefix('lektion.webp')}
               alt=''
               fill
               style={{ objectFit: 'cover' }}
@@ -21,7 +23,7 @@ export default function AboutMeOverview() {
           </div>
           <div className={style['image-2']}>
             <Image
-              src='/om-mig.webp'
+              src={assetPrefix('om-mig.webp')}
               alt=''
               fill
               style={{ objectFit: 'cover' }}

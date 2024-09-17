@@ -5,6 +5,7 @@ import Instagram from '../graphics/instagram';
 import Link from 'next/link';
 import { Contact } from '@/payload-types';
 import Image from 'next/image';
+import assetPrefix from '@/app/utils/asset-prefix';
 
 interface ContactDetailsProps {
   data?: Contact;
@@ -54,7 +55,7 @@ export default function ContactDetails({ data }: ContactDetailsProps) {
         </div>
         <div className={style.right}>
           <Image
-            src='/ralf-kontakt.webp'
+            src={assetPrefix('ralf-kontakt.webp')}
             alt='Ralf Kedja - Kroppsbalansering, Eskilstuna'
             fill
             className={style['image-element']}

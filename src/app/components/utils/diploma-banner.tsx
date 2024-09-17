@@ -1,12 +1,13 @@
 import React from 'react';
 import style from './diploma-banner.module.scss';
 import Image from 'next/image';
+import assetPrefix from '@/app/utils/asset-prefix';
 
 const diplomas = [
-  { id: 1, src: '/kinesiologi.webp', alt: 'Diplom i kinesiologi' },
-  { id: 2, src: '/kiropraktik.webp', alt: 'Diplom i kiropraktik' },
-  { id: 3, src: '/osteopati.webp', alt: 'Diplom i osteopati' },
-  { id: 4, src: '/touch-for-health.webp', alt: 'Diplom i Touch For Health' },
+  { src: 'kinesiologi.webp', alt: 'Diplom i kinesiologi' },
+  { src: 'kiropraktik.webp', alt: 'Diplom i kiropraktik' },
+  { src: 'osteopati.webp', alt: 'Diplom i osteopati' },
+  { src: 'touch-for-health.webp', alt: 'Diplom i Touch For Health' },
 ];
 
 export default function DiplomaBanner() {
@@ -14,10 +15,10 @@ export default function DiplomaBanner() {
     <div className={style.container}>
       <div className={style.content}>
         <div className={style['images-container']}>
-          {diplomas.map((diploma) => (
-            <div key={diploma.id} className={style['image-wrapper']}>
+          {diplomas.map((diploma, index) => (
+            <div key={index} className={style['image-wrapper']}>
               <Image
-                src={diploma.src}
+                src={assetPrefix(diploma.src)}
                 alt={diploma.alt}
                 fill
                 className={style['image-element']}

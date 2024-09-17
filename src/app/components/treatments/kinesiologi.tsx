@@ -3,6 +3,7 @@ import style from './treatment.module.scss';
 import Title from '../utils/title';
 import TreatmentItem from './treatment-item';
 import Image from 'next/image';
+import assetPrefix from '@/app/utils/asset-prefix';
 export default function Kinesiologi() {
   return (
     <div className={style.container}>
@@ -17,7 +18,7 @@ export default function Kinesiologi() {
 
           <div style={{ position: 'relative', height: '320px', width: '100%', minHeight: '320px' }}>
             <Image
-              src='/kinesiologi-behandling.webp'
+              src={assetPrefix('kinesiologi-behandling.webp')}
               fill
               alt='Kinesiologi'
               sizes='(max-width: 720px) 100vw, 50vw'

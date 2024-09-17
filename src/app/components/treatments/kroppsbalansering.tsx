@@ -2,6 +2,7 @@ import React from 'react';
 import style from './treatment.module.scss';
 import Title from '../utils/title';
 import Image from 'next/image';
+import assetPrefix from '@/app/utils/asset-prefix';
 export default function Kroppsbalansering() {
   return (
     <div className={style.container}>
@@ -15,7 +16,7 @@ export default function Kroppsbalansering() {
           />
           <div style={{ position: 'relative', height: '320px', width: '100%', minHeight: '320px' }}>
             <Image
-              src='/kroppsbalansering.webp'
+              src={assetPrefix('kroppsbalansering.webp')}
               fill
               alt='Kroppsbalansering'
               sizes='(max-width: 720px) 100vw, 50vw'

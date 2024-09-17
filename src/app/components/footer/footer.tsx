@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { FaRegCopyright } from 'react-icons/fa';
 import ShortInfo from '../utils/short-info';
+import assetPrefix from '@/app/utils/asset-prefix';
 
 export default function Footer() {
   return (
@@ -29,7 +30,7 @@ export default function Footer() {
           <p>Sida producerad av</p>
           <Link href='https://duobit.se'>
             <Image
-              src='/duobit-logo-inverted.svg'
+              src={assetPrefix('duobit-logo-inverted.svg')}
               width={100}
               height={100}
               alt='Duobit Webbyrå'

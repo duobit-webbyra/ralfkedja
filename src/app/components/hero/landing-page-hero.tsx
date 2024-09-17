@@ -7,6 +7,7 @@ import BookDirectly from '../utils/book-directly';
 import config from '@payload-config';
 import { getPayloadHMR } from '@payloadcms/next/utilities';
 import style from './landing-page-hero.module.scss';
+import assetPrefix from '@/app/utils/asset-prefix';
 
 async function PhoneNumber() {
   const payload = await getPayloadHMR({ config });
@@ -38,14 +39,13 @@ export default function LandingPageHero() {
   return (
     <div className={style.container}>
       <Image
-        src='/nature.webp'
+        src={assetPrefix('nature.webp')}
         alt=''
         fill
         style={{
           objectFit: 'cover',
           backgroundPosition: 'center',
         }}
-        quality={25}
         sizes='100vh'
       />
       <div className={style.gradient} />
@@ -73,7 +73,7 @@ export default function LandingPageHero() {
         <div className={style.right}>
           <div style={{ position: 'relative', height: '95%', width: '350px' }}>
             <Image
-              src='/ralf-hem.webp'
+              src={assetPrefix('ralf-hem.webp')}
               alt='Ralf Kedja - Kroppsbalansering, Eskilstuna'
               fill
               style={{ objectFit: 'contain' }}
