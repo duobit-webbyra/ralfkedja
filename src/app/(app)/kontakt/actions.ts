@@ -1,17 +1,28 @@
+'use server';
+
 import nodemailer from 'nodemailer';
 
-export default async function ContactAPI(req: any, res: any) {
-  const { name, email, message, phone, subject } = req.body;
+import  config  from '@payload-config';
+import { getPayloadHMR } from '@payloadcms/next/utilities';
+
+export async function sendEmail(formData: FormData) {
+  const payload = await getPayloadHMR({ config });
+  const data = await payload.findGlobal({
+    slug: 'contact',
+  });
+
+  if (!data || !data.email) throw new Error('Failed to get contact information');
+
+  const name = formData.get('name');
+  const email = formData.get('email');
+  const phone = formData.get('phone');
+  const subject = formData.get('subject');
+  const message = formData.get('message');
+
+  if (!email || !subject) return false;
 
   const user = process.env.EMAIL_USER;
-
-  const data = {
-    name,
-    email,
-    message,
-    phone,
-    subject,
-  };
+  const password = process.env.EMAIL_PASS;
 
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -19,16 +30,16 @@ export default async function ContactAPI(req: any, res: any) {
     secure: true,
     auth: {
       user: user,
-      pass: process.env.EMAIL_PASS,
+      pass: password,
     },
   });
 
   try {
-    const mail = await transporter.sendMail({
+    transporter.sendMail({
       from: user,
-      to: 'kevinhormiz@gmail.com',
-      replyTo: data.email,
-      subject: data.subject,
+      to: data.email,
+      replyTo: email.toString(),
+      subject: subject.toString(),
       html: `
       <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
         <h2>Kontaktinformation</h2>
@@ -53,11 +64,7 @@ export default async function ContactAPI(req: any, res: any) {
       </div>
     `,
     });
-    console.log('Message sent:', mail.messageId);
-
-    return res.status(200).json({ message: 'success' });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: 'Kunde inte skicka mejl!' });
+  } catch (e) {
+    throw new Error('Failed to send email');
   }
 }
