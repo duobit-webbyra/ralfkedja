@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 
 import style from './contact-form.module.scss';
 import PrimaryButton from '../button/primary-button';
@@ -9,45 +9,18 @@ interface ContactFormProps {
 }
 
 import { sendEmail } from '@/app/(app)/kontakt/actions';
+import { useFormStatus } from 'react-dom';
+
+const Submit = () => {
+  const { pending } = useFormStatus();
+  return (
+    <PrimaryButton type='submit' disabled={pending}>
+      {!pending ? 'Skicka' : 'Skickar...'}
+    </PrimaryButton>
+  );
+};
 
 export default function ContactForm({ layout }: ContactFormProps) {
-  const [loading, setLoading] = useState(false);
-
-  // async function handleSubmit(event: any) {
-  //   event.preventDefault();
-  //   setLoading(true);
-  //
-  //   const data = {
-  //     name: String(event.target.name.value),
-  //     email: String(event.target.email.value),
-  //     message: String(event.target.message.value),
-  //     phone: String(event.target.phone.value),
-  //     subject: String(event.target.subject.value),
-  //   };
-  //
-  //   const response = await fetch('/api/contact', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(data),
-  //   });
-  //
-  //   if (response.ok) {
-  //     console.log('Message sent successfully');
-  //     setLoading(false);
-  //     event.target.name.value = '';
-  //     event.target.email.value = '';
-  //     event.target.phone.value = '';
-  //     event.target.subject.value = '';
-  //     event.target.message.value = '';
-  //   }
-  //   if (!response.ok) {
-  //     console.log('Error sending message');
-  //     setLoading(false);
-  //   }
-  // }
-
   return (
     <div className={style.container}>
       <div className={style.content}>
@@ -98,9 +71,7 @@ export default function ContactForm({ layout }: ContactFormProps) {
             name='message'
             required
           ></textarea>
-          <PrimaryButton type='submit' disabled={loading}>
-            Skicka
-          </PrimaryButton>
+          <Submit />
         </form>
       </div>
     </div>
