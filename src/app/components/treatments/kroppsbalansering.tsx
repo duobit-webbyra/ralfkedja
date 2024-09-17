@@ -11,7 +11,7 @@ export default function Kroppsbalansering() {
           <Title
             heading='Kroppsbalansering'
             subHeading='Integrerad kroppsbalansering'
-            description='Kroppsbalansering innebär en noggrann bedömning av kroppen för att identifiera och åtgärda grundorsaken till olika hälsoproblem. Behandlingen anpassas efter klientens specifika behov och kan inkludera tekniker som strukturell osteopati och mjuk kiropraktik för att korrigera kotor och leder. Dessutom används biomagnetism för att upptäcka och eliminera patogena mikroorganismer som kan orsaka eller förvärra hälsoproblem. Denna metod syftar till att återställa kroppens balans och funktion för att främja välbefinnande och lindra symtom.'
+            description='Kroppsbalansering innebär en noggrann bedömning av kroppen för att identifiera och åtgärda grundorsaken till olika hälsoproblem. Behandlingen anpassas efter klientens specifika behov och kan inkludera tekniker som strukturell osteopati och mjuk kiropraktik för att korrigera kotor och leder. Dessutom används biomagnetism för att upptäcka och eliminera patogena mikroorganismer som kan orsaka eller förvärra hälsoproblem. Denna metod syftar till att återställa kroppens balans och funktion för att främja välbefinnande och lindra symptom.'
             left
           />
           <div style={{ position: 'relative', height: '320px', width: '100%', minHeight: '320px' }}>
