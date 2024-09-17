@@ -9,8 +9,6 @@ import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import BookDirectly from '../utils/book-directly';
 
-import { useMediaQuery } from 'react-responsive';
-
 interface NavigationData {
   label: string;
   slug?: string;
