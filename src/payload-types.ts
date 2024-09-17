@@ -11,7 +11,6 @@ export interface Config {
     users: UserAuthOperations;
   };
   collections: {
-    gallery: Gallery;
     media: Media;
     reviews: Review;
     users: User;
@@ -24,6 +23,7 @@ export interface Config {
   globals: {
     announcement: Announcement;
     contact: Contact;
+    gallery: Gallery;
     'highlight-reviews': HighlightReview;
   };
   locale: null;
@@ -48,17 +48,6 @@ export interface UserAuthOperations {
     email: string;
     password: string;
   };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "gallery".
- */
-export interface Gallery {
-  id: string;
-  title: string;
-  images: string | Media;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -173,6 +162,21 @@ export interface Contact {
     instagram?: string | null;
     booking?: string | null;
   };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery".
+ */
+export interface Gallery {
+  id: string;
+  images?:
+    | {
+        image?: string | Media | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
