@@ -19,6 +19,7 @@
     "@payloadcms/next": "3.0.0-beta.77",
     "@payloadcms/plugin-cloud": "3.0.0-beta.77",
     "@payloadcms/richtext-lexical": "3.0.0-beta.77",
+    "@payloadcms/storage-s3": "3.0.0-beta.77",
     "@payloadcms/ui": "3.0.0-beta.77",
     "@types/google.maps": "^3.55.12",
     "babel-plugin-react-compiler": "0.0.0-experimental-334f00b-20240725",

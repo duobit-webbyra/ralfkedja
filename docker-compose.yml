@@ -14,31 +14,16 @@ services:
       - mongo
     environment:
       - DATABASE_URI=mongodb://mongo:27017/ralfkedja
-      - PAYLOAD_SECRET=${PAYLOAD_SECRET}
-      - NEXT_PUBLIC_MAPS_API_KEY=${NEXT_PUBLIC_MAPS_API_KEY}
-      - EMAIL_USER=${EMAIL_USER}
-      - EMAIL_PASS=${EMAIL_PASS}
+    env_file: .env
 
-  # Ensure your DATABASE_URI uses 'mongo' as the hostname ie. mongodb://mongo/my-db-name
   mongo:
     image: mongo:latest
-    ports:
-      - '27017:27017'
     command:
       - --storageEngine=wiredTiger
     volumes:
       - data:/data/db
     logging:
       driver: none
-
-  # Uncomment the following to use postgres
-  # postgres:
-  #   restart: always
-  #   image: postgres:latest
-  #   volumes:
-  #     - pgdata:/var/lib/postgresql/data
-  #   ports:
-  #     - "5432:5432"
 
 volumes:
   data:
