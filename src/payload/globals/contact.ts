@@ -1,7 +1,12 @@
 import { GlobalConfig } from 'payload';
+import { isAdmin } from '../access/is-admin';
 
 export const Contact: GlobalConfig = {
   slug: 'contact',
+  access: {
+    read: () => true,
+    update: isAdmin,
+  },
   fields: [
     {
       name: 'address',

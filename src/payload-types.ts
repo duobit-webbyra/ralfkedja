@@ -97,6 +97,7 @@ export interface Review {
  */
 export interface User {
   id: string;
+  role: 'host' | 'admin';
   updatedAt: string;
   createdAt: string;
   email: string;

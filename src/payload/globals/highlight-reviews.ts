@@ -1,7 +1,12 @@
 import { GlobalConfig } from 'payload';
+import { isAdmin } from '../access/is-admin';
 
 export const HighlightReviews: GlobalConfig = {
   slug: 'highlight-reviews',
+  access: {
+    read: () => true,
+    update: isAdmin,
+  },
   fields: [
     {
       name: 'reviews',

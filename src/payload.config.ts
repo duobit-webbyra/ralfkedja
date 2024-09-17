@@ -8,11 +8,12 @@ import sharp from 'sharp';
 
 import { Users } from './payload/collections/users';
 import { Media } from './payload/collections/media';
-import { Gallery } from './payload/collections/gallery';
+import { Gallery } from './payload/globals/gallery';
 import { Reviews } from './payload/collections/reviews';
 import { Contact } from './payload/globals/contact';
 import { Announcement } from './payload/globals/announcement';
 import { HighlightReviews } from './payload/globals/highlight-reviews';
+import { s3Storage } from '@payloadcms/storage-s3';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -21,8 +22,8 @@ export default buildConfig({
   admin: {
     user: Users.slug,
   },
-  collections: [Gallery, Media, Reviews, Users],
-  globals: [Announcement, Contact, HighlightReviews],
+  collections: [Media, Reviews, Users],
+  globals: [Announcement, Contact, Gallery, HighlightReviews],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -33,6 +34,26 @@ export default buildConfig({
   }),
   sharp,
   plugins: [
-    // storage-adapter-placeholder
+    ...(process.env.NODE_ENV === 'production'
+      ? [
+          s3Storage({
+            collections: {
+              media: {
+                prefix: process.env?.S3_PREFIX,
+              },
+            },
+            bucket: process.env?.S3_BUCKET || '',
+            config: {
+              endpoint: process.env?.S3_ENDPOINT,
+              region: process.env.S3_REGION,
+              credentials: {
+                accessKeyId: process.env?.S3_ACCESS_KEY || '',
+                secretAccessKey: process.env?.S3_SECRET_KEY || '',
+              },
+            },
+            acl: 'public-read',
+          }),
+        ]
+      : []),
   ],
 });
