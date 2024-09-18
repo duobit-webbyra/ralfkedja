@@ -1,6 +1,7 @@
 import React from 'react';
 import style from './gallery.module.scss';
 import Image from 'next/image';
+import Link from 'next/link';
 import config from '@payload-config';
 import { getPayloadHMR } from '@payloadcms/next/utilities';
 import type { Media } from '@payload-types';
@@ -18,7 +19,7 @@ const GalleryGrid = async () => {
           className={style.photographer}
           style={{ display: 'flex', width: '100%', justifyContent: 'end', fontStyle: 'italic' }}
         >
-          Fotografer: N&M Eskilstuna
+          Fotograf:&nbsp;<Link href='https://www.nomeskilstuna.se/'>N&M Eskilstuna</Link>
         </p>
         {data?.images && data.images.length > 0 ? (
           <div className={style['gallery-container']}>
