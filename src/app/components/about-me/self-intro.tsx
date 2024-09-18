@@ -22,7 +22,7 @@ export default function SelfIntro() {
               alt='Ralf Kedja - Kroppsbalansering, Eskilstuna'
               fill
               className={style['image-element']}
-              sizes='(max-width: 600px) 80vw, (max-width: 1200px) 50vw, 30vw'
+              sizes='(max-width: 600px) 60vw, (max-width: 1200px) 30vw, 80vw'
             />
           </div>
         </div>

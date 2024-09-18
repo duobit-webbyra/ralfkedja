@@ -29,7 +29,6 @@
         border-top-left-radius: $rounded-full;
         border-top-right-radius: $rounded-full;
         overflow: hidden;
-        filter: grayscale(1);
       }
 
       & > .image-1 {
@@ -104,7 +103,7 @@
           height: 70%;
         }
         & > .image-2 {
-          border-bottom-right-radius: 3000px;
+          border-bottom-right-radius: 6000px;
         }
       }
 
