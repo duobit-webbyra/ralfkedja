@@ -19,8 +19,8 @@ export default function ContactDetails({ data }: ContactDetailsProps) {
           <div className={style.title}>
             <h1>Kom i kontakt med mig!</h1>
             <p>
-              Jag finns här för att hjälpa dig på din resa mot bättre hälsa och balans. Tveka inte
-              att nå ut för att boka en tid eller ställa frågor.
+              Jag finns här för att hjälpa dig på din resa mot bättre hälsa i balans. Tveka inte att
+              nå ut för att boka en tid eller ställa frågor.
             </p>
           </div>
           <div className={style.detailsgrid}>

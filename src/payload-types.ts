@@ -76,7 +76,6 @@ export interface Review {
   id: string;
   name: string;
   feedback: string;
-  stars: number;
   updatedAt: string;
   createdAt: string;
 }

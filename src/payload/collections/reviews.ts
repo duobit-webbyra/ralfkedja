@@ -23,12 +23,5 @@ export const Reviews: CollectionConfig = {
       type: 'textarea',
       required: true,
     },
-    {
-      name: 'stars',
-      type: 'number',
-      required: true,
-      max: 5,
-      min: 0,
-    },
   ],
 };

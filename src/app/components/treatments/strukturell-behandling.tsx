@@ -13,7 +13,7 @@ export default function StrukturellBehandling() {
           <Title
             heading='Strukturell Behandling'
             subHeading='Kotbalansering & Ackermannmetoden'
-            description='Strukturell behandling syftar till att återställa normal funktion i ryggraden och kroppens leder genom manuella tekniker. Ackermannmetoden, som är en central del av behandlingen, används för att diagnostisera, behandla och förebygga ryggsmärtor, samt för att rehabilitera kroppen för ökad rörlighet och lindring av obalanser. '
+            description='Strukturell behandling syftar till att återställa normal funktion i ryggraden och kroppens leder genom manuella tekniker. Ackermannmetoden, som är en central del av behandlingen, används för att diagnostisera, behandla och förebygga rygg- och nacksmärtor, samt för att rehabilitera kroppen för ökad rörlighet och lindring av obalanser. '
             left
           />
 

@@ -6,7 +6,8 @@
   font-size: $text-sm;
   gap: 2rem;
 
-  &>.item {
+  & > .item,
+  & > .item > a {
     display: flex;
     align-items: center;
     gap: 0.5rem;

@@ -30,7 +30,7 @@ export default function Kinesiologi() {
           <TreatmentItem
             heading='Hur går det till?'
             description='
-            Vid en kinesiologisk behandling utför terapeuten muskeltester för att bedöma kroppens reaktioner och identifiera obalanser eller blockeringar i nervsystemet. Terapeuten använder sedan en kombination av manuella tekniker, akupressur, stretching och andra behandlingar för att korrigera dessa obalanser. Behandlingen är skräddarsydd för att möta varje individs specifika behov och kan inkludera rådgivning om livsstil och kost för att stödja den övergripande hälsan.'
+            Vid en kinesiologisk behandling utför terapeuten neuromuskulära tester för att kommunicera med nervsystemet och identifiera obalanser eller blockeringar. Genom att använda muskeltester analyseras kroppens reaktioner på olika stimuli. Efter att obalanser har identifierats, tillämpas behandlingar som kan inkludera muskelaktivering, akupressur, meridianmassage och näringsrekommendationer. Dessa tekniker hjälper till att återställa kroppens balans, och behandlingen avslutas med nya muskeltester för att säkerställa framsteg.'
           />
           <TreatmentItem
             heading='Vilka besvär kan behandlas?'

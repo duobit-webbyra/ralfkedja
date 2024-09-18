@@ -2,7 +2,7 @@
 
 import nodemailer from 'nodemailer';
 
-import  config  from '@payload-config';
+import config from '@payload-config';
 import { getPayloadHMR } from '@payloadcms/next/utilities';
 
 export async function sendEmail(formData: FormData) {
@@ -55,6 +55,10 @@ export async function sendEmail(formData: FormData) {
           <tr>
             <td style="padding: 8px; border: 1px solid #ddd;"><strong>Telefon:</strong></td>
             <td style="padding: 8px; border: 1px solid #ddd;">${phone}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid #ddd;"><strong>Telefon:</strong></td>
+            <td style="padding: 8px; border: 1px solid #ddd;">${subject}</td>
           </tr>
           <tr>
             <td style="padding: 8px; border: 1px solid #ddd;"><strong>Meddelande:</strong></td>
