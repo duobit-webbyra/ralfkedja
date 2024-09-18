@@ -3,7 +3,6 @@ import { isAdmin } from '../access/is-admin';
 
 export const Gallery: GlobalConfig = {
   slug: 'gallery',
-
   access: {
     read: () => true,
     update: isAdmin,

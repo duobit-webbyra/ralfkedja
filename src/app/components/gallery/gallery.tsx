@@ -7,11 +7,9 @@ import type { Media } from '@payload-types';
 
 const GalleryGrid = async () => {
   const payload = await getPayloadHMR({ config });
-  const { docs: data } = await payload.find({
-    collection: 'gallery',
+  const data = await payload.findGlobal({
+    slug: 'gallery',
   });
-
-  console.log(data);
 
   return (
     <div className={style.container}>
@@ -22,15 +20,15 @@ const GalleryGrid = async () => {
         >
           Fotografer: N&M Eskilstuna
         </p>
-        {data.length > 0 ? (
+        {data?.images && data.images.length > 0 ? (
           <div className={style['gallery-container']}>
-            {data.map((item, index) => (
+            {data.images.map((item, index) => (
               <div key={index} className={style['gallery-item']}>
                 <div>
                   <Image
                     key={index}
-                    src={`${(item.images as Media).url}`}
-                    alt={item.title}
+                    src={`${(item.image as Media).url}`}
+                    alt={`${(item.image as Media).alt}`}
                     fill
                     style={{ objectFit: 'cover' }}
                     sizes='(max-width: 720px) 90vw,(max-width: 1440px) 45vw, 50vw'
