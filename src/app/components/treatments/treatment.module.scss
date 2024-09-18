@@ -36,6 +36,9 @@
 }
 
 @media (max-width: $media-sm) {
+  .container {
+    padding: 1rem 0;
+  }
   .content {
     & > .title-image {
       flex-direction: column;
