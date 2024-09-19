@@ -12,16 +12,16 @@ services:
     command: sh -c "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm dev -H 0.0.0.0"
     env_file: .env
 
-  # mongo:
-  #   image: mongo:latest
-  #   ports:
-  #     - '27017:27017'
-  #   command:
-  #     - --storageEngine=wiredTiger
-  #   volumes:
-  #     - data:/data/db
-  #   logging:
-  #     driver: none
+  mongo:
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    command:
+      - --storageEngine=wiredTiger
+    volumes:
+      - data:/data/db
+    logging:
+      driver: none
 
 volumes:
   data:
