@@ -23,20 +23,23 @@ const GalleryGrid = async () => {
         </p>
         {data?.images && data.images.length > 0 ? (
           <div className={style['gallery-container']}>
-            {data.images.map((item, index) => (
-              <div key={index} className={style['gallery-item']}>
-                <div>
-                  <Image
-                    key={index}
-                    src={`${(item.image as Media).url}`}
-                    alt={`${(item.image as Media).alt}`}
-                    fill
-                    style={{ objectFit: 'cover' }}
-                    sizes='(max-width: 720px) 90vw,(max-width: 1440px) 45vw, 50vw'
-                  />
-                </div>
-              </div>
-            ))}
+            {data.images.map(
+              (item, index) =>
+                (item.image as Media).url && (
+                  <div key={index} className={style['gallery-item']}>
+                    <div>
+                      <Image
+                        key={index}
+                        src={`${(item.image as Media).url}`}
+                        alt={`${(item.image as Media).alt}`}
+                        fill
+                        style={{ objectFit: 'cover' }}
+                        sizes='(max-width: 720px) 90vw,(max-width: 1440px) 45vw, 50vw'
+                      />
+                    </div>
+                  </div>
+                ),
+            )}
           </div>
         ) : (
           <p>Inga bilder uppladdade för tillfället</p>
