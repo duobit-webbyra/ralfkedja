@@ -13,6 +13,8 @@ import Nav from '../components/nav/nav';
 import HeaderInfo from '../components/header/info';
 import Footer from '../components/footer/footer';
 
+export const dynamic = 'force-dynamic';
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='en'>

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     'Se exempel på arbete och behandlingar i galleriet. Få en visuell inblick i hur tjänsterna kan hjälpa dig att må bättre.',
 };
 
-export default function page() {
+export default function Page() {
   return (
     <>
       <DefaultHero title='Galleri' />
