@@ -10,6 +10,15 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'src', 'app', 'styles')],
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.ralfkedja.se',
+        port: '',
+      },
+    ],
+  },
 };
 
 export default withPayload(nextConfig);

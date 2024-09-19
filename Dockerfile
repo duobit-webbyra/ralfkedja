@@ -10,7 +10,10 @@ WORKDIR /app
 
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-RUN corepack enable pnpm && pnpm i --frozen-lockfile; 
+
+RUN corepack enable && corepack install --global pnpm@9.8.0
+ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+RUN pnpm i --frozen-lockfile; 
 
 
 # Rebuild the source code only when needed
@@ -22,9 +25,11 @@ COPY . .
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
-# ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED 1
 
-RUN corepack enable pnpm && pnpm run build; 
+RUN corepack enable && corepack install --global pnpm@9.8.0
+ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+RUN pnpm run build; 
 
 # Production image, copy all the files and run next
 FROM base AS runner
@@ -32,7 +37,7 @@ WORKDIR /app
 
 ENV NODE_ENV production
 # Uncomment the following line in case you want to disable telemetry during runtime.
-# ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
