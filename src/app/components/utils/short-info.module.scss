@@ -1,0 +1,21 @@
+@import 'variables.scss';
+
+.container {
+  display: flex;
+  align-items: center;
+  font-size: $text-sm;
+  gap: 2rem;
+
+  & > .item,
+  & > .item > a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  @media (max-width: $media-sm) {
+    flex-direction: column;
+    align-items: start;
+    gap: 1rem;
+  }
+}

@@ -14,14 +14,10 @@
   transition: background-color 100ms ease;
   font-size: $text-base;
   cursor: pointer;
-  max-width: max-content;
+  width: 100%;
 
   &:hover {
     background-color: $secondary-200;
-
-    // &>* {
-    //   color: $tertiary-100;
-    // }
   }
 }
 

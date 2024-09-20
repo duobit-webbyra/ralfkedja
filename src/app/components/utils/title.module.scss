@@ -1,0 +1,33 @@
+@import 'variables.scss';
+
+.container {
+  text-align: center;
+
+  &>h1 {
+    font-size: $text-base;
+    color: $primary-300;
+    text-transform: uppercase;
+  }
+
+  &.inverse>h1 {
+    font-size: $text-base;
+    color: $tertiary-200;
+    text-transform: uppercase;
+  }
+
+  &.inverse>h2 {
+    color: $tertiary-100;
+  }
+
+  &>p {
+    color: $primary-300;
+  }
+
+  &.inverse>p {
+    color: $tertiary-200;
+  }
+}
+
+.left {
+  text-align: left;
+}

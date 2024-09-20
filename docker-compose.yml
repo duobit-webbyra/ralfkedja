@@ -9,14 +9,9 @@ services:
       - .:/home/node/app
       - node_modules:/home/node/app/node_modules
     working_dir: /home/node/app/
-    command: sh -c "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm dev"
-    depends_on:
-      - mongo
-    environment:
-      - DATABASE_URI=mongodb://mongo:27017/ralfkedja 
-      - PAYLOAD_SECRET=8e6a5a05f2191ae004355566
+    command: sh -c "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm dev -H 0.0.0.0"
+    env_file: .env
 
-  # Ensure your DATABASE_URI uses 'mongo' as the hostname ie. mongodb://mongo/my-db-name
   mongo:
     image: mongo:latest
     ports:
@@ -28,16 +23,6 @@ services:
     logging:
       driver: none
 
-  # Uncomment the following to use postgres
-  # postgres:
-  #   restart: always
-  #   image: postgres:latest
-  #   volumes:
-  #     - pgdata:/var/lib/postgresql/data
-  #   ports:
-  #     - "5432:5432"
-
 volumes:
   data:
-  # pgdata:
   node_modules:

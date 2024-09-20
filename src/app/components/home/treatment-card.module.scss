@@ -1,11 +1,8 @@
 @import 'variables.scss';
 
 .container {
-  border-radius: $rounded-base;
-  padding-inline: 1.5rem;
   padding-block: 1rem;
-  border: $border-style;
-  height: 16rem;
+  height: 18rem;
 }
 
 .content {
@@ -14,12 +11,35 @@
   flex-direction: column;
   justify-content: space-between;
 
-  &>.text>h1 {
-    font-size: $text-sm;
+  &>.text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    &>h1 {
+      font-size: $text-sm;
+    }
   }
 
   &>.button {
+    width: max-content;
     display: flex;
     justify-content: end;
+  }
+}
+
+@media (max-width: $media-sm) {
+  .container {
+    height: 100%;
+  }
+
+  .content {
+    align-items: center;
+    gap: 2rem;
+
+    &>.text {
+      text-align: center;
+      align-items: center;
+    }
   }
 }

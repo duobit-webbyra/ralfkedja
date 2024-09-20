@@ -18,20 +18,26 @@
   --text-xs: #{$text-xs};
   --rounded-full: #{$rounded-full};
   --rounded-base: #{$rounded-base};
+  --content-width: #{$content-width};
+  --nav-height: #{$nav-height};
+  --footer-height: #{$footer-height};
 }
 
 body {
+  height: auto;
   background: $tertiary-100;
 }
 
-*,
-*::before,
-*::after {
+main {
+  min-height: 100%;
+}
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  border-width: 0;
-  border-style: solid;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
 }
 
 h1 {
@@ -46,12 +52,10 @@ h3 {
   font-size: $text-sm;
 }
 
-p {
-  font-size: $text-base;
-  color: $primary-400;
-}
-
-span {
+p,
+span,
+textarea,
+input {
   font-size: $text-base;
   color: $primary-400;
 }
@@ -72,6 +76,8 @@ h4,
 h5,
 h6,
 p,
+input,
+textarea,
 span {
   font-weight: 500;
   font-smooth: antialiased;

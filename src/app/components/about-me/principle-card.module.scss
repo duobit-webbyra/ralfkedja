@@ -1,0 +1,27 @@
+@import 'variables.scss';
+
+.container {
+  height: max-content;
+}
+
+.content>.text {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.8rem;
+
+  &>p {
+    color: $primary-300;
+  }
+
+  &>.title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    &>h1 {
+      font-size: $text-sm;
+    }
+  }
+}

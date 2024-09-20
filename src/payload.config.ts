@@ -1,32 +1,65 @@
 // storage-adapter-import-placeholder
-import { mongooseAdapter } from '@payloadcms/db-mongodb'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
-import path from 'path'
-import { buildConfig } from 'payload'
-import { fileURLToPath } from 'url'
-import sharp from 'sharp'
+import { mongooseAdapter } from '@payloadcms/db-mongodb';
+import { lexicalEditor } from '@payloadcms/richtext-lexical';
+import path from 'path';
+import { buildConfig } from 'payload';
+import { fileURLToPath } from 'url';
+import sharp from 'sharp';
 
-import { Users } from './payload/collections/users'
-import { Media } from './payload/collections/media'
+import { Users } from './payload/collections/users';
+import { Media } from './payload/collections/media';
+import { Gallery } from './payload/globals/gallery';
+import { Reviews } from './payload/collections/reviews';
+import { Contact } from './payload/globals/contact';
+import { Announcement } from './payload/globals/announcement';
+import { HighlightReviews } from './payload/globals/highlight-reviews';
+import { s3Storage } from '@payloadcms/storage-s3';
+import CustomLogo from './app/utils/custom-logo';
 
-const filename = fileURLToPath(import.meta.url)
-const dirname = path.dirname(filename)
+const filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
 
 export default buildConfig({
   admin: {
     user: Users.slug,
+    components: {
+      graphics: {
+        Logo: CustomLogo,
+      },
+    },
   },
-  collections: [Users, Media],
+  collections: [Media, Reviews, Users],
+  globals: [Announcement, Contact, Gallery, HighlightReviews],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: mongooseAdapter({
-    url: process.env.DATABASE_URI || '',
+    url: process.env.DATABASE_URL || '',
   }),
   sharp,
   plugins: [
-    // storage-adapter-placeholder
+    ...(process.env.NODE_ENV === 'production'
+      ? [
+          s3Storage({
+            collections: {
+              media: {
+                prefix: process.env?.S3_PAYLOAD_PREFIX,
+              },
+            },
+            bucket: process.env?.S3_BUCKET || '',
+            config: {
+              endpoint: process.env?.S3_ENDPOINT,
+              region: process.env.S3_REGION,
+              credentials: {
+                accessKeyId: process.env?.S3_ACCESS_KEY || '',
+                secretAccessKey: process.env?.S3_SECRET_KEY || '',
+              },
+            },
+            acl: 'public-read',
+          }),
+        ]
+      : []),
   ],
-})
+});
