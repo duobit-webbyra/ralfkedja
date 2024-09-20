@@ -11,6 +11,7 @@ jobs:
     steps:
       - name: Install SSH Keys
         run: |
+          touch ~/.ssh/id_ed25519
           echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/id_ed25519
           chmod 640 ~/.ssh/id_ed25519
           ssh-keyscan -H ${{ secrets.SERVER_HOST }} > ~/.ssh/known_hosts
