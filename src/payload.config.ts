@@ -45,7 +45,7 @@ export default buildConfig({
           s3Storage({
             collections: {
               media: {
-                prefix: process.env?.S3_PREFIX,
+                prefix: process.env?.S3_PAYLOAD_PREFIX,
               },
             },
             bucket: process.env?.S3_BUCKET || '',
