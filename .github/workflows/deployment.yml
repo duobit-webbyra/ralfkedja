@@ -32,24 +32,39 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Log in to DockerHub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}  # Set these secrets in GitHub
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
+      - name: Generate .env file
+        run: |
+          echo "DATABASE_URL=mongodb://${{ secrets.MONGODB_USER }}:${{ secrets.MONGODB_PASSWORD }}@${{ secrets.SERVER_HOST }}:${{ secrets.MONGODB_PORT }}/${{ secrets.MONGODB_DB }}" >> .env
+          echo "PAYLOAD_SECRET=${{ secrets.PAYLOAD_SECRET }}" >> .env
+          echo "ASSET_PREFIX=${{ secrets.ASSET_PREFIX }}" >> .env
+          echo "S3_ACCESS_KEY=${{ secrets.S3_ACCESS_KEY }}" >> .env
+          echo "S3_SECRET_KEY=${{ secrets.S3_SECRET_KEY }}" >> .env
+          echo "S3_REGION=${{ secrets.S3_REGION }}" >> .env
+          echo "S3_BUCKET=${{ secrets.S3_BUCKET }}" >> .env
+          echo "S3_ENDPOINT=${{ secrets.S3_ENDPOINT }}" >> .env
+          echo "S3_PAYLOAD_PREFIX=${{ secrets.S3_PAYLOAD_PREFIX }}" >> .env
+          echo "EMAIL_USER=${{ secrets.EMAIL_USER }}" >> .env
+          echo "EMAIL_PASS=${{ secrets.EMAIL_PASS }}" >> .env
+          echo "NEXT_PUBLIC_MAPS_API_KEY=${{ secrets.NEXT_PUBLIC_MAPS_API_KEY }}" >> .env
+          
       - name: Build and tag Docker image
         run: |
-          docker build -t my-app:latest .
-          docker tag my-app:latest my-dockerhub-username/my-app:latest
+          docker build --build-arg ENV_FILE=.env -t ralfkedja-web:latest
+      
+      - name: Save docker image to TAR 
+        run: docker save ralfkedja-web:latest -o ralfkedja-web-latest.tar
 
-      - name: Push Docker image to DockerHub
-        run: docker push my-dockerhub-username/my-app:latest
+      - name: Transfer Docker image to server via SCP
+        uses: appleboy/scp-action@v0.1.6
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}  # SSH private key stored in GitHub Secrets
+          port: ${{ secrets.SERVER_SSH_PORT }}  # Optional, default is 22
+          source: "ralfkedja-web-latest.tar"
+          target: "/${{ secrets.SERVER_USER }}/org/"
 
   deploy:
     runs-on: ubuntu-latest
@@ -64,6 +79,6 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}  # Private SSH key stored in GitHub Secrets
           port: ${{ secrets.SERVER_SSH_PORT }}  # Optional, default is 22
           script: |
-            cd /root/org/  # Replace with the correct path on the server
-            docker compose pull ralfkedja # Pull the latest image
+            cd /${{ secrets.SERVER_USER }}/org/  # Replace with the correct path on the server
+            docker load -i ralfkedja-web-latest.tar
             docker compose up -d  # Recreate containers with the latest image
