@@ -12,9 +12,10 @@ jobs:
       - name: Deploy to server via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
+          host: 172.234.108.148
+          username: root
           key: ${{ secrets.SERVER_SSH_KEY }}  # Private SSH key stored in GitHub Secrets
+          port: 22
           script: |
             cd /root/org/
             docker compose up -d  # Recreate containers with the latest image
