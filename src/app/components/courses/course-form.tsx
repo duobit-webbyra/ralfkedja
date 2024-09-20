@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 
 import style from '../contact/contact-form.module.scss';
 import PrimaryButton from '../button/primary-button';
@@ -8,7 +8,7 @@ interface CourseFormProps {
   layout: 'grid' | 'flex';
 }
 
-import { sendEmail } from '@/app/(app)/kontakt/actions';
+import { sendCourseInquiry } from '@/app/(app)/kontakt/actions';
 import { useFormStatus } from 'react-dom';
 
 const Submit = () => {
@@ -21,10 +21,27 @@ const Submit = () => {
 };
 
 export default function CourseForm({ layout }: CourseFormProps) {
+  const [error, setError] = useState('');
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const form = event.currentTarget;
+    const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+    const isChecked = Array.from(checkboxes).some(
+      (checkbox) => (checkbox as HTMLInputElement).checked,
+    );
+
+    if (!isChecked) {
+      event.preventDefault();
+      setError('Välj minst ett alternativ.');
+    } else {
+      setError('');
+    }
+  };
+
   return (
     <div className={style.container}>
       <div className={style.content}>
-        <form className={style.form} action={sendEmail}>
+        <form className={style.form} action={sendCourseInquiry} onSubmit={handleSubmit}>
           <div className={`${style.inputs} ${layout === 'grid' ? style.grid : style.flex}`}>
             <input
               className={style.forminput}
@@ -53,22 +70,26 @@ export default function CourseForm({ layout }: CourseFormProps) {
               required
               name='phone'
             />
-            <p>ds</p>
-            <div className={style.checkboxGroup}>
+            <div className={style['checkbox-group']}>
               <label>
-                <input type='checkbox' name='options' value='option1' />
-                Alternativ 1
+                <input type='checkbox' name='options' value='Biomagnetism steg 1-2' />
+                Biomagnetism steg 1-2
               </label>
               <label>
-                <input type='checkbox' name='options' value='option2' />
-                Alternativ 2
+                <input type='checkbox' name='options' value='Touch for Health steg 1-4' />
+                Touch for Health steg 1-4
               </label>
               <label>
-                <input type='checkbox' name='options' value='option3' />
-                Alternativ 3
+                <input
+                  type='checkbox'
+                  name='options'
+                  value='Grundkurs i kinesiologi/muskeltestning'
+                />
+                Grundkurs i kinesiologi/muskeltestning
               </label>
             </div>
           </div>
+          {error && <p style={{ color: 'var(--secondary-200)' }}>{error}</p>}
           <Submit />
         </form>
       </div>

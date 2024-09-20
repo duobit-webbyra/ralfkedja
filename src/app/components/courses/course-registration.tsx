@@ -10,8 +10,8 @@ export default function CourseRegistration() {
           <div className={style.text}>
             <Title
               heading='Kurser'
-              subHeading='Var med på nästa kurs!'
-              description='Här kan du intresseanmäla dig för kommande kurser i biomagnetism, kinesiologi och Touch for Health!'
+              subHeading='Delta i kommande kurser!'
+              description='Är du intresserad av att lära dig mer om biomagnetism, kinesiologi eller Touch for Health? Fyll i formuläret bredvid för att göra en intresseanmälan och få uppdateringar om när nästa kurs startar. Oavsett om du är nybörjare eller vill fördjupa dina kunskaper, är kurserna utformade för att ge dig praktisk förståelse och färdigheter inom dessa områden.'
             />
           </div>
           <div className={style['contact-form-container']}>
