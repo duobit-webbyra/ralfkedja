@@ -1,6 +1,5 @@
 secrets.txt
-.env.development
-.env.example
+.env.*
 .git
 .github
 .pnpm-store
