@@ -54,7 +54,7 @@ jobs:
 
       - name: Build and tag Docker image
         run: |
-          docker build --build-arg ENV_FILE=.env -t ralfkedja-web:latest
+          docker build --build-arg ENV_FILE=.env -t ralfkedja-web:latest .
       
       - name: Save docker image to TAR 
         run: docker save ralfkedja-web:latest -o ralfkedja-web-latest.tar
