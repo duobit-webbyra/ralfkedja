@@ -70,7 +70,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}  # SSH private key stored in GitHub Secrets
           port: ${{ secrets.SERVER_SSH_PORT }}  # Optional, default is 22
           source: "ralfkedja-web-latest.tar"
-          target: "/${{ secrets.SERVER_USER }}/org/"
+          target: "/root/"
 
   deploy:
     runs-on: ubuntu-latest
@@ -85,6 +85,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}  # Private SSH key stored in GitHub Secrets
           port: ${{ secrets.SERVER_SSH_PORT }}  # Optional, default is 22
           script: |
-            cd /${{ secrets.SERVER_USER }}/org/  # Replace with the correct path on the server
-            docker load -i ralfkedja-web-latest.tar
+            cd /root/  # Replace with the correct path on the server
+            docker load -i ./ralfkedja-web-latest.tar
+            cd /root/org/
             docker compose up -d  # Recreate containers with the latest image
