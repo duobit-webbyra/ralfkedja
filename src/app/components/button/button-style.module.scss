@@ -15,6 +15,7 @@
   font-size: $text-base;
   cursor: pointer;
   width: 100%;
+  color: $primary-400;
 
   &:hover {
     background-color: $secondary-200;
@@ -24,7 +25,6 @@
 .primary-button {
   @include button-base();
   background-color: $tertiary-100;
-
 }
 
 .secondary-button {
