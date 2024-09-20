@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: 'Ralf Kedja | Kurser',
   description: 'Här kan du intresseanmäla dig för kommande kurser!',
 };
+
 export default function Page() {
   return (
     <>
@@ -14,6 +15,7 @@ export default function Page() {
       <section
         style={{
           paddingBlock: '4rem',
+          backgroundColor: 'var(--tertiary-200)'
         }}
       >
         <CourseRegistration />

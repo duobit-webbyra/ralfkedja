@@ -1,4 +1,4 @@
-@import 'variables.scss';
+@use 'variables.scss' as *;
 
 .container {
   display: flex;
@@ -9,29 +9,23 @@
 
   & > .content {
     display: flex;
-    flex-direction: column;
     width: $content-width;
 
-    & > .text-form-container {
-      width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+
+    & > .text {
+      width: 50%;
+    }
+
+    & > .contact-form-container {
       display: flex;
+      flex-grow: 1;
       justify-content: center;
-      gap: 4rem;
-      & > .text > * {
-        text-align: left;
-      }
-      & > .contact-form-container {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        max-width: 500px;
-        padding: 1.5rem 1rem;
-        border-radius: 16px;
-        background-color: $primary-200;
-        & > .contact-form {
-          width: 100%;
-        }
-      }
+      border-radius: 16px;
+      background-color: $primary-200;
+      padding: 1rem;
     }
   }
 }
@@ -40,42 +34,28 @@
   .container {
     & > .content {
       width: 100%;
-      & > .text-form-container {
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-
-        & > .text {
-          padding: 0 1rem;
-          width: 100%;
-          & > * {
-            text-align: center;
-          }
-        }
-        & > .contact-form-container {
-          background-color: $primary-200;
-          width: 100%;
-        }
+      padding: 1rem;
+      & > .contact-form-container {
+        background-color: $primary-200;
       }
     }
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: $media-sm) {
   .container {
     & > .content {
+      flex-direction: column;
       width: 100%;
+      padding: 0rem 1rem;
 
-      & > .text-form-container {
-        flex-direction: column;
-        align-items: center;
+      & > .text {
         width: 100%;
+      }
 
-        & > .contact-form-container {
-          background-color: $primary-200;
-          width: 100%;
-          border-radius: 0;
-        }
+      & > .contact-form-container {
+        background-color: $primary-200;
+        width: 100%;
       }
     }
   }
