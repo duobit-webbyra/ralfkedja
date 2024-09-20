@@ -55,10 +55,13 @@ jobs:
       - name: Build and tag Docker image
         run: |
           docker build --build-arg ENV_FILE=.env -t ralfkedja-web:latest .
-      
+
       - name: Save docker image to TAR 
         run: docker save ralfkedja-web:latest -o ralfkedja-web-latest.tar
 
+      - name: Ensure TAR has correct permissions
+        run: chmod 644 ralfkedja-web-latest.tar
+        
       - name: Transfer Docker image to server via SCP
         uses: appleboy/scp-action@v0.1.6
         with:
