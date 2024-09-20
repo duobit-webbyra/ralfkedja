@@ -41,6 +41,7 @@ export default function CourseForm({ layout }: CourseFormProps) {
   return (
     <div className={style.container}>
       <div className={style.content}>
+        <h2 style={{ textAlign: 'center', color: 'var(--tertiary-100)' }}>Intresseanmälan</h2>
         <form className={style.form} action={sendCourseInquiry} onSubmit={handleSubmit}>
           <div className={`${style.inputs} ${layout === 'grid' ? style.grid : style.flex}`}>
             <input
