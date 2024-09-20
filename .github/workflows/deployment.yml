@@ -8,8 +8,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    needs: build  # This ensures deploy only runs if the build passes
-
     steps:
       - name: Deploy to server via SSH
         uses: appleboy/ssh-action@v0.1.7
