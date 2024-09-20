@@ -71,6 +71,9 @@ export default function CourseForm({ layout }: CourseFormProps) {
               required
               name='phone'
             />
+            <p style={{ color: 'var(--tertiary-100)' }}>
+              Markera de kurser du är intresserad av nedan:
+            </p>
             <div className={style['checkbox-group']}>
               <label>
                 <input type='checkbox' name='options' value='Biomagnetism steg 1-2' />
