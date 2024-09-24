@@ -1,5 +1,11 @@
 secrets.txt
-.env.*
+.env
+.env.example
 .git
 .github
 .pnpm-store
+
+.env*
+.flaskenv*
+!.env.project
+!.env.vault

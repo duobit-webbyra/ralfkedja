@@ -45,3 +45,8 @@ next-env.d.ts
 /media
 
 secrets.txt
+
+.env*
+.flaskenv*
+!.env.project
+!.env.vault
