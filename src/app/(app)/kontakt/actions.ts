@@ -85,6 +85,7 @@ export async function sendCourseInquiry(formData: FormData) {
   const email = formData.get('email');
   const phone = formData.get('phone');
   const options = formData.getAll('options'); // Assuming 'options' is the name for the checkboxes
+  const preferred_location = formData.get('preferred_location');
 
   if (!email || options.length === 0) return false;
 
@@ -126,6 +127,10 @@ export async function sendCourseInquiry(formData: FormData) {
           <tr>
             <td style="padding: 8px; border: 1px solid #ddd;"><strong>Intresserad av:</strong></td>
             <td style="padding: 8px; border: 1px solid #ddd;">${options.map((option) => option).join('<br>')}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid #ddd;"><strong>Plats:</strong></td>
+            <td style="padding: 8px; border: 1px solid #ddd;">${preferred_location}</td>
           </tr>
         </table>
       </div>

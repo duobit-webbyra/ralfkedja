@@ -1,10 +1,10 @@
 import LandingPageHero from '@/app/components/hero/landing-page-hero';
 import TreatmentGrid from '@/app/components/home/treatment-grid';
-import Reviews from '../components/home/reviews';
-import Curve from '../components/graphics/curve';
-import ContactMe from '../components/home/contact-me';
-import AboutMeOverview from '../components/home/about-me';
-import Announcement from '../components/announcement/announcement';
+import Reviews from '@/app/components/home/reviews';
+import Curve from '@/app/components/graphics/curve';
+import ContactMe from '@/app/components/home/contact-me';
+import AboutMeOverview from '@/app/components/home/about-me';
+import Announcement from '@/app/components/announcement/announcement';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

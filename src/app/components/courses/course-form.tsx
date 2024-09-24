@@ -75,22 +75,41 @@ export default function CourseForm({ layout }: CourseFormProps) {
               Markera de kurser du är intresserad av nedan:
             </p>
             <div className={style['checkbox-group']}>
-              <label>
+              <div className={style['input-selection']}>
                 <input type='checkbox' name='options' value='Biomagnetism steg 1-2' />
-                Biomagnetism steg 1-2
-              </label>
-              <label>
+                <label>Biomagnetism steg 1-2</label>
+              </div>
+              <div className={style['input-selection']}>
                 <input type='checkbox' name='options' value='Touch for Health steg 1-4' />
-                Touch for Health steg 1-4
-              </label>
-              <label>
+                <label>Touch for Health steg 1-4</label>
+              </div>
+              <div className={style['input-selection']}>
                 <input
                   type='checkbox'
                   name='options'
                   value='Grundkurs i kinesiologi/muskeltestning'
                 />
                 Grundkurs i kinesiologi/muskeltestning
-              </label>
+              </div>
+              <p style={{ color: 'var(--tertiary-100)' }}>
+                Vilken stad skulle du föredra att gå kursen i?
+              </p>
+            </div>
+            <div className={style['radio-group']}>
+              <div className={style['input-selection']}>
+                <input
+                  type='radio'
+                  id='eskilstuna'
+                  name='preferred_location'
+                  value='Eskilstuna'
+                  defaultChecked
+                />
+                <label>Eskilstuna</label>
+              </div>
+              <div className={style['input-selection']}>
+                <input type='radio' id='stockholm' name='preferred_location' value='Stockholm' />
+                <label>Stockholm</label>
+              </div>
             </div>
           </div>
           {error && <p style={{ color: 'var(--secondary-200)' }}>{error}</p>}
