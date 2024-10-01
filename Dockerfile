@@ -20,6 +20,7 @@ RUN pnpm i --frozen-lockfile;
 FROM base AS builder
 
 # ARG ENV_FILE
+
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
