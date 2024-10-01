@@ -5,7 +5,8 @@ secrets.txt
 .github
 .pnpm-store
 
-.env*
 .flaskenv*
 !.env.project
 !.env.vault
+
+.env*

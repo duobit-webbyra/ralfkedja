@@ -9,7 +9,7 @@
     "dev": "cross-env NODE_OPTIONS=--no-deprecation WATCHPACK_POLLING=true next dev",
     "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation WATCHPACK_POLLING=true next dev",
     "generate:types": "payload generate:types",
-    "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
+    "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint --dir .",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
   },

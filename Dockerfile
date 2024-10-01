@@ -19,12 +19,12 @@ RUN pnpm i --frozen-lockfile;
 # Rebuild the source code only when needed
 FROM base AS builder
 
-ARG ENV_FILE
+# ARG ENV_FILE
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-COPY $ENV_FILE .env
+# COPY $ENV_FILE .env
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
@@ -58,7 +58,7 @@ RUN chown nextjs:nodejs .next
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-COPY --from=builder --chown=nextjs:nodejs /app/.env ./
+# COPY --from=builder --chown=nextjs:nodejs /app/.env ./
 
 USER nextjs
 
