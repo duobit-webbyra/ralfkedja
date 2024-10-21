@@ -111,6 +111,13 @@ export default function CourseForm({ layout }: CourseFormProps) {
                 <label>Stockholm</label>
               </div>
             </div>
+            <textarea
+              placeholder='Meddelande'
+              minLength={10}
+              maxLength={500}
+              name='message'
+              required
+            ></textarea>
           </div>
           {error && <p style={{ color: 'var(--secondary-200)' }}>{error}</p>}
           <Submit />

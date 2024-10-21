@@ -8,6 +8,7 @@ import config from '@payload-config';
 import { getPayloadHMR } from '@payloadcms/next/utilities';
 import style from './landing-page-hero.module.scss';
 import assetPrefix from '@/app/utils/asset-prefix';
+import PrimaryButton from '../button/primary-button';
 
 async function PhoneNumber() {
   const payload = await getPayloadHMR({ config });
@@ -16,7 +17,7 @@ async function PhoneNumber() {
   });
 
   return (
-    <SecondaryButton>
+    <PrimaryButton>
       <a
         style={{
           position: 'absolute',
@@ -31,7 +32,7 @@ async function PhoneNumber() {
         <MdLocalPhone />
         {data.phone}
       </p>
-    </SecondaryButton>
+    </PrimaryButton>
   );
 }
 
@@ -70,7 +71,7 @@ export default function LandingPageHero() {
               <ReviewStar />
               <ReviewStar />
             </div>
-            <p>Över 300 nöjda kunder</p>
+            <p style={{ fontSize: '16px' }}>Över 20 000 behandlingar</p>
           </div>
         </div>
         <div className={style.right}>

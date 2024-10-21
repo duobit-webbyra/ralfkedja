@@ -48,15 +48,7 @@ export const Contact: GlobalConfig = {
           type: 'text',
         },
         {
-          name: 'linkedin',
-          type: 'text',
-        },
-        {
           name: 'instagram',
-          type: 'text',
-        },
-        {
-          name: 'booking',
           type: 'text',
         },
       ],

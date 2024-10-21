@@ -1,13 +1,12 @@
 import style from './reviews.module.scss';
 import ReviewCard from './review-card';
 import Title from '@/app/components/utils/title';
-
+import PrimaryButton from '../button/primary-button';
 import config from '@payload-config';
 import { getPayloadHMR } from '@payloadcms/next/utilities';
 import { Review } from '@/payload-types';
-
+import Link from 'next/link';
 const parseReviewAuthor = (name: string | undefined) => {
-
   if (!name) return '';
 
   const firstName = name.split(' ')[0];
@@ -30,9 +29,9 @@ export default async function Reviews() {
     <div className={style.container}>
       <div className={style.content}>
         <Title
-          heading="Kundrecensioner"
-          subHeading="Vad mina kunder säger om sina upplevelser"
-          description="Läs hur mina behandlingar har hjälpt andra att återfå balansen och uppnå bättre hälsa."
+          heading='Kundrecensioner'
+          subHeading='Vad mina kunder säger om sina upplevelser'
+          description='Läs hur mina behandlingar har hjälpt andra att återfå balansen och uppnå bättre hälsa.'
           inverse
         />
         <div className={style['review-cards']}>
@@ -49,6 +48,12 @@ export default async function Reviews() {
             reviewAuthor={parseReviewAuthor(reviewThree?.name)}
           />
         </div>
+        <Link
+          href='https://www.bokadirekt.se/places/eskilstuna-kroppsbalansering-25963'
+          style={{ margin: 'auto', display: 'flex', justifyContent: 'center' }}
+        >
+          <PrimaryButton>Läs fler rescensioner här</PrimaryButton>
+        </Link>
       </div>
     </div>
   );

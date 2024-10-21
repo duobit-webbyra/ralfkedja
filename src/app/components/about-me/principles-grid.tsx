@@ -21,7 +21,7 @@ export default function PrinciplesGrid() {
           />
           <PrincipleCard
             title='Näring'
-            description='Korrekt näring är avgörande för att stödja kroppens funktioner och främja allmänt välbefinnande. En balanserad kost, rik på essentiella näringsämnen som vitaminer, mineraler och antioxidanter, hjälper till att upprätthålla energi och styrka samt stödja kroppens naturliga processer. Genom att förstå näringens påverkan kan vi optimera din hälsa, förbättra din livskvalitet och stärka kroppens förmåga att hantera stress och återhämta sig.'
+            description='Korrekt näring är avgörande för att stödja kroppens funktioner och främja allmänt välbefinnande. En balanserad kost, rik på essentiella näringsämnen som vitaminer, mineraler och antioxidanter, hjälper till att upprätthålla energi och styrka samt stödja kroppens naturliga processer. Genom att förstå näringens påverkan kan vi optimera hälsan, förbättra livskvaliteten och stärka kroppens förmåga att hantera stress och återhämta sig.'
             icon={<Nutrition />}
           />
           <PrincipleCard
@@ -31,7 +31,7 @@ export default function PrinciplesGrid() {
           />
           <PrincipleCard
             title='Relationer'
-            description='Starka och positiva relationer är avgörande för vår emotionella och psykiska hälsa. Kvalitativa sociala nätverk och stödjande relationer kan bidra till ett mer balanserat liv. Genom att vårda sina relationer och bygga ett stödjande socialt nätverk ökar välbefinnandet, och vi blir bättre rustade att hantera stress och livets utmaningar.'
+            description='Starka och positiva relationer är avgörande för vår emotionella och psykiska hälsa. Kvalitativa sociala nätverk och stödjande relationer kan bidra till ett mer balanserat liv. Genom att vårda sina relationer och bygga ett stödjande socialt nätverk ökar vi vårt välbefinnande, och blir bättre rustade att hantera stress och livets utmaningar.'
             icon={<Relations />}
           />
         </div>
