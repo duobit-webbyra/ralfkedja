@@ -71,7 +71,7 @@ export default function CourseForm({ layout }: CourseFormProps) {
               required
               name='phone'
             />
-            <p style={{ color: 'var(--tertiary-100)' }}>
+            <p style={{ color: 'var(--tertiary-100)', fontSize: '20px' }}>
               Markera de kurser du är intresserad av nedan:
             </p>
             <div className={style['checkbox-group']}>
@@ -91,7 +91,7 @@ export default function CourseForm({ layout }: CourseFormProps) {
                 />
                 Grundkurs i kinesiologi/muskeltestning
               </div>
-              <p style={{ color: 'var(--tertiary-100)' }}>
+              <p style={{ color: 'var(--tertiary-100)', fontSize: '20px' }}>
                 Vilken stad skulle du föredra att gå kursen i?
               </p>
             </div>
@@ -111,12 +111,14 @@ export default function CourseForm({ layout }: CourseFormProps) {
                 <label>Stockholm</label>
               </div>
             </div>
+            <p style={{ color: 'var(--tertiary-100)', fontSize: '20px' }}>
+              Övriga frågor och funderingar:
+            </p>
             <textarea
+              className={style.textarea}
               placeholder='Meddelande'
-              minLength={10}
               maxLength={500}
               name='message'
-              required
             ></textarea>
           </div>
           {error && <p style={{ color: 'var(--secondary-200)' }}>{error}</p>}

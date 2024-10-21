@@ -84,8 +84,9 @@ export async function sendCourseInquiry(formData: FormData) {
   const name = formData.get('name');
   const email = formData.get('email');
   const phone = formData.get('phone');
-  const options = formData.getAll('options'); // Assuming 'options' is the name for the checkboxes
+  const options = formData.getAll('options');
   const preferred_location = formData.get('preferred_location');
+  const message = formData.get('message');
 
   if (!email || options.length === 0) return false;
 
@@ -131,6 +132,10 @@ export async function sendCourseInquiry(formData: FormData) {
           <tr>
             <td style="padding: 8px; border: 1px solid #ddd;"><strong>Plats:</strong></td>
             <td style="padding: 8px; border: 1px solid #ddd;">${preferred_location}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border: 1px solid #ddd;"><strong>Övrigt meddelande:</strong></td>
+            <td style="padding: 8px; border: 1px solid #ddd;">${message}</td>
           </tr>
         </table>
       </div>

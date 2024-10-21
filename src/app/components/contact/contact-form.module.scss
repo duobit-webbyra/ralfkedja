@@ -1,5 +1,27 @@
 @import 'variables.scss';
 
+.textarea {
+  background-color: $tertiary-100;
+  padding: 12px 1rem;
+  border-radius: 20px;
+  border: 0px solid;
+  min-height: 200px;
+  font-family: dmSerifDisplay;
+  resize: none;
+
+  &::placeholder {
+    opacity: 0.8;
+    font-family: dmSerifDisplay;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+    outline: 4px solid;
+    outline-color: $secondary-200;
+  }
+}
+
 .container {
   width: 100%;
 

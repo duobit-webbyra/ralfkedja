@@ -71,7 +71,7 @@ export default function LandingPageHero() {
               <ReviewStar />
               <ReviewStar />
             </div>
-            <p style={{ fontSize: '16px' }}>Över 20 000 behandlingar</p>
+            <p style={{ fontSize: '16px' }}>Över 20 000 utförda behandlingar</p>
           </div>
         </div>
         <div className={style.right}>
