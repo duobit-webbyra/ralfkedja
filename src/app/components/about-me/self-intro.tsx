@@ -18,7 +18,7 @@ export default function SelfIntro() {
         <div className={style['image-container']}>
           <div className={style['image-inner']}>
             <Image
-              src={assetPrefix('ralf-hem.webp')}
+              src={assetPrefix('/ralf-hem.webp')}
               alt='Ralf Kedja - Kroppsbalansering, Eskilstuna'
               fill
               className={style['image-element']}

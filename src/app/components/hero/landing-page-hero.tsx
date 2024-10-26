@@ -1,4 +1,3 @@
-import SecondaryButton from '@/app/components/button/secondary-button';
 import { MdLocalPhone } from 'react-icons/md';
 import Image from 'next/image';
 import ReviewStar from '../graphics/review-star';
@@ -40,7 +39,7 @@ export default function LandingPageHero() {
   return (
     <div className={style.container}>
       <Image
-        src={assetPrefix('nature.webp')}
+        src={assetPrefix('/nature.webp')}
         alt=''
         fill
         style={{
@@ -77,7 +76,7 @@ export default function LandingPageHero() {
         <div className={style.right}>
           <div style={{ position: 'relative', height: '95%', width: '350px' }}>
             <Image
-              src={assetPrefix('ralf-hem.webp')}
+              src={assetPrefix('/ralf-hem.webp')}
               alt='Ralf Kedja - Kroppsbalansering, Eskilstuna'
               fill
               style={{ objectFit: 'contain' }}

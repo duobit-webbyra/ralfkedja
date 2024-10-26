@@ -55,7 +55,7 @@ export default function ContactDetails({ data }: ContactDetailsProps) {
         </div>
         <div className={style.right}>
           <Image
-            src={assetPrefix('ralf-kontakt.webp')}
+            src={assetPrefix('/ralf-kontakt.webp')}
             alt='Ralf Kedja - Kroppsbalansering, Eskilstuna'
             fill
             className={style['image-element']}

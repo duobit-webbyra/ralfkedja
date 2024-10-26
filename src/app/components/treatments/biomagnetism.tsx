@@ -18,7 +18,7 @@ export default function Biomagnetism() {
           />
           <div style={{ position: 'relative', height: '320px', width: '100%', minHeight: '320px' }}>
             <Image
-              src={assetPrefix('biomagnetism.webp')}
+              src={assetPrefix('/biomagnetism.webp')}
               fill
               alt='Picture of the author'
               sizes='(max-width: 720px) 100vw, 50vw'

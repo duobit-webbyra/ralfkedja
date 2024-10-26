@@ -14,7 +14,7 @@ export default function AboutMeOverview() {
         <div className={style.left}>
           <div className={style['image-1']}>
             <Image
-              src={assetPrefix('lektion.webp')}
+              src={assetPrefix('/lektion.webp')}
               alt=''
               fill
               style={{ objectFit: 'cover' }}
@@ -23,7 +23,7 @@ export default function AboutMeOverview() {
           </div>
           <div className={style['image-2']}>
             <Image
-              src={assetPrefix('om-mig.webp')}
+              src={assetPrefix('/om-mig.webp')}
               alt=''
               fill
               style={{ objectFit: 'cover' }}

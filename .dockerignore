@@ -1,12 +1,10 @@
 secrets.txt
-.env
-.env.example
 .git
 .github
 .pnpm-store
 
 .flaskenv*
+.env*
 !.env.project
 !.env.vault
-
-.env*
+!.env.production

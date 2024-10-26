@@ -30,7 +30,7 @@ export default function Footer() {
           <p>Sida producerad av</p>
           <Link href='https://duobit.se'>
             <Image
-              src={assetPrefix('duobit-logo-inverted.svg')}
+              src={assetPrefix('/duobit-logo-inverted.svg')}
               width={100}
               height={100}
               alt='Duobit Webbyrå'

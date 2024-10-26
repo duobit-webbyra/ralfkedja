@@ -14,7 +14,6 @@ import { Contact } from './payload/globals/contact';
 import { Announcement } from './payload/globals/announcement';
 import { HighlightReviews } from './payload/globals/highlight-reviews';
 import { s3Storage } from '@payloadcms/storage-s3';
-import CustomLogo from './app/utils/custom-logo';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -24,8 +23,11 @@ export default buildConfig({
     user: Users.slug,
     components: {
       graphics: {
-        Logo: CustomLogo,
+        // Logo: '/app/utils/custom-logo#CustomLogo',
       },
+    },
+    importMap: {
+      baseDir: path.resolve(dirname),
     },
   },
   collections: [Media, Reviews, Users],

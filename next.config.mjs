@@ -17,11 +17,6 @@ const nextConfig = {
         hostname: 'cdn.ralfkedja.se',
         port: '',
       },
-      {
-        protocol: 'https',
-        hostname: 'static.ralfkedja.se',
-        port: '',
-      },
     ],
   },
 };

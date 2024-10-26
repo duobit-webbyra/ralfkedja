@@ -4,10 +4,10 @@ import Image from 'next/image';
 import assetPrefix from '@/app/utils/asset-prefix';
 
 const diplomas = [
-  { src: 'kinesiologi.webp', alt: 'Diplom i kinesiologi' },
-  { src: 'kiropraktik.webp', alt: 'Diplom i kiropraktik' },
-  { src: 'osteopati.webp', alt: 'Diplom i osteopati' },
-  { src: 'touch-for-health.webp', alt: 'Diplom i Touch For Health' },
+  { src: '/kinesiologi.webp', alt: 'Diplom i kinesiologi' },
+  { src: '/kiropraktik.webp', alt: 'Diplom i kiropraktik' },
+  { src: '/osteopati.webp', alt: 'Diplom i osteopati' },
+  { src: '/touch-for-health.webp', alt: 'Diplom i Touch For Health' },
 ];
 
 export default function DiplomaBanner() {

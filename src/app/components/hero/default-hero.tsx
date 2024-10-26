@@ -11,7 +11,7 @@ export interface DefaultHeroProps {
 export default function DefaultHero({ title }: DefaultHeroProps) {
   return (
     <div className={style.container}>
-      <Image src={assetPrefix('herobg.png')} alt='' fill />
+      <Image src={assetPrefix('/herobg.png')} alt='' fill />
       {title}
     </div>
   );
