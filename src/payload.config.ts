@@ -23,7 +23,7 @@ export default buildConfig({
     user: Users.slug,
     components: {
       graphics: {
-        // Logo: '/app/utils/custom-logo#CustomLogo',
+        Logo: '/app/components/custom-logo#CustomLogo',
       },
     },
     importMap: {

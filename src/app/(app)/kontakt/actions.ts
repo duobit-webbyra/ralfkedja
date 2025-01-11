@@ -1,12 +1,35 @@
 'use server';
 
 import nodemailer from 'nodemailer';
-
 import config from '@payload-config';
-import { getPayloadHMR } from '@payloadcms/next/utilities';
+import { getPayload } from 'payload';
 
 export async function sendEmail(formData: FormData) {
-  const payload = await getPayloadHMR({ config });
+  const turnstileToken = formData.get('cf-turnstile-response');
+  const verificationResponse = await fetch(
+    'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+    {
+      body: JSON.stringify({
+        response: turnstileToken,
+        secret: process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+    },
+  );
+
+  const verificationData = await verificationResponse.json();
+
+  if (!verificationData.success) {
+    return {
+      message: 'Något gick fel. Försök igen senare',
+      status: 'error',
+    };
+  }
+
+  const payload = await getPayload({ config });
   const data = await payload.findGlobal({
     slug: 'contact',
   });
@@ -74,7 +97,7 @@ export async function sendEmail(formData: FormData) {
 }
 
 export async function sendCourseInquiry(formData: FormData) {
-  const payload = await getPayloadHMR({ config });
+  const payload = await getPayload({ config });
   const data = await payload.findGlobal({
     slug: 'contact',
   });

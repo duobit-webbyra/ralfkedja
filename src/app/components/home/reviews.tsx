@@ -3,7 +3,7 @@ import ReviewCard from './review-card';
 import Title from '@/app/components/utils/title';
 import PrimaryButton from '../button/primary-button';
 import config from '@payload-config';
-import { getPayloadHMR } from '@payloadcms/next/utilities';
+import { getPayload } from 'payload';
 import { Review } from '@/payload-types';
 import Link from 'next/link';
 const parseReviewAuthor = (name: string | undefined) => {
@@ -16,7 +16,7 @@ const parseReviewAuthor = (name: string | undefined) => {
 };
 
 export default async function Reviews() {
-  const payload = await getPayloadHMR({ config });
+  const payload = await getPayload({ config });
   const data = await payload.findGlobal({
     slug: 'highlight-reviews',
   });

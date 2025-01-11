@@ -1,4 +1,5 @@
 'use client';
+
 import React from 'react';
 
 import style from './contact-form.module.scss';
@@ -10,6 +11,7 @@ interface ContactFormProps {
 
 import { sendEmail } from '@/app/(app)/kontakt/actions';
 import { useFormStatus } from 'react-dom';
+import Turnstile from './turnstile';
 
 const Submit = () => {
   const { pending } = useFormStatus();
@@ -72,6 +74,7 @@ export default function ContactForm({ layout }: ContactFormProps) {
             required
           ></textarea>
           <Submit />
+          <Turnstile />
         </form>
       </div>
     </div>

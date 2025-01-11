@@ -4,13 +4,13 @@ import ReviewStar from '../graphics/review-star';
 import BookDirectly from '../utils/book-directly';
 
 import config from '@payload-config';
-import { getPayloadHMR } from '@payloadcms/next/utilities';
+import { getPayload } from 'payload';
 import style from './landing-page-hero.module.scss';
 import assetPrefix from '@/app/utils/asset-prefix';
 import PrimaryButton from '../button/primary-button';
 
 async function PhoneNumber() {
-  const payload = await getPayloadHMR({ config });
+  const payload = await getPayload({ config });
   const data = await payload.findGlobal({
     slug: 'contact',
   });

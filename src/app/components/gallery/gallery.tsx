@@ -3,11 +3,11 @@ import style from './gallery.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 import config from '@payload-config';
-import { getPayloadHMR } from '@payloadcms/next/utilities';
+import { getPayload } from 'payload';
 import type { Media } from '@payload-types';
 
 const GalleryGrid = async () => {
-  const payload = await getPayloadHMR({ config });
+  const payload = await getPayload({ config });
   const data = await payload.findGlobal({
     slug: 'gallery',
   });
