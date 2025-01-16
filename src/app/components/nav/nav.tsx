@@ -24,6 +24,10 @@ const navigation: NavigationData[] = [
     slug: '/behandlingar',
   },
   {
+    label: 'Yinyoga',
+    slug: '/yinyoga',
+  },
+  {
     label: 'Kurser',
     slug: '/kurser',
   },

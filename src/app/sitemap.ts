@@ -12,6 +12,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
+      url: url + '/yinyoga',
+      priority: 0.8,
+    },
+    {
+      url: url + '/kurser',
+      priority: 0.8,
+    },
+    {
       url: url + '/om-mig',
       priority: 0.8,
     },
