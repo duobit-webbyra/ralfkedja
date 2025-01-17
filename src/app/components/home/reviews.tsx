@@ -5,7 +5,7 @@ import PrimaryButton from '../button/primary-button';
 import config from '@payload-config';
 import { getPayload } from 'payload';
 import { Review } from '@/payload-types';
-import Link from 'next/link';
+import { Link } from '@/app/components/link/link';
 const parseReviewAuthor = (name: string | undefined) => {
   if (!name) return '';
 

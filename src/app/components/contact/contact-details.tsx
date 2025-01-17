@@ -2,7 +2,7 @@ import React from 'react';
 import style from './contact-details.module.scss';
 import Facebook from '../graphics/facebook';
 import Instagram from '../graphics/instagram';
-import Link from 'next/link';
+import { Link } from '@/app/components/link/link';
 import { Contact } from '@/payload-types';
 import Image from 'next/image';
 import assetPrefix from '@/app/utils/asset-prefix';

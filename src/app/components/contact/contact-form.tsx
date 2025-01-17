@@ -11,7 +11,7 @@ interface ContactFormProps {
 
 import { sendEmail } from '@/app/(app)/kontakt/actions';
 import { useFormStatus } from 'react-dom';
-import Turnstile from './turnstile';
+import Turnstile from '@/app/components/turnstile';
 
 const Submit = () => {
   const { pending } = useFormStatus();

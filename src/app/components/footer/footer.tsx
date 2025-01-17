@@ -1,5 +1,5 @@
 import style from './footer.module.scss';
-import Link from 'next/link';
+import { Link } from '@/app/components/link/link';
 import Image from 'next/image';
 import { FaRegCopyright } from 'react-icons/fa';
 import ShortInfo from '../utils/short-info';

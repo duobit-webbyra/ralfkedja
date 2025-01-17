@@ -1,7 +1,6 @@
 'use client';
 
 import Script from 'next/script';
-import { env } from 'next-runtime-env';
 
 export default function Turnstile() {
   return (

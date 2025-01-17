@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from '@/app/components/link/link';
 import { ButtonProps } from './button-interface';
 import style from './button-style.module.scss';
 

@@ -3,7 +3,7 @@ import { MdOutlineLocationOn } from 'react-icons/md';
 import { MdOutlinePhone } from 'react-icons/md';
 import { MdOutlineMail } from 'react-icons/md';
 import style from './short-info.module.scss';
-import Link from 'next/link';
+import { Link } from '@/app/components/link/link';
 export default async function ShortInfo() {
   const data = await getContactData();
 

@@ -10,6 +10,7 @@ interface CourseFormProps {
 
 import { sendCourseInquiry } from '@/app/(app)/kontakt/actions';
 import { useFormStatus } from 'react-dom';
+import Turnstile from '../turnstile';
 
 const Submit = () => {
   const { pending } = useFormStatus();
@@ -123,6 +124,7 @@ export default function CourseForm({ layout }: CourseFormProps) {
           </div>
           {error && <p style={{ color: 'var(--secondary-200)' }}>{error}</p>}
           <Submit />
+          <Turnstile />
         </form>
       </div>
     </div>

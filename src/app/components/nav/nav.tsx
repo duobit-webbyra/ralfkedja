@@ -2,7 +2,7 @@
 
 import style from './nav.module.scss';
 import PrimaryButton from '../button/primary-button';
-import Link from 'next/link';
+import { Link } from '@/app/components/link/link';
 import MenuOpenButton from './menu-open-button';
 import MenuCloseButton from './menu-close-button';
 import { usePathname } from 'next/navigation';

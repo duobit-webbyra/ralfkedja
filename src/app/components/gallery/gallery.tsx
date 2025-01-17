@@ -1,7 +1,7 @@
 import React from 'react';
 import style from './gallery.module.scss';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/app/components/link/link';
 import config from '@payload-config';
 import { getPayload } from 'payload';
 import type { Media } from '@payload-types';

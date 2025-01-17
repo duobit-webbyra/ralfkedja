@@ -1,6 +1,6 @@
 import style from './info.module.scss';
 import ShortInfo from '../utils/short-info';
-import Link from 'next/link';
+import { Link } from '@/app/components/link/link';
 
 export default async function HeaderInfo() {
   // const data = await getContactData();
