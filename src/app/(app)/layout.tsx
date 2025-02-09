@@ -12,6 +12,7 @@ import '@/app/styles/globals.scss';
 import Nav from '../components/nav/nav';
 import HeaderInfo from '../components/header/info';
 import Footer from '../components/footer/footer';
+import { AuthProvider } from '../providers/auth';
 
 export const dynamic = 'force-dynamic';
 
@@ -19,10 +20,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang='en'>
       <body className={mainFont.className}>
-        <HeaderInfo />
-        <Nav />
-        <main>{children}</main>
-        <Footer />
+        <AuthProvider>
+          <HeaderInfo />
+          <Nav />
+          <main>{children}</main>
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   );

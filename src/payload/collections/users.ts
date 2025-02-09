@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload';
 import { isHost } from '../access/is-host';
+import { isAdmin } from '../access/is-admin';
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -8,13 +9,16 @@ export const Users: CollectionConfig = {
   },
   defaultSort: 'role',
   access: {
-    read: ({ req: { user } }) => {
-      if (!user) return false;
-      if (user.role === 'host') return true;
-      return false;
+    // read: ({ req: { user } }) => {
+    //   if (!user) return false;
+    //   if (user.role === 'host') return true;
+    //   return false;
+    // },
+    // create: isHost,
+    // update: isHost,
+    admin({ req }) {
+      return isAdmin({ req });
     },
-    create: isHost,
-    update: isHost,
   },
   auth: true,
   fields: [
@@ -30,6 +34,10 @@ export const Users: CollectionConfig = {
         {
           label: 'Admin',
           value: 'admin',
+        },
+        {
+          label: 'User',
+          value: 'user',
         },
       ],
     },

@@ -1,9 +1,6 @@
 import React from 'react';
 import DefaultHero from '@/app/components/hero/default-hero';
 import DefaultCTA from '@/app/components/utils/default-CTA';
-import Kroppsbalansering from '@/app/components/treatments/kroppsbalansering';
-import Kinesiologi from '@/app/components/treatments/kinesiologi';
-import Biomagnetism from '@/app/components/treatments/biomagnetism';
 
 import { Metadata } from 'next';
 import YinyogaBackground from '@/app/components/yinyogasections/yinyoga-background';

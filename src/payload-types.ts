@@ -105,7 +105,7 @@ export interface Review {
  */
 export interface User {
   id: string;
-  role: 'host' | 'admin';
+  role: 'host' | 'admin' | 'user';
   updatedAt: string;
   createdAt: string;
   email: string;

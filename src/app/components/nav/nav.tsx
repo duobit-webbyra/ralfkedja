@@ -8,6 +8,7 @@ import MenuCloseButton from './menu-close-button';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import BookDirectly from '../utils/book-directly';
+import { useAuth } from '@/app/providers/auth';
 
 interface NavigationData {
   label: string;
@@ -48,8 +49,10 @@ const navigation: NavigationData[] = [
 export function NavDefault() {
   const pathname = usePathname();
 
+  const { user, login, logout } = useAuth();
+
   return (
-    <div className={style.content}>
+    <div className={`${style.content} ${style.hide}`}>
       <ul className={style.nav}>
         {navigation.map((item, index) => {
           return (
@@ -61,12 +64,13 @@ export function NavDefault() {
           );
         })}
       </ul>
-      <div
-        style={{
-          width: '8rem',
-        }}
-      >
+      <div className={style.buttons}>
         <BookDirectly>Boka tid</BookDirectly>
+        <PrimaryButton
+          onClick={() => (user ? logout() : login({ email: '123@123.com', password: '123' }))}
+        >
+          {user ? 'Logga ut' : 'Logga in'}
+        </PrimaryButton>
       </div>
     </div>
   );
