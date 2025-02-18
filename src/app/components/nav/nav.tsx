@@ -9,6 +9,7 @@ import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import BookDirectly from '../utils/book-directly';
 import { useAuth } from '@/app/providers/auth';
+import { useRouter } from 'next/navigation';
 
 interface NavigationData {
   label: string;
@@ -48,7 +49,7 @@ const navigation: NavigationData[] = [
 
 export function NavDefault() {
   const pathname = usePathname();
-
+  const router = useRouter();
   const { user, login, logout } = useAuth();
 
   return (
@@ -66,9 +67,7 @@ export function NavDefault() {
       </ul>
       <div className={style.buttons}>
         <BookDirectly>Boka tid</BookDirectly>
-        <PrimaryButton
-          onClick={() => (user ? logout() : login({ email: '123@123.com', password: '123' }))}
-        >
+        <PrimaryButton onClick={() => (user ? logout() : router.push('/logga-in'))}>
           {user ? 'Logga ut' : 'Logga in'}
         </PrimaryButton>
       </div>

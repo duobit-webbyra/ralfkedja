@@ -11,6 +11,7 @@ import { Media } from './payload/collections/media';
 import { Gallery } from './payload/globals/gallery';
 import { Reviews } from './payload/collections/reviews';
 import { Contact } from './payload/globals/contact';
+import { Videos } from './payload/collections/videos';
 import { Announcement } from './payload/globals/announcement';
 import { HighlightReviews } from './payload/globals/highlight-reviews';
 import { s3Storage } from '@payloadcms/storage-s3';
@@ -30,7 +31,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Media, Reviews, Users],
+  collections: [Media, Reviews, Users, Videos],
   globals: [Announcement, Contact, Gallery, HighlightReviews],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
