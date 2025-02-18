@@ -1,0 +1,44 @@
+/* filepath: /c:/Users/Kevin/Desktop/code/ralfkedja/src/app/components/members-page/video_list.module.scss */
+.videoList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.videoCard {
+  flex: 1; /* Grow and shrink between 300px and 400px */
+  max-width: 400px;
+  min-width: 300px;
+  margin: 16px;
+
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s;
+
+  h3 {
+    font-size: 1.7em;
+  }
+
+  p {
+    font-size: 0.9em;
+    color: #666;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+  }
+}
+
+@media (min-width: 768px) {
+  .videoCard {
+    flex: 1 1 calc(33.333% - 32px); /* 3 cards per row */
+  }
+}
+
+@media (min-width: 1024px) {
+  .videoCard {
+    flex: 1 1 calc(25% - 32px); /* 4 cards per row */
+  }
+}

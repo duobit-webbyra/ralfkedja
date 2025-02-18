@@ -1,7 +1,7 @@
 'use client';
 
 // import type { Permissions } from 'payload/auth';
-import { useRouter } from 'next/navigation';
+
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 import type { User } from '@payload-types';
@@ -13,7 +13,7 @@ const Context = createContext({} as AuthContext);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<null | User>();
-  const router = useRouter();
+
   const login = useCallback<Login>(async (args) => {
     const user = await rest(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/login`, args);
     setUser(user);

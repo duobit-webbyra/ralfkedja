@@ -3,11 +3,15 @@ import { isAdmin } from '../access/is-admin';
 
 export const Videos: CollectionConfig = {
   slug: 'videos',
+  admin: {
+    useAsTitle: 'title',
+  },
   access: {
     read: () => true,
+    create: isAdmin,
     update: isAdmin,
   },
-  auth: true,
+
   fields: [
     {
       name: 'title',

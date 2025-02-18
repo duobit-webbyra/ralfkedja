@@ -17,6 +17,11 @@ const nextConfig = {
         hostname: 'cdn.ralfkedja.se',
         port: '',
       },
+      {
+        protocol: 'https',
+        hostname: 'img.youtube.com',
+        port: '',
+      },
     ],
   },
 };

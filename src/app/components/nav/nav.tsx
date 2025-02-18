@@ -50,8 +50,15 @@ const navigation: NavigationData[] = [
 export function NavDefault() {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, login, logout } = useAuth();
-
+  const { user, logout } = useAuth();
+  const handleLogout = async () => {
+    try {
+      await logout();
+      router.push('/');
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
   return (
     <div className={`${style.content} ${style.hide}`}>
       <ul className={style.nav}>
@@ -67,7 +74,8 @@ export function NavDefault() {
       </ul>
       <div className={style.buttons}>
         <BookDirectly>Boka tid</BookDirectly>
-        <PrimaryButton onClick={() => (user ? logout() : router.push('/logga-in'))}>
+        {user && <Link href='/medlemssida'>Medlemssida</Link>}
+        <PrimaryButton onClick={() => (user ? handleLogout() : router.push('/logga-in'))}>
           {user ? 'Logga ut' : 'Logga in'}
         </PrimaryButton>
       </div>

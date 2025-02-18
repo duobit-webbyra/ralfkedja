@@ -1,20 +1,26 @@
 import { cookies } from 'next/headers';
 
 export async function getUser() {
-  const cookieStore = cookies(); // Get cookies for auth
+  const cookieStore = await cookies();
   const token = cookieStore.get('payload-token')?.value;
 
-  if (!token) return null; // No token = not logged in
+  if (!token) return null;
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/me`, {
+  const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
+  if (!serverUrl) {
+    throw new Error('NEXT_PUBLIC_SERVER_URL environment variable is not defined');
+  }
+
+  const res = await fetch(`${serverUrl}/api/users/me`, {
     method: 'GET',
     headers: {
       Authorization: `JWT ${token}`,
       'Content-Type': 'application/json',
     },
-    cache: 'no-store', // Always get fresh user data
+    cache: 'no-store',
   });
 
-  if (!res.ok) return null; // Invalid token or no user
-  return await res.json(); // Return user object
+  if (!res.ok) return null;
+  const user = await res.json();
+  return user;
 }
