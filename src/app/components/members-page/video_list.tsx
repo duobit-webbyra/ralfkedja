@@ -19,28 +19,28 @@ export default async function VideosList() {
   });
 
   const getYouTubeThumbnail = (url: string) => {
-    const videoId = url.split('embed/')[1]?.split('?')[0];
-    console.log(videoId);
+    const videoId = url.split('/watch?v=')[1];
     return videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : '/nature.webp';
   };
 
   return (
-    <div className={styles.videoList}>
+    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full'>
       {videos.docs.length > 0 ? (
         videos.docs.map((video: any) => (
-          <Link href={`/medlemssida/video/${video.id}`} key={video.id} className={styles.videoCard}>
+          <Link href={`/medlemssida/video/${video.id}`} key={video.id}>
             <Image
               src={getYouTubeThumbnail(video.url)}
               width={500}
               height={300}
               alt={`${video.title} thumbnail`}
+              className='w-full h-auto object-cover rounded'
             />
             <h3>{video.title}</h3>
             <p>{video.description}</p>
           </Link>
         ))
       ) : (
-        <p>No videos found</p>
+        <p>Inga videos är uppladdade</p>
       )}
     </div>
   );

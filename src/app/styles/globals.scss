@@ -1,5 +1,5 @@
 @import 'variables.scss';
-
+@import 'tailwindcss';
 :root {
   --primary-400: #{$primary-400};
   --primary-300: #{$primary-300};
@@ -21,11 +21,12 @@
   --rounded-base: #{$rounded-base};
   --content-width: #{$content-width};
   --nav-height: #{$nav-height};
+  --info-header-height: #{$info-header-height};
   --footer-height: #{$footer-height};
 }
 
 body {
-  height: auto;
+  min-height: 100vh;
   background: $tertiary-100;
 }
 

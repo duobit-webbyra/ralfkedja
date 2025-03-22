@@ -6,7 +6,7 @@ export default async function HeaderInfo() {
   // const data = await getContactData();
 
   return (
-    <div className={style.container}>
+    <div className={`${style.container} min-h-[var(--info-header-height)]`}>
       <div className={style.content}>
         <Link style={{ color: 'var(--primary-400)', fontSize: 'var(--text-md)' }} href='/'>
           Ralf Kedja

@@ -2,6 +2,7 @@ import { getPayload } from 'payload';
 import config from '@payload-config';
 import { notFound, redirect } from 'next/navigation';
 import { getUser } from '@/app/providers/auth-server';
+import Container from '@/app/components/essentials/Container';
 
 export default async function VideoPage({ params }: { params: { id: string } }) {
   const user = await getUser();
@@ -30,21 +31,30 @@ export default async function VideoPage({ params }: { params: { id: string } }) 
     }
   };
 
+  const getYoutubeEmbedLink = (url: string) => {
+    const videoId = url.split('/watch?v=')[1];
+    return `https://www.youtube.com/embed/${videoId}`;
+  };
+
   return (
-    <div>
-      <h1>{video.title}</h1>
-      <p>{video.description}</p>
+    <Container className='py-16'>
+      <div className='flex flex-col pb-6 gap-4'>
+        <h1 className='text-2xl md:text-3xl font-bold '>{video.title}</h1>
+        <p className='text-gray-700'>{video.description}</p>
+      </div>
       {isValidUrl(video.url) ? (
-        <iframe
-          src={video.url}
-          width='100%'
-          height='300px'
-          title={video.title}
-          allowFullScreen
-        ></iframe>
+        <div className='w-full aspect-video relative rounded overflow-hidden shadow-lg'>
+          <iframe
+            src={getYoutubeEmbedLink(video.url)}
+            className='absolute inset-0 w-full h-full'
+            title={video.title}
+            allowFullScreen
+            loading='lazy'
+          ></iframe>
+        </div>
       ) : (
-        <p>Videon är ej tillgänglig.</p>
+        <p className='p-4 bg-red-50 text-red-700 rounded-lg'>Videon är ej tillgänglig.</p>
       )}
-    </div>
+    </Container>
   );
 }
