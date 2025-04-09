@@ -27,7 +27,11 @@ export default function Page() {
         <YinyogaClasses />
       </section>
       <section style={{ backgroundColor: 'var(--tertiary-200)', padding: '2rem 0' }}>
-        <DefaultCTA />
+        <DefaultCTA
+          title='Är du intresserad av att testa på Yinyoga?'
+          buttonText='Köp klippkort här'
+          buttonHref='https://www.bokadirekt.se/places/eskilstuna-kroppsbalansering-25963'
+        />
       </section>
     </>
   );

@@ -3,9 +3,8 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/app/providers/auth';
-import style from '@/app/components/contact/contact-form.module.scss';
 import PrimaryButton from '@/app/components/button/primary-button';
-import { Input } from '@/app/components/Form';
+import { Form, Input } from '@/app/components/Form';
 import { Link } from '@/app/components/link/link';
 import Container from '@/app/components/essentials/Container';
 export default function LoginForm() {
@@ -28,43 +27,28 @@ export default function LoginForm() {
   }
 
   return (
-    <section
-      className='flex min-h-[calc(100vh-var(--nav-height)-var(--info-header-height))] items-center justify-center'
-      style={{ backgroundColor: 'var(--primary-300)' }}
-    >
-      <Container className='flex flex-col gap-12 max-w-[500]'>
+    <section className='flex min-h-[calc(100vh-var(--nav-height)-var(--info-header-height))] items-center justify-center !bg-[var(--primary-100)]'>
+      <Container className='flex flex-col gap-12 max-w-[600]'>
         <div className=''>
-          <h1 className='text-[var(--tertiary-100)]'>Logga in till medlemssidan</h1>
+          <h1 className=''>Logga in till medlemssidan</h1>
           <span>
             Logga in för att få tillgång till exklusivt extramaterial. Är du inte medlem ännu men
             intresserad?{' '}
-            <Link href='/kontakt' className='underline'>
+            <Link href='/kontakt' className='!underline'>
               Kontakta mig
             </Link>{' '}
             för mer information!
           </span>
         </div>
-        <form className='flex flex-col gap-8 w-full ' onSubmit={handleSubmit}>
+        <Form className='flex flex-col gap-8 w-full' onSubmit={handleSubmit}>
           <div className='flex flex-col gap-4 w-full'>
-            <input
-              className={style.forminput}
-              placeholder='E-post'
-              name='email'
-              type='email'
-              required
-            />
-            <input
-              className={style.forminput}
-              placeholder='Lösenord'
-              name='password'
-              type='password'
-              required
-            />
+            <Input placeholder='E-post' name='email' type='email' required />
+            <Input placeholder='Lösenord' name='password' type='password' required />
           </div>
           <div className='w-max flex justify-end'>
             <PrimaryButton type='submit'>Logga in</PrimaryButton>
           </div>
-        </form>
+        </Form>
       </Container>
     </section>
   );
