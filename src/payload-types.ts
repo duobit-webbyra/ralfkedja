@@ -141,7 +141,6 @@ export interface News {
   id: string;
   title: string;
   content: string;
-  author: string;
   comments?:
     | {
         comment: string;
@@ -284,7 +283,6 @@ export interface VideosSelect<T extends boolean = true> {
 export interface NewsSelect<T extends boolean = true> {
   title?: T;
   content?: T;
-  author?: T;
   comments?:
     | T
     | {

@@ -16,7 +16,7 @@ export default async function Page() {
       <div className='flex flex-col justify-center items-center py-16 gap-2 bg-tertiary-200'>
         <h1 className=''>Medlemssida</h1>
         <h3 className='text-primary-300!'>
-          Välkommen till medlemssidan där du kan hitta alla föreläsningar och läsa nyheter!
+          Välkommen till medlemssidan där du kan hitta exklusiva videos och nyheter!
         </h3>
       </div>
 

@@ -1,28 +1,14 @@
 'use client';
 import React, { useState } from 'react';
 import { saveComment } from './send_comment'; // Import your server action
-
-interface Comment {
-  comment: string;
-  author: string;
-  createdAt: string;
-}
-
-interface NewsPost {
-  id: string;
-  title: string;
-  content: string;
-  author: string;
-  createdAt: string;
-  comments: Comment[];
-}
-
+import { News } from '@/payload-types';
+import { Form, Input } from '../Form';
 interface NewsClientProps {
-  newsPosts: NewsPost[];
+  newsPosts: News[]; // Use the News type directly
 }
 
 function NewsClient({ newsPosts: initialNewsPosts }: NewsClientProps) {
-  const [newsPosts, setNewsPosts] = useState<NewsPost[]>(initialNewsPosts);
+  const [newsPosts, setNewsPosts] = useState<News[]>(initialNewsPosts);
 
   const handleAddCommentLocally = (postId: string, comment: string, author: string) => {
     setNewsPosts((prevPosts) =>
@@ -31,7 +17,7 @@ function NewsClient({ newsPosts: initialNewsPosts }: NewsClientProps) {
           ? {
               ...post,
               comments: [
-                ...post.comments,
+                ...(post.comments ?? []), // Default to an empty array if comments is null or undefined
                 {
                   comment,
                   author,
@@ -51,60 +37,47 @@ function NewsClient({ newsPosts: initialNewsPosts }: NewsClientProps) {
         <div key={post.id} className='bg-gray-100 p-6 rounded-lg shadow-md flex flex-col gap-4'>
           <h2 className='text-xl font-bold'>{post.title}</h2>
           <p className='text-sm text-gray-500'>
-            {post.author} • {new Date(post.createdAt).toLocaleDateString()}
+            Ralf Kedja • {new Date(post.createdAt ?? new Date().toISOString()).toLocaleDateString()}
           </p>
           <p className='text-gray-700'>{post.content}</p>
           <div className='mt-4'>
             <h3 className='text-lg font-semibold'>Kommentarer</h3>
             <ul className='mt-2 space-y-2'>
-              {post.comments.map((comment, index) => (
+              {(post.comments ?? []).map((comment, index) => (
                 <li key={index} className='bg-gray-200 p-2 rounded text-gray-800'>
                   <p>{comment.comment}</p>
                   <p className='text-sm text-gray-500'>
-                    {comment.author} • {new Date(comment.createdAt).toLocaleDateString()}
+                    {comment.author} •{' '}
+                    {new Date(comment.createdAt ?? new Date().toISOString()).toLocaleDateString()}
                   </p>
                 </li>
               ))}
             </ul>
-            <form
+            <Form
               className='mt-4 flex gap-2'
               action={async (formData) => {
-                const comment = formData.get('comment')?.toString();
-                const author = formData.get('author')?.toString() || 'Anonymous';
+                formData.append('postId', post.id); // Add postId programmatically
+                const response = await saveComment(formData);
 
-                if (comment) {
-                  const response = await saveComment(formData);
-
-                  if (response.status === 'success') {
-                    handleAddCommentLocally(post.id, comment, author); // Update the UI locally
-                  } else {
-                    alert('Failed to add comment.');
-                  }
+                if (response.status === 'success' && response.data) {
+                  const { postId, comment, author } = response.data;
+                  handleAddCommentLocally(postId, comment, author);
+                } else {
+                  alert('Failed to add comment.');
                 }
               }}
             >
-              <input
-                type='hidden'
-                name='postId'
-                value={post.id} // Pass the post ID to the server action
-              />
-              <input
+              <Input
                 type='text'
                 name='comment'
                 placeholder='Skriv en kommentar...'
                 className='flex-1 p-2 border rounded'
                 required
               />
-              <input
-                type='text'
-                name='author'
-                placeholder='Ditt namn (valfritt)'
-                className='flex-1 p-2 border rounded'
-              />
               <button type='submit' className='bg-primary-300 text-white px-4 py-2 rounded'>
                 Kommentera
               </button>
-            </form>
+            </Form>
           </div>
         </div>
       ))}

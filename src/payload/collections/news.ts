@@ -4,14 +4,14 @@ import { isAdmin } from '../access/is-admin';
 export const News: CollectionConfig = {
   slug: 'news',
   admin: {
-    useAsTitle: 'title', // Use the title field as the display title in the admin panel
-    defaultColumns: ['title', 'author', 'createdAt'], // Default columns in the admin panel
+    useAsTitle: 'title',
+    defaultColumns: ['title', 'author', 'createdAt'],
   },
   access: {
-    read: () => true, // Allow everyone to read news posts
-    create: isAdmin, // Only admins can create posts
-    update: isAdmin, // Only admins can update posts
-    delete: isAdmin, // Only admins can delete posts
+    read: () => true,
+    create: isAdmin,
+    update: isAdmin,
+    delete: isAdmin,
   },
   fields: [
     {
@@ -25,12 +25,6 @@ export const News: CollectionConfig = {
       type: 'textarea',
       required: true,
       label: 'Innehåll',
-    },
-    {
-      name: 'author',
-      type: 'text',
-      required: true,
-      label: 'Författare',
     },
     {
       name: 'comments',
@@ -53,11 +47,11 @@ export const News: CollectionConfig = {
           name: 'createdAt',
           type: 'date',
           admin: {
-            disabled: true, // Automatically set the date, no need for manual input
+            disabled: true,
           },
           hooks: {
             beforeChange: [
-              ({ value }) => value || new Date().toISOString(), // Default to the current date
+              ({ value }) => value || new Date().toISOString(),
             ],
           },
         },

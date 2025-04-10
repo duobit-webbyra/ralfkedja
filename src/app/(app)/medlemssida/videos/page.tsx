@@ -1,13 +1,19 @@
 import VideosList from '@/app/components/members-page/video_list';
 import React from 'react';
 import Container from '@/app/components/essentials/Container';
+import { getUser } from '@/app/providers/auth-server';
+import { redirect } from 'next/navigation';
 
-function VideoPage() {
+export default async function VideoPage() {
+  const user = await getUser();
+
+  if (!user) {
+    redirect('/logga-in');
+    return null;
+  }
   return (
     <Container>
       <VideosList />
     </Container>
   );
 }
-
-export default VideoPage;
