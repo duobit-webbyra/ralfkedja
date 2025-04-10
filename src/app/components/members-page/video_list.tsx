@@ -2,10 +2,13 @@ import { getPayload } from 'payload';
 import Link from 'next/link';
 import config from '@payload-config';
 import { getUser } from '@/app/providers/auth-server';
-import styles from './video_list.module.scss';
 import Image from 'next/image';
 
-export default async function VideosList() {
+interface VideoListProps {
+  sliceList?: boolean;
+}
+
+export default async function VideosList({ sliceList }: VideoListProps) {
   const user = await getUser();
 
   if (!user) {
@@ -19,29 +22,55 @@ export default async function VideosList() {
   });
 
   const getYouTubeThumbnail = (url: string) => {
-    const videoId = url.split('/watch?v=')[1];
-    return videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : '/nature.webp';
+    const videoId = url.split('/watch?v=')[1]?.split('&')[0];
+    return videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : null;
   };
 
+  const latestVideos = sliceList ? videos.docs.slice(0, 6) : videos.docs;
+
   return (
-    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full'>
-      {videos.docs.length > 0 ? (
-        videos.docs.map((video: any) => (
-          <Link href={`/medlemssida/video/${video.id}`} key={video.id}>
-            <Image
-              src={getYouTubeThumbnail(video.url)}
-              width={500}
-              height={300}
-              alt={`${video.title} thumbnail`}
-              className='w-full h-auto object-cover rounded'
-            />
-            <h3>{video.title}</h3>
-            <p>{video.description}</p>
-          </Link>
-        ))
-      ) : (
-        <p>Inga videos är uppladdade</p>
-      )}
-    </div>
+    <section className='py-8 gap-8 flex flex-col'>
+      <h1>Videos</h1>
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full'>
+        {latestVideos.length > 0 ? (
+          latestVideos.map((video: any) => {
+            const thumbnail = getYouTubeThumbnail(video.url);
+
+            return (
+              <Link
+                href={`/medlemssida/video/${video.id}`}
+                key={video.id}
+                className='flex flex-col'
+              >
+                {thumbnail ? (
+                  <div className='relative w-full h-[250px] overflow-hidden rounded bg-gray-200'>
+                    <Image
+                      src={thumbnail}
+                      alt={`${video.title} thumbnail`}
+                      layout='fill' // Ensures the image fills the container
+                      objectFit='cover' // Ensures the image covers the container
+                      className='rounded'
+                    />
+                  </div>
+                ) : (
+                  <div className='flex items-center justify-center w-full h-[250px] bg-primary-100! rounded'>
+                    <span className='text-4xl! text-tertiary-100! font-bold'>?</span>
+                  </div>
+                )}
+                <h3>{video.title}</h3>
+                <p className='text-primary-200! line-clamp-2'>{video.description}</p>
+              </Link>
+            );
+          })
+        ) : (
+          <p>Inga videos är uppladdade!</p>
+        )}
+      </div>
+      <div className='mt-6 text-center'>
+        <Link href='/medlemssida/videos' className='underline!'>
+          Gå till alla videos
+        </Link>
+      </div>
+    </section>
   );
 }

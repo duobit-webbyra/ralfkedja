@@ -2,7 +2,7 @@
 
 // import { sendForm } from './action';
 import clsx from 'clsx';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 interface FormProps extends React.ComponentProps<'form'> {
   children: React.ReactNode;

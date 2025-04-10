@@ -1,5 +1,24 @@
 @import 'variables.scss';
 @import 'tailwindcss';
+
+@theme {
+  --color-primary-400: #{$primary-400};
+  --color-primary-300: #{$primary-300};
+  --color-primary-250: #{$primary-250};
+  --color-primary-200: #{$primary-200};
+  --color-primary-100: #{$primary-100};
+
+  --color-secondary-300: #{$secondary-300};
+  --color-secondary-200: #{$secondary-200};
+  --color-secondary-100: #{$secondary-100};
+
+  --color-tertiary-500: #{$tertiary-500};
+  --color-tertiary-400: #{$tertiary-400};
+  --color-tertiary-300: #{$tertiary-300};
+  --color-tertiary-200: #{$tertiary-200};
+  --color-tertiary-100: #{$tertiary-100};
+}
+
 :root {
   --primary-400: #{$primary-400};
   --primary-300: #{$primary-300};
