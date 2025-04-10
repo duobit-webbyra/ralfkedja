@@ -15,7 +15,7 @@ import { Videos } from './payload/collections/videos';
 import { Announcement } from './payload/globals/announcement';
 import { HighlightReviews } from './payload/globals/highlight-reviews';
 import { s3Storage } from '@payloadcms/storage-s3';
-import News from './payload/collections/news';
+import { News } from './payload/collections/news';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);

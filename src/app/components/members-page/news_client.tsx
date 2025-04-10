@@ -1,13 +1,14 @@
 'use client';
 import React, { useState } from 'react';
 import { saveComment } from './send_comment'; // Import your server action
-import { News } from '@/payload-types';
+import { News, User } from '@/payload-types';
 import { Form, Input } from '../Form';
 interface NewsClientProps {
-  newsPosts: News[]; // Use the News type directly
+  newsPosts: News[];
+  user: User;
 }
 
-function NewsClient({ newsPosts: initialNewsPosts }: NewsClientProps) {
+function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
   const [newsPosts, setNewsPosts] = useState<News[]>(initialNewsPosts);
 
   const handleAddCommentLocally = (postId: string, comment: string, author: string) => {
@@ -56,7 +57,8 @@ function NewsClient({ newsPosts: initialNewsPosts }: NewsClientProps) {
             <Form
               className='mt-4 flex gap-2'
               action={async (formData) => {
-                formData.append('postId', post.id); // Add postId programmatically
+                formData.append('postId', post.id);
+                formData.append('author', user.user.name);
                 const response = await saveComment(formData);
 
                 if (response.status === 'success' && response.data) {

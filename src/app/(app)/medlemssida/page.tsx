@@ -20,7 +20,7 @@ export default async function Page() {
         </h3>
       </div>
 
-      <Container>
+      <Container className='py-16 '>
         <VideosList sliceList={true} />
         <NewsServer />
       </Container>

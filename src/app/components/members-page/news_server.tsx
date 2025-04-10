@@ -6,7 +6,6 @@ import { getUser } from '@/app/providers/auth-server';
 export default async function NewsServer() {
   const payload = await getPayload({ config });
   const user = await getUser();
-
   const news_response = await payload.find({
     collection: 'news', // Fetch from the 'news' collection
   });
@@ -20,5 +19,5 @@ export default async function NewsServer() {
     })),
   }));
 
-  return <NewsClient newsPosts={newsPosts} />;
+  return <NewsClient newsPosts={newsPosts} user={user} />;
 }

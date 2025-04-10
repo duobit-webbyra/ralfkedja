@@ -12,7 +12,7 @@ export default async function VideoPage() {
     return null;
   }
   return (
-    <Container>
+    <Container className='py-16 '>
       <VideosList />
     </Container>
   );

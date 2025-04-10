@@ -29,9 +29,15 @@ export default async function VideosList({ sliceList }: VideoListProps) {
   const latestVideos = sliceList ? videos.docs.slice(0, 6) : videos.docs;
 
   return (
-    <section className='py-8 gap-8 flex flex-col'>
-      <h1>Videos</h1>
-      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full'>
+    <section className='py-8 px-8 gap-8 flex flex-col bg-tertiary-200! rounded shadow-md'>
+      <div>
+        {sliceList ? <h1>Videos</h1> : <h1>Alla videos</h1>}
+        <h3 className=' '>
+          Utforska videor som täcker ämnen som kroppsbalansering, yinyoga och andra hälsorelaterade
+          tekniker.
+        </h3>
+      </div>
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12 w-full'>
         {latestVideos.length > 0 ? (
           latestVideos.map((video: any) => {
             const thumbnail = getYouTubeThumbnail(video.url);
@@ -40,20 +46,19 @@ export default async function VideosList({ sliceList }: VideoListProps) {
               <Link
                 href={`/medlemssida/video/${video.id}`}
                 key={video.id}
-                className='flex flex-col'
+                className='flex flex-col group'
               >
                 {thumbnail ? (
                   <div className='relative w-full h-[250px] overflow-hidden rounded bg-gray-200'>
                     <Image
                       src={thumbnail}
                       alt={`${video.title} thumbnail`}
-                      layout='fill' // Ensures the image fills the container
-                      objectFit='cover' // Ensures the image covers the container
-                      className='rounded'
+                      fill
+                      className='group rounded object-cover group-hover:scale-105 transition-transform duration-300'
                     />
                   </div>
                 ) : (
-                  <div className='flex items-center justify-center w-full h-[250px] bg-primary-100! rounded'>
+                  <div className='flex items-center justify-center w-full h-[250px] bg-black rounded'>
                     <span className='text-4xl! text-tertiary-100! font-bold'>?</span>
                   </div>
                 )}
@@ -66,11 +71,13 @@ export default async function VideosList({ sliceList }: VideoListProps) {
           <p>Inga videos är uppladdade!</p>
         )}
       </div>
-      <div className='mt-6 text-center'>
-        <Link href='/medlemssida/videos' className='underline!'>
-          Gå till alla videos
-        </Link>
-      </div>
+      {sliceList && (
+        <div className='mt-6 text-center'>
+          <Link href='/medlemssida/videos' className='underline!'>
+            Gå till alla videos
+          </Link>
+        </div>
+      )}
     </section>
   );
 }
