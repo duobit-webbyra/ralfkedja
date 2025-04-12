@@ -101,7 +101,7 @@ export function NavMobile() {
 
   return (
     <div className={style['content-mobile']}>
-      <Link style={{ color: 'var(--tertiary-100)', fontSize: 'var(--text-md)' }} href='/'>
+      <Link className='text-primary-400 text-3xl' href='/'>
         Ralf Kedja
       </Link>
 

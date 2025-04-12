@@ -27,7 +27,7 @@ export default function LoginForm() {
   }
 
   return (
-    <section className='flex min-h-[calc(100vh-var(--nav-height)-var(--info-header-height))] items-center justify-center !bg-[var(--primary-100)]'>
+    <section className='flex min-h-[calc(100vh-var(--nav-height)-var(--info-header-height))] items-center justify-center !bg-tertiary-100'>
       <Container className='flex flex-col gap-12 max-w-[600]'>
         <div className=''>
           <h1 className=''>Logga in till medlemssidan</h1>

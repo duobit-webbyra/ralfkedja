@@ -15,7 +15,6 @@ export default function Page() {
       <section
         style={{
           paddingBlock: '4rem',
-          backgroundColor: 'var(--tertiary-200)'
         }}
       >
         <CourseRegistration />

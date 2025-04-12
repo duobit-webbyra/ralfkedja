@@ -29,13 +29,13 @@ export default async function VideosList({ sliceList }: VideoListProps) {
   const latestVideos = sliceList ? videos.docs.slice(0, 6) : videos.docs;
 
   return (
-    <section className='py-8 px-8 gap-8 flex flex-col bg-tertiary-200! rounded shadow-md'>
+    <section className='py-8 px-8 gap-8 flex flex-col bg-tertiary-100! rounded shadow-md'>
       <div>
-        {sliceList ? <h1>Videos</h1> : <h1>Alla videos</h1>}
-        <h3 className=' '>
+        {sliceList ? <h2>Videos</h2> : <h1>Alla videos</h1>}
+        <p className=' '>
           Utforska videor som täcker ämnen som kroppsbalansering, yinyoga och andra hälsorelaterade
           tekniker.
-        </h3>
+        </p>
       </div>
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12 w-full'>
         {latestVideos.length > 0 ? (

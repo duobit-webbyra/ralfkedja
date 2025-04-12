@@ -32,7 +32,7 @@ function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
   };
 
   return (
-    <div className='flex flex-col gap-6 py-16'>
+    <div className='flex flex-col gap-6  '>
       <h1 className='text-2xl font-bold py-4'>Nyheter</h1>
       {newsPosts.map((post) => (
         <div key={post.id} className='bg-gray-100 p-6 rounded-lg shadow-md flex flex-col gap-4'>

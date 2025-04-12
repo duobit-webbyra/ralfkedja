@@ -9,7 +9,7 @@ export default function MenuOpenButton() {
         {' '}
         <path
           d='M4 6H20M4 12H20M4 18H20'
-          stroke='#f6f2ee'
+          stroke='#000000'
           strokeWidth='2'
           strokeLinecap='round'
           strokeLinejoin='round'

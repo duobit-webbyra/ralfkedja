@@ -13,14 +13,14 @@ export default async function Page() {
 
   return (
     <section className='relative '>
-      <div className='flex flex-col justify-center items-center py-16 gap-2 bg-tertiary-200'>
+      <div className='flex flex-col justify-center items-center py-16 gap-2 bg-secondary-100'>
         <h1 className=''>Medlemssida</h1>
         <h3 className='text-primary-300!'>
           Välkommen till medlemssidan där du kan hitta exklusiva videos och nyheter!
         </h3>
       </div>
 
-      <Container className='py-16 '>
+      <Container className='py-16 flex flex-col gap-16'>
         <VideosList sliceList={true} />
         <NewsServer />
       </Container>

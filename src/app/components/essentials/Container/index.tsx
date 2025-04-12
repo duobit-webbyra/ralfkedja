@@ -11,7 +11,7 @@ export default function Container({ children, className, ...rest }: Props) {
       {...rest}
       className={clsx(
         className,
-        '!mx-auto !w-full px-16',
+        '!mx-auto !w-full px-4',
         'min-[1280px]:!w-[1280px]',
         'min-[1280px]:!px-0',
       )}

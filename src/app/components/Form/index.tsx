@@ -25,7 +25,7 @@ export function Input({ className, ref, ...rest }: React.ComponentProps<'input'>
   return (
     <input
       ref={ref}
-      className={`${className} w-full rounded-full bg-[var(--tertiary-100)] py-4 px-6 `}
+      className={`${className} w-full rounded-full bg-[var(--tertiary-200)] py-4 px-6 `}
       {...rest}
     />
   );
