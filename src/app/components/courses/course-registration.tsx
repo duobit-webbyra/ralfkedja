@@ -2,10 +2,11 @@ import React from 'react';
 import CourseForm from './course-form';
 import Title from '../utils/title';
 import style from './course-registration.module.scss';
+import Container from '@/app/components/essentials/Container';
 export default function CourseRegistration() {
   return (
     <div className={style.container}>
-      <div className={style.content}>
+      <Container>
         <div className={style.text}>
           <Title
             heading='Kurser'
@@ -17,7 +18,7 @@ export default function CourseRegistration() {
         <div className={style['contact-form-container']}>
           <CourseForm layout='flex' />
         </div>
-      </div>
+      </Container>
     </div>
   );
 }

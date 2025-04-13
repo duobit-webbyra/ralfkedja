@@ -13,7 +13,7 @@ export default function DefaultCTA({ title, buttonText, buttonHref }: DefaultCTA
       <h3 className={style.text}>{title || 'Har du frågor du vill ställa mig?'}</h3>
       <div className={style.button}>
         <SecondaryButton href={buttonHref || '/kontakt'}>
-          <p>{buttonText || 'KONTAKTA MIG'}</p>
+          <p>{buttonText || 'Kontakta mig här'}</p>
         </SecondaryButton>
       </div>
     </div>

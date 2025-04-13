@@ -29,7 +29,9 @@
 .secondary-button {
   @include button-base();
   background: $secondary-200;
-  color: white !important;
+  & > p {
+    color: white !important;
+  }
 }
 
 .link {

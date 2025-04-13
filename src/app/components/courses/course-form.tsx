@@ -1,9 +1,9 @@
 'use client';
 import React, { useState } from 'react';
-
+import Container from '../essentials/Container';
 import style from '../contact/contact-form.module.scss';
 import PrimaryButton from '../button/primary-button';
-
+import { Input } from '../Form';
 interface CourseFormProps {
   layout: 'grid' | 'flex';
 }
@@ -41,12 +41,12 @@ export default function CourseForm({ layout }: CourseFormProps) {
 
   return (
     <div className={style.container}>
-      <div className={style.content}>
-        <h2 style={{ textAlign: 'center', color: 'var(--tertiary-100)' }}>Intresseanmälan</h2>
+      <Container className='flex flex-col gap-8'>
+        <h2 style={{ textAlign: 'center' }}>Intresseanmälan</h2>
         <form className={style.form} action={sendCourseInquiry} onSubmit={handleSubmit}>
           <div className={`${style.inputs} ${layout === 'grid' ? style.grid : style.flex}`}>
-            <input
-              className={style.forminput}
+            <Input
+              className='bg-tertiary-200'
               type='text'
               placeholder='Namn'
               minLength={2}
@@ -54,8 +54,8 @@ export default function CourseForm({ layout }: CourseFormProps) {
               required
               name='name'
             />
-            <input
-              className={style.forminput}
+            <Input
+              className='bg-tertiary-200'
               type='email'
               placeholder='E-mail'
               minLength={5}
@@ -63,8 +63,8 @@ export default function CourseForm({ layout }: CourseFormProps) {
               required
               name='email'
             />
-            <input
-              className={style.forminput}
+            <Input
+              className='bg-tertiary-200'
               type='number'
               placeholder='Telefonnummer'
               minLength={2}
@@ -72,19 +72,17 @@ export default function CourseForm({ layout }: CourseFormProps) {
               required
               name='phone'
             />
-            <p style={{ color: 'var(--tertiary-100)', fontSize: '20px' }}>
-              Markera de kurser du är intresserad av nedan:
-            </p>
+            <p>Markera de kurser du är intresserad av nedan:</p>
             <div className={style['checkbox-group']}>
-              <div className={style['input-selection']}>
+              <div>
                 <input type='checkbox' name='options' value='Biomagnetism steg 1-2' />
                 <label>Biomagnetism steg 1-2</label>
               </div>
-              <div className={style['input-selection']}>
+              <div>
                 <input type='checkbox' name='options' value='Touch for Health steg 1-4' />
                 <label>Touch for Health steg 1-4</label>
               </div>
-              <div className={style['input-selection']}>
+              <div>
                 <input
                   type='checkbox'
                   name='options'
@@ -92,9 +90,7 @@ export default function CourseForm({ layout }: CourseFormProps) {
                 />
                 Grundkurs i kinesiologi/muskeltestning
               </div>
-              <p style={{ color: 'var(--tertiary-100)', fontSize: '20px' }}>
-                Vilken stad skulle du föredra att gå kursen i?
-              </p>
+              <p>Vilken stad skulle du föredra att gå kursen i?</p>
             </div>
             <div className={style['radio-group']}>
               <div className={style['input-selection']}>
@@ -116,7 +112,7 @@ export default function CourseForm({ layout }: CourseFormProps) {
               Övriga frågor och funderingar:
             </p>
             <textarea
-              className={style.textarea}
+              className='bg-tertiary-200'
               placeholder='Meddelande'
               maxLength={500}
               name='message'
@@ -126,7 +122,7 @@ export default function CourseForm({ layout }: CourseFormProps) {
           <Submit />
           <Turnstile />
         </form>
-      </div>
+      </Container>
     </div>
   );
 }

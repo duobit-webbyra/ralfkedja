@@ -12,11 +12,7 @@ export default function Page() {
   return (
     <>
       <DefaultHero title='Kurser' />
-      <section
-        style={{
-          paddingBlock: '4rem',
-        }}
-      >
+      <section className='py-16'>
         <CourseRegistration />
       </section>
     </>
