@@ -6,8 +6,8 @@ import Container from '@/app/components/essentials/Container';
 export default function CourseRegistration() {
   return (
     <div className={style.container}>
-      <Container>
-        <div className={style.text}>
+      <Container className='flex flex-col md:flex-row gap-8'>
+        <div className='w-full md:w-1/2'>
           <Title
             heading='Kurser'
             subHeading='Delta i kommande kurser!'
@@ -15,8 +15,8 @@ export default function CourseRegistration() {
             left
           />
         </div>
-        <div className={style['contact-form-container']}>
-          <CourseForm layout='flex' />
+        <div className='w-full md:flex-1'>
+          <CourseForm />
         </div>
       </Container>
     </div>

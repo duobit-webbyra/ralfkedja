@@ -32,6 +32,11 @@ export const News: CollectionConfig = {
       label: 'Kommentarer',
       fields: [
         {
+          name: 'id',
+          type: 'text',
+          required: true,
+        },
+        {
           name: 'comment',
           type: 'textarea',
           required: true,
@@ -50,9 +55,7 @@ export const News: CollectionConfig = {
             disabled: true,
           },
           hooks: {
-            beforeChange: [
-              ({ value }) => value || new Date().toISOString(),
-            ],
+            beforeChange: [({ value }) => value || new Date().toISOString()],
           },
         },
       ],

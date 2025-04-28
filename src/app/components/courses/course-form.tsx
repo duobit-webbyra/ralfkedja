@@ -1,12 +1,8 @@
 'use client';
 import React, { useState } from 'react';
-import Container from '../essentials/Container';
 import style from '../contact/contact-form.module.scss';
 import PrimaryButton from '../button/primary-button';
 import { Input } from '../Form';
-interface CourseFormProps {
-  layout: 'grid' | 'flex';
-}
 
 import { sendCourseInquiry } from '@/app/(app)/kontakt/actions';
 import { useFormStatus } from 'react-dom';
@@ -21,7 +17,7 @@ const Submit = () => {
   );
 };
 
-export default function CourseForm({ layout }: CourseFormProps) {
+export default function CourseForm() {
   const [error, setError] = useState('');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -41,10 +37,10 @@ export default function CourseForm({ layout }: CourseFormProps) {
 
   return (
     <div className={style.container}>
-      <Container className='flex flex-col gap-8'>
-        <h2 style={{ textAlign: 'center' }}>Intresseanmälan</h2>
+      <div className='flex flex-col gap-8'>
+        <h2 className='md:text-center'>Intresseanmälan</h2>
         <form className={style.form} action={sendCourseInquiry} onSubmit={handleSubmit}>
-          <div className={`${style.inputs} ${layout === 'grid' ? style.grid : style.flex}`}>
+          <div className={`flex flex-col gap-4 ${style['inputs']}`}>
             <Input
               className='bg-tertiary-200'
               type='text'
@@ -72,7 +68,7 @@ export default function CourseForm({ layout }: CourseFormProps) {
               required
               name='phone'
             />
-            <p>Markera de kurser du är intresserad av nedan:</p>
+            <p className='text-xl!'>Markera de kurser du är intresserad av nedan:</p>
             <div className={style['checkbox-group']}>
               <div>
                 <input type='checkbox' name='options' value='Biomagnetism steg 1-2' />
@@ -90,7 +86,7 @@ export default function CourseForm({ layout }: CourseFormProps) {
                 />
                 Grundkurs i kinesiologi/muskeltestning
               </div>
-              <p>Vilken stad skulle du föredra att gå kursen i?</p>
+              <p className='text-xl!'>Vilken stad skulle du föredra att gå kursen i?</p>
             </div>
             <div className={style['radio-group']}>
               <div className={style['input-selection']}>
@@ -108,11 +104,9 @@ export default function CourseForm({ layout }: CourseFormProps) {
                 <label>Stockholm</label>
               </div>
             </div>
-            <p style={{ color: 'var(--tertiary-100)', fontSize: '20px' }}>
-              Övriga frågor och funderingar:
-            </p>
+            <p className='text-xl!'>Övriga frågor och funderingar:</p>
             <textarea
-              className='bg-tertiary-200'
+              className={style.textarea}
               placeholder='Meddelande'
               maxLength={500}
               name='message'
@@ -122,7 +116,7 @@ export default function CourseForm({ layout }: CourseFormProps) {
           <Submit />
           <Turnstile />
         </form>
-      </Container>
+      </div>
     </div>
   );
 }

@@ -144,10 +144,10 @@ export interface News {
   content: string;
   comments?:
     | {
+        id: string | null;
         comment: string;
         author: string;
         createdAt?: string | null;
-        id?: string | null;
       }[]
     | null;
   updatedAt: string;
@@ -288,10 +288,10 @@ export interface NewsSelect<T extends boolean = true> {
   comments?:
     | T
     | {
+        id?: T;
         comment?: T;
         author?: T;
         createdAt?: T;
-        id?: T;
       };
   updatedAt?: T;
   createdAt?: T;
