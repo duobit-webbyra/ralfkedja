@@ -102,13 +102,14 @@
 }
 
 .textarea {
-  background-color: $tertiary-200;
+  background-color: $tertiary-100;
   padding: 12px 1rem;
   border-radius: 20px;
   border: 0px solid;
   min-height: 200px;
   font-family: dmSerifDisplay;
   resize: none;
+  width: 100%;
 
   &::placeholder {
     opacity: 0.8;

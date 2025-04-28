@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { saveComment, deleteComment } from './send_comment'; // Import your server action
 import { News, User } from '@/payload-types';
 import { Form, Input } from '../Form';
+import { v4 as uuidv4 } from 'uuid';
 interface NewsClientProps {
   newsPosts: News[];
   user: User;
@@ -20,6 +21,7 @@ function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
               comments: [
                 ...(post.comments ?? []), // Default to an empty array if comments is null or undefined
                 {
+                  id: uuidv4(), // Generate a unique ID for the new comment
                   comment,
                   author,
                   createdAt: new Date().toISOString(),

@@ -81,6 +81,17 @@ input:-webkit-autofill {
   transition: background-color 5000s ease-in-out 0s;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
 h1,
 h2,
 h3,

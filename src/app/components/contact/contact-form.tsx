@@ -4,9 +4,9 @@ import React from 'react';
 
 import style from './contact-form.module.scss';
 import PrimaryButton from '../button/primary-button';
-
+import { Input } from '@/app/components/Form';
 interface ContactFormProps {
-  layout: 'grid' | 'flex';
+  grid?: boolean;
 }
 
 import { sendEmail } from '@/app/(app)/kontakt/actions';
@@ -22,61 +22,57 @@ const Submit = () => {
   );
 };
 
-export default function ContactForm({ layout }: ContactFormProps) {
+export default function ContactForm({ grid }: ContactFormProps) {
   return (
-    <div className={style.container}>
-      <div className={style.content}>
-        <form className={style.form} action={sendEmail}>
-          <div className={`${style.inputs} ${layout === 'grid' ? style.grid : style.flex}`}>
-            <input
-              className={style.forminput}
-              type='text'
-              placeholder='Namn'
-              minLength={2}
-              maxLength={150}
-              required
-              name='name'
-            />
-            <input
-              className={style.forminput}
-              type='email'
-              placeholder='E-mail'
-              minLength={5}
-              maxLength={150}
-              required
-              name='email'
-            />
-            <input
-              className={style.forminput}
-              type='number'
-              placeholder='Telefonnummer'
-              minLength={2}
-              maxLength={150}
-              required
-              name='phone'
-            />
-
-            <input
-              className={style.forminput}
-              type='text'
-              placeholder='Ämne'
-              minLength={5}
-              maxLength={150}
-              required
-              name='subject'
-            />
-          </div>
-          <textarea
-            placeholder='Meddelande'
-            minLength={10}
-            maxLength={500}
-            name='message'
-            required
-          ></textarea>
-          <Submit />
-          <Turnstile />
-        </form>
+    <form className={`flex flex-col gap-3`} action={sendEmail}>
+      <div className={`flex ${grid ? 'grid grid-cols-2' : 'flex-col'} gap-3`}>
+        <Input
+          className={style.forminput}
+          type='text'
+          placeholder='Namn'
+          minLength={2}
+          maxLength={150}
+          required
+          name='name'
+        />
+        <Input
+          className={style.forminput}
+          type='email'
+          placeholder='E-mail'
+          minLength={5}
+          maxLength={150}
+          required
+          name='email'
+        />
+        <Input
+          className={style.forminput}
+          type='number'
+          placeholder='Telefonnummer'
+          minLength={2}
+          maxLength={150}
+          required
+          name='phone'
+        />
+        <Input
+          className={style.forminput}
+          type='text'
+          placeholder='Ämne'
+          minLength={5}
+          maxLength={150}
+          required
+          name='subject'
+        />
       </div>
-    </div>
+      <textarea
+        className={style.textarea}
+        placeholder='Meddelande'
+        minLength={10}
+        maxLength={500}
+        name='message'
+        required
+      ></textarea>
+      <Submit />
+      <Turnstile />
+    </form>
   );
 }
