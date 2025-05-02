@@ -2,22 +2,55 @@ import { getPayload } from 'payload';
 import config from '@payload-config';
 import NewsClient from './news_client';
 import { getUser } from '@/app/providers/auth-server';
+import { ClientNews } from './news_client';
 
 export default async function NewsServer() {
-  const payload = await getPayload({ config });
-  const user = await getUser();
-  const news_response = await payload.find({
-    collection: 'news', // Fetch from the 'news' collection
-  });
+  try {
+    const payload = await getPayload({ config });
+    const user = await getUser();
 
-  // Ensure comments are always an array and createdAt is always a string
-  const newsPosts = news_response.docs.map((post) => ({
-    ...post,
-    comments: (post.comments || []).map((comment) => ({
-      ...comment,
-      createdAt: comment.createdAt || new Date().toISOString(), // Default to current date if undefined or null
-    })),
-  }));
+    if (!user) {
+      // Handle unauthenticated user case
+      return (
+        <div className='p-6 bg-red-100 rounded-lg text-center'>
+          <h2 className='text-xl font-bold'>Authentication Required</h2>
+          <p>Please log in to view news and comments.</p>
+        </div>
+      );
+    }
 
-  return <NewsClient newsPosts={newsPosts} user={user} />;
+    const news_response = await payload.find({
+      collection: 'news',
+      sort: '-createdAt', // Sort by newest first
+      depth: 1, // Limit depth of relationship resolution
+    });
+
+    // Convert to ClientNews format, sanitizing data to prevent leakage
+    const newsPosts: ClientNews[] = news_response.docs.map((post) => ({
+      id: post.id,
+      title: post.title as string,
+      content: post.content as string,
+      createdAt: post.createdAt as string,
+      comments: (post.comments || []).map((comment: any) => ({
+        id: comment.id as string,
+        comment: comment.comment as string,
+        author: {
+          id: comment.author.id as string,
+          name: comment.author.name as string,
+          // No other user fields are sent to the client
+        },
+        createdAt: comment.createdAt || new Date().toISOString(),
+      })),
+    }));
+
+    return <NewsClient newsPosts={newsPosts} user={user} />;
+  } catch (error) {
+    console.error('Error loading news:', error);
+    return (
+      <div className='p-6 bg-red-100 rounded-lg text-center'>
+        <h2 className='text-xl font-bold'>Error Loading News</h2>
+        <p>There was an error loading the news. Please try again later.</p>
+      </div>
+    );
+  }
 }

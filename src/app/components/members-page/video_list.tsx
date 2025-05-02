@@ -29,9 +29,9 @@ export default async function VideosList({ sliceList }: VideoListProps) {
   const latestVideos = sliceList ? videos.docs.slice(0, 6) : videos.docs;
 
   return (
-    <section className='md:py-8 md:px-8 gap-8 flex flex-col md:bg-tertiary-100! rounded md:shadow-md'>
+    <section className='md:py-8 md:px-8 gap-8 flex flex-col md:bg-tertiary-100! rounded '>
       <div>
-        {sliceList ? <h2>Videos</h2> : <h1>Alla videos</h1>}
+        {sliceList ? <h1>Videos</h1> : <h1>Alla videos</h1>}
         {sliceList && (
           <p className=' '>
             Utforska videor som täcker ämnen som kroppsbalansering, yinyoga och andra

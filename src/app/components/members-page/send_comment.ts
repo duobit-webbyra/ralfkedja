@@ -2,21 +2,44 @@
 
 import { getPayload } from 'payload';
 import config from '@payload-config';
+import { getUser } from '@/app/providers/auth-server';
+import { v4 as uuidv4 } from 'uuid';
 
-import { v4 as uuidv4 } from 'uuid'; // Install uuid with `npm install uuid`
+type CommentResponse = {
+  status: 'success' | 'error';
+  message?: string;
+  data?: {
+    postId?: string;
+    commentId?: string;
+  };
+};
 
-export async function saveComment(formData: FormData) {
+export async function saveComment(formData: FormData): Promise<CommentResponse> {
   const postId = formData.get('postId')?.toString();
   const comment = formData.get('comment')?.toString();
-  const author = formData.get('author')?.toString() || 'Anonymous';
+  const commentId = formData.get('commentId')?.toString();
+  const authorId = formData.get('author')?.toString();
 
-  if (!postId || !comment) {
-    return { status: 'error', message: 'Post ID and comment are required.' };
+  // Validate input
+  if (!postId || !comment || !authorId) {
+    return { status: 'error', message: 'Post ID, comment, and author ID are required.' };
+  }
+
+  if (comment.trim().length === 0) {
+    return { status: 'error', message: 'Comment cannot be empty.' };
   }
 
   try {
+    // Get authenticated user to verify identity
+    const currentUser = await getUser();
+
+    if (!currentUser || currentUser.user.id !== authorId) {
+      return { status: 'error', message: 'Unauthorized: User authentication failed.' };
+    }
+
     const payload = await getPayload({ config });
 
+    // Verify the post exists
     const existingPost = await payload.findByID({
       collection: 'news',
       id: postId,
@@ -26,26 +49,19 @@ export async function saveComment(formData: FormData) {
       return { status: 'error', message: 'Post not found.' };
     }
 
-    // Check for duplicate comments
-    if (
-      existingPost.comments?.some(
-        (existingComment) =>
-          existingComment.comment === comment && existingComment.author === author,
-      )
-    ) {
-      return { status: 'error', message: 'Duplicate comment detected.' };
-    }
-
-    // Generate a unique ID for the new comment
+    // Create new comment with sanitized data
     const newComment = {
-      id: uuidv4(), // Generate a unique ID
-      comment,
-      author,
+      id: commentId,
+      comment: comment.trim(),
+      author: {
+        id: authorId,
+        name: currentUser.user.name,
+      },
       createdAt: new Date().toISOString(),
     };
 
     // Update the post with the new comment
-    const updatedPost = await payload.update({
+    await payload.update({
       collection: 'news',
       id: postId,
       data: {
@@ -53,41 +69,46 @@ export async function saveComment(formData: FormData) {
       },
     });
 
-    console.log('Comment added successfully to post:', updatedPost.id);
-
     return {
       status: 'success',
       data: {
         postId,
-        comment: newComment.comment,
-        author: newComment.author,
-        id: newComment.id, // Return the new comment ID
+        commentId: newComment.id,
       },
     };
   } catch (error) {
     console.error('Failed to save comment:', error);
-    return { status: 'error', message: 'Failed to save comment.' };
+    return { status: 'error', message: 'Failed to save comment. Please try again.' };
   }
 }
 
-export async function deleteComment(postId: string, userId: string, commentId: string) {
-  // if (!postId || !userId || !commentId) {
-  //   return { status: 'error', message: 'Post ID, user ID, and comment ID are required.' };
-  // }
+export async function deleteComment(
+  postId: string,
+  userId: string,
+  commentId: string,
+): Promise<CommentResponse> {
+  // Validate input
   if (!postId) {
-    return { status: 'error', message: 'post ID is required.' };
+    return { status: 'error', message: 'Post ID is required.' };
   }
   if (!userId) {
-    return { status: 'error', message: 'user ID is required.' };
+    return { status: 'error', message: 'User ID is required.' };
   }
   if (!commentId) {
-    return { status: 'error', message: 'comment ID is required.' };
+    return { status: 'error', message: 'Comment ID is required.' };
   }
 
   try {
+    // Get authenticated user to verify identity
+    const currentUser = await getUser();
+
+    if (!currentUser || currentUser.user.id !== userId) {
+      return { status: 'error', message: 'Unauthorized: User authentication failed.' };
+    }
+
     const payload = await getPayload({ config });
 
-    // Find the specific post
+    // Find the post
     const existingPost = await payload.findByID({
       collection: 'news',
       id: postId,
@@ -97,21 +118,33 @@ export async function deleteComment(postId: string, userId: string, commentId: s
       return { status: 'error', message: 'Post not found.' };
     }
 
-    // Filter out the comment to be deleted
-    const updatedComments = (existingPost.comments ?? []).filter(
+    // Find the comment
+    const commentToDelete = (existingPost.comments || []).find(
+      (comment) => comment.id === commentId,
+    );
+
+    if (!commentToDelete) {
+      return { status: 'error', message: 'Comment not found.' };
+    }
+
+    // Verify user owns the comment
+    if (commentToDelete.author.id !== userId) {
+      return { status: 'error', message: 'Unauthorized: You can only delete your own comments.' };
+    }
+
+    // Remove the comment
+    const updatedComments = (existingPost.comments || []).filter(
       (comment) => comment.id !== commentId,
     );
 
-    // Update the post with the filtered comments
-    const updatedPost = await payload.update({
+    // Update the post
+    await payload.update({
       collection: 'news',
       id: postId,
       data: {
         comments: updatedComments,
       },
     });
-
-    console.log('Comment deleted successfully from post:', updatedPost.id);
 
     return {
       status: 'success',
@@ -122,6 +155,6 @@ export async function deleteComment(postId: string, userId: string, commentId: s
     };
   } catch (error) {
     console.error('Failed to delete comment:', error);
-    return { status: 'error', message: 'Failed to delete comment.' };
+    return { status: 'error', message: 'Failed to delete comment. Please try again.' };
   }
 }

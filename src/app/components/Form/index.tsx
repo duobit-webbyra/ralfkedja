@@ -172,16 +172,35 @@ export function MultiSelect({ legend, name, options, vertical }: SelectProps) {
 
 interface TextAreaProps extends React.ComponentProps<'textarea'> {
   label?: string;
+  className?: string;
 }
 
-export function TextArea({ label, ...rest }: TextAreaProps) {
+export function TextArea({ label, className, ...rest }: TextAreaProps) {
   return (
-    <div className='mt-3'>
+    <div className='w-full'>
       {label && <label>{label}</label>}
       <textarea
-        className='min-h-[180px] w-full resize-none rounded-xl bg-secondary px-5 py-4
-          placeholder-secondary-accent outline-none focus-within:border-2
-          focus-within:border-tertiary'
+        className={clsx(
+          'w-full resize-none h-max!  rounded-xl bg-secondary px-5 py-4 placeholder-secondary-accent outline-none focus-within:border-2 focus-within:border-tertiary',
+          className, // Merge additional class names
+        )}
+        rows={1} // Start with one row
+        {...rest}
+      ></textarea>
+    </div>
+  );
+}
+
+export function TextAreaNew({ label, className, ...rest }: TextAreaProps) {
+  return (
+    <div className='w-full'>
+      {label && <label>{label}</label>}
+      <textarea
+        className={clsx(
+          'w-full min-h-[60px] resize-none outline-none bg-secondary placeholder-secondary-accent ',
+          className, // Merge additional class names
+        )}
+        rows={1} // Start with one row
         {...rest}
       ></textarea>
     </div>

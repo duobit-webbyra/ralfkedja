@@ -12,8 +12,8 @@ export default async function Page() {
   }
 
   return (
-    <section className='relative '>
-      <div className='flex flex-col justify-center items-center py-16 gap-2 bg-secondary-100'>
+    <div className='relative '>
+      <div className='flex flex-col justify-center items-center py-8 gap-2 bg-secondary-100'>
         <Container>
           <h1 className='text-center '>Medlemssida</h1>
           <h3 className='text-primary-300! text-center'>
@@ -21,11 +21,16 @@ export default async function Page() {
           </h3>
         </Container>
       </div>
-
-      <Container className='py-16 flex flex-col gap-16'>
-        <VideosList sliceList={true} />
-        <NewsServer />
-      </Container>
-    </section>
+      <section>
+        <Container className='py-16 flex flex-col gap-16'>
+          <VideosList sliceList={true} />
+        </Container>
+      </section>
+      <section className='bg-[#F5F5F5]'>
+        <Container className='py-16 flex flex-col gap-8 '>
+          <NewsServer />
+        </Container>
+      </section>
+    </div>
   );
 }

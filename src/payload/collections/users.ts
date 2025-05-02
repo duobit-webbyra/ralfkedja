@@ -5,7 +5,7 @@ import { isAdmin } from '../access/is-admin';
 export const Users: CollectionConfig = {
   slug: 'users',
   admin: {
-    useAsTitle: 'email',
+    useAsTitle: 'name',
   },
   defaultSort: 'role',
   access: {

@@ -1,29 +1,61 @@
 'use client';
 import React, { useState } from 'react';
-import { saveComment, deleteComment } from './send_comment'; // Import your server action
-import { News, User } from '@/payload-types';
-import { Form, Input } from '../Form';
+import { saveComment, deleteComment } from './send_comment';
+import { User } from '@/payload-types';
+import { Form, TextAreaNew } from '../Form';
 import { v4 as uuidv4 } from 'uuid';
+import { IoSend } from 'react-icons/io5';
+import { MdDeleteOutline } from 'react-icons/md';
+import { cp } from 'fs';
+
 interface NewsClientProps {
-  newsPosts: News[];
-  user: User;
+  newsPosts: ClientNews[];
+  user: {
+    user: {
+      id: string;
+      name: string;
+      role: string;
+    };
+  };
+}
+
+export interface ClientNews {
+  id: string;
+  title: string;
+  content: string;
+  createdAt?: string;
+  comments: {
+    id: string;
+    comment: string;
+    author: {
+      id: string;
+      name: string;
+    };
+    createdAt: string;
+  }[];
 }
 
 function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
-  const [newsPosts, setNewsPosts] = useState<News[]>(initialNewsPosts);
+  const [newsPosts, setNewsPosts] = useState<ClientNews[]>(initialNewsPosts);
 
-  const handleAddCommentLocally = (postId: string, comment: string, author: string) => {
+  const handleAddCommentLocally = (
+    postId: string,
+    commentText: string,
+    commentId: string,
+    authorId: string,
+    authorName: string,
+  ) => {
     setNewsPosts((prevPosts) =>
       prevPosts.map((post) =>
         post.id === postId
           ? {
               ...post,
               comments: [
-                ...(post.comments ?? []), // Default to an empty array if comments is null or undefined
+                ...(post.comments ?? []),
                 {
-                  id: uuidv4(), // Generate a unique ID for the new comment
-                  comment,
-                  author,
+                  id: commentId,
+                  comment: commentText, // Fixed: Added the missing comment text
+                  author: { id: authorId, name: authorName },
                   createdAt: new Date().toISOString(),
                 },
               ],
@@ -33,96 +65,138 @@ function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
     );
   };
 
-  const DeleteCommentLocal = async (postId: string, userId: string, commentId: string) => {
-    const result = await deleteComment(postId, userId, commentId);
+  const handleDeleteComment = async (postId: string, userId: string, commentId: string) => {
+    try {
+      const result = await deleteComment(postId, userId, commentId);
 
-    if (result?.status === 'success') {
-      setNewsPosts((prevPosts) =>
-        prevPosts.map((post) =>
-          post.id === postId
-            ? {
-                ...post,
-                comments: (post.comments ?? []).filter((comment) => comment.id !== commentId),
-              }
-            : post,
-        ),
-      );
-    } else {
-      alert(result?.message || 'Failed to delete comment.');
+      if (result?.status === 'success') {
+        setNewsPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post.id === postId
+              ? {
+                  ...post,
+                  comments: (post.comments ?? []).filter((comment) => comment.id !== commentId),
+                }
+              : post,
+          ),
+        );
+      } else {
+        console.error('Failed to delete comment:', result?.message);
+        alert(result?.message || 'Failed to delete comment.');
+      }
+    } catch (error) {
+      console.error('Error deleting comment:', error);
+      alert('An error occurred while deleting the comment.');
+    }
+  };
+
+  const formatDate = (dateString: string) => {
+    try {
+      return new Intl.DateTimeFormat('sv-SE', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone: 'Europe/Stockholm',
+      }).format(new Date(dateString));
+    } catch (error) {
+      console.error('Date formatting error:', error);
+      return 'Invalid date';
     }
   };
 
   return (
-    <div className='flex flex-col gap-6  '>
-      <h1 className='text-2xl font-bold py-4'>Nyheter</h1>
-      {newsPosts.map((post) => (
-        <div key={post.id} className='bg-gray-100 p-6 rounded-lg shadow-md flex flex-col'>
-          <h2 className='text-xl font-bold'>{post.title}</h2>
-          <p className='text-sm text-gray-500!'>
-            Ralf Kedja • {new Date(post.createdAt ?? new Date().toISOString()).toLocaleDateString()}
-          </p>
-          <p className='text-gray-700! my-4'>{post.content}</p>
-          <div className='mt-4'>
-            <h3 className='text-lg font-semibold'>Kommentarer</h3>
-            <ul className='mt-2 space-y-2'>
-              {(post.comments ?? []).map(
-                (comment, index) => (
-                  console.log(comment),
-                  (
-                    <li key={index} className='bg-tertiary-200 py-2 px-4 rounded-lg  '>
-                      <div className='flex justify-between items-center'>
-                        <div>
-                          <p>{comment.comment}</p>
-                          <p className=' text-primary-200! text-xs!'>
-                            {comment.author} •{' '}
-                            {new Date(
-                              comment.createdAt ?? new Date().toISOString(),
-                            ).toLocaleDateString()}
-                          </p>
-                        </div>
-                        {user.user.name === comment.author && (
-                          <button
-                            onClick={() => DeleteCommentLocal(post.id, user.user.id, comment.id)}
-                          >
-                            <p>x</p>
-                          </button>
-                        )}
+    <>
+      <div className='mb-6'>
+        <h1 className='text-2xl font-bold'>Nyheter</h1>
+        <p>Läs de senaste nyheter och uppdateringar!</p>
+      </div>
+      <div className='flex flex-col gap-16'>
+        {newsPosts.map((post) => (
+          <div key={post.id} className='bg-tertiary-100 p-6 rounded-lg shadow-sm flex flex-col'>
+            <h2 className='text-xl font-bold'>{post.title}</h2>
+            <p className='text-sm text-gray-500'>
+              Ralf Kedja • Publicerad {formatDate(post.createdAt || new Date().toISOString())}
+            </p>
+            <p className='my-4'>{post.content}</p>
+            <div className='mt-4'>
+              <h3 className='text-lg font-semibold'>Kommentarer:</h3>
+              <ul className='mt-2 space-y-2'>
+                {post.comments.map((comment) => (
+                  <li key={comment.id} className='bg-tertiary-200 py-2 pl-4 pr-2 rounded-lg'>
+                    <div className='flex justify-between items-start'>
+                      <div>
+                        <p className='mb-2 break-all'>{comment.comment}</p>
+                        <p className='text-primary-200 text-xs'>
+                          {comment.author.name} • {formatDate(comment.createdAt)}
+                        </p>
                       </div>
-                    </li>
-                  )
-                ),
-              )}
-            </ul>
-            <Form
-              className='mt-4 flex gap-2'
-              action={async (formData) => {
-                formData.append('postId', post.id);
-                formData.append('author', user.user.name);
-                const response = await saveComment(formData);
+                      {user.user.id === comment.author.id && (
+                        <button
+                          className='cursor-pointer'
+                          onClick={() => handleDeleteComment(post.id, user.user.id, comment.id)}
+                          aria-label='Delete comment'
+                        >
+                          <MdDeleteOutline size={20} color='#424847' />
+                        </button>
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <Form
+                className='mt-4 flex outline-none focus-within:border-2 focus-within:border-tertiary flex-col gap-2 bg-[#F5F5F5] border rounded items-end'
+                action={async (formData) => {
+                  try {
+                    // Get the comment text for optimistic UI update
+                    const commentText = formData.get('comment')?.toString() || '';
+                    const commentId = uuidv4();
+                    formData.append('commentId', commentId);
+                    formData.append('postId', post.id);
+                    formData.append('author', user.user.id);
 
-                if (response.status === 'success' && response.data) {
-                  const { postId, comment, author } = response.data;
-                  handleAddCommentLocally(postId, comment, author);
-                } else {
-                  alert('Failed to add comment.');
-                }
-              }}
-            >
-              <Input
-                type='text'
-                name='comment'
-                placeholder='Skriv en kommentar...'
-                className='flex-1 p-2 border rounded bg-tertiary-100!'
-                required
-              />
-              <button type='submit' className='bg-primary-300 text-white px-4 py-2 rounded'>
-                Kommentera
-              </button>
-            </Form>
+                    // Call server action
+                    const result = await saveComment(formData);
+
+                    // Add comment locally for immediate UI update
+                    if (!result?.status || result.status !== 'error') {
+                      handleAddCommentLocally(
+                        post.id,
+                        commentText,
+                        commentId,
+                        user.user.id,
+                        user.user.name,
+                      );
+                    } else {
+                      console.error('Failed to save comment:', result.message);
+                      alert(result.message || 'Failed to save comment.');
+                    }
+                  } catch (error) {
+                    console.error('Error saving comment:', error);
+                    alert('An error occurred while saving the comment.');
+                  }
+                }}
+              >
+                <TextAreaNew
+                  name='comment'
+                  placeholder='Skriv en kommentar...'
+                  className='px-5 py-4'
+                  required
+                />
+                <button
+                  type='submit'
+                  className='cursor-pointer px-3 py-3'
+                  aria-label='Send comment'
+                >
+                  <IoSend size={20} color='#424847' />
+                </button>
+              </Form>
+            </div>
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </>
   );
 }
 

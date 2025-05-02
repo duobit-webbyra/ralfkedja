@@ -146,7 +146,7 @@ export interface News {
     | {
         id: string | null;
         comment: string;
-        author: string;
+        author: string | User;
         createdAt?: string | null;
       }[]
     | null;

@@ -44,7 +44,8 @@ export const News: CollectionConfig = {
         },
         {
           name: 'author',
-          type: 'text',
+          type: 'relationship',
+          relationTo: 'users',
           required: true,
           label: 'Författare',
         },
