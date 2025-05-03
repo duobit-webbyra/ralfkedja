@@ -31,17 +31,20 @@ export default async function NewsServer() {
       title: post.title as string,
       content: post.content as string,
       createdAt: post.createdAt as string,
-      likes: post.likes,
+      likes: (post.likes || []).map((like: any) => ({
+        user: typeof like.user === 'string' ? like.user : like.user?.id, // Normalize user field
+      })),
       comments: (post.comments || []).map((comment: any) => ({
         id: comment.id as string,
         comment: comment.comment as string,
         author: {
           id: comment.author.id as string,
           name: comment.author.name as string,
-          // No other user fields are sent to the client
         },
         createdAt: comment.createdAt || new Date().toISOString(),
-        likes: comment.likes,
+        likes: (comment.likes || []).map((like: any) => ({
+          user: typeof like.user === 'string' ? like.user : like.user?.id, // Normalize user field
+        })),
       })),
     }));
 

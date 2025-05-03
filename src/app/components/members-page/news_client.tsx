@@ -44,20 +44,23 @@ function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
   const [newsPosts, setNewsPosts] = useState<ClientNews[]>(initialNewsPosts);
 
   const handleLikePost = async (postId: string) => {
-    // Get the current post
+    // Find the post and check if the user has already liked it
     const post = newsPosts.find((post) => post.id === postId);
 
     if (!post) {
-      console.error('Post not found');
+      console.error('Post not found:', postId);
       return;
     }
 
-    // Check if user has liked this post in the current client state
-    // This is just for optimistic UI update and will be re-verified on the server
-    const clientSideAlreadyLiked = post.likes?.some((like) => {
-      const likeUserId = typeof like.user === 'string' ? like.user : like.user.id;
+    // Check if the user has already liked the post
+    const alreadyLiked = post.likes?.some((like) => {
+      // Normalize the user ID from the likes array
+      const likeUserId = typeof like.user === 'string' ? like.user : like.user?.id;
       return likeUserId === user.user.id;
     });
+
+    console.log('Post before like:', post);
+    console.log('Already liked:', alreadyLiked);
 
     // Optimistically update the UI
     setNewsPosts((prevPosts) =>
@@ -65,9 +68,9 @@ function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
         post.id === postId
           ? {
               ...post,
-              likes: clientSideAlreadyLiked
+              likes: alreadyLiked
                 ? post.likes?.filter((like) => {
-                    const likeUserId = typeof like.user === 'string' ? like.user : like.user.id;
+                    const likeUserId = typeof like.user === 'string' ? like.user : like.user?.id;
                     return likeUserId !== user.user.id;
                   }) // Remove like
                 : [...(post.likes || []), { user: user.user.id }], // Add like
@@ -77,7 +80,6 @@ function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
     );
 
     // Call the server action to update the database
-    // We no longer pass the alreadyLiked flag - server will determine this
     try {
       const result = await likePost(postId, user.user.id);
 
@@ -91,37 +93,13 @@ function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
             post.id === postId
               ? {
                   ...post,
-                  likes: clientSideAlreadyLiked
+                  likes: alreadyLiked
                     ? [...(post.likes || []), { user: user.user.id }] // Re-add like
                     : post.likes?.filter((like) => {
-                        const likeUserId = typeof like.user === 'string' ? like.user : like.user.id;
+                        const likeUserId =
+                          typeof like.user === 'string' ? like.user : like.user?.id;
                         return likeUserId !== user.user.id;
                       }), // Remove like
-                }
-              : post,
-          ),
-        );
-      } else if (clientSideAlreadyLiked !== !result.wasLiked) {
-        // If our client prediction was wrong (server found a different like state),
-        // update to match server state
-        setNewsPosts((prevPosts) =>
-          prevPosts.map((post) =>
-            post.id === postId
-              ? {
-                  ...post,
-                  likes: result.wasLiked
-                    ? [
-                        ...(post.likes || []).filter((like) => {
-                          const likeUserId =
-                            typeof like.user === 'string' ? like.user : like.user.id;
-                          return likeUserId !== user.user.id;
-                        }),
-                        { user: user.user.id },
-                      ] // Ensure like is added
-                    : post.likes?.filter((like) => {
-                        const likeUserId = typeof like.user === 'string' ? like.user : like.user.id;
-                        return likeUserId !== user.user.id;
-                      }), // Ensure like is removed
                 }
               : post,
           ),
@@ -130,23 +108,6 @@ function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
     } catch (error) {
       console.error('Error toggling like on post:', error);
       alert('An error occurred while toggling the like on the post.');
-
-      // Rollback optimistic update on error
-      setNewsPosts((prevPosts) =>
-        prevPosts.map((post) =>
-          post.id === postId
-            ? {
-                ...post,
-                likes: clientSideAlreadyLiked
-                  ? [...(post.likes || []), { user: user.user.id }] // Re-add like
-                  : post.likes?.filter((like) => {
-                      const likeUserId = typeof like.user === 'string' ? like.user : like.user.id;
-                      return likeUserId !== user.user.id;
-                    }), // Remove like
-              }
-            : post,
-        ),
-      );
     }
   };
 

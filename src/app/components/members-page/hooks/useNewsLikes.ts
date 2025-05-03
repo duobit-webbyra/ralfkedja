@@ -26,13 +26,32 @@ interface UseNewsLikesReturn {
   handleLikePost: (postId: string) => Promise<void>;
   handleLikeComment: (postId: string, commentId: string) => Promise<void>;
   isLikeInProgress: (type: 'post' | 'comment', postId: string, commentId?: string) => boolean;
+  handleAddCommentLocally: (
+    postId: string,
+    commentText: string,
+    commentId: string,
+    authorId: string,
+    authorName: string,
+  ) => void;
+  handleDeleteComment: (postId: string, userId: string, commentId: string) => Promise<void>;
+  formatDate: (dateString: string) => string;
 }
+
+type DeleteCommentFunction = (
+  postId: string,
+  userId: string,
+  commentId: string,
+) => Promise<{
+  status: string;
+  message?: string;
+}>;
 
 export function useNewsLikes(
   initialNewsPosts: ClientNews[],
   user: { user: { id: string } },
   likePost: LikePostFunction,
   likeComment: LikeCommentFunction,
+  deleteComment: DeleteCommentFunction,
 ): UseNewsLikesReturn {
   const [newsPosts, setNewsPosts] = useState<ClientNews[]>(initialNewsPosts);
   // Track ongoing like operations to prevent duplicate requests
@@ -295,10 +314,91 @@ export function useNewsLikes(
     }
   };
 
+  /**
+   * Adds a comment locally (optimistic update)
+   */
+  const handleAddCommentLocally = (
+    postId: string,
+    commentText: string,
+    commentId: string,
+    authorId: string,
+    authorName: string,
+  ) => {
+    setNewsPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        post.id === postId
+          ? {
+              ...post,
+              comments: [
+                ...(post.comments ?? []),
+                {
+                  id: commentId,
+                  comment: commentText,
+                  author: { id: authorId, name: authorName },
+                  createdAt: new Date().toISOString(),
+                  likes: [],
+                },
+              ],
+            }
+          : post,
+      ),
+    );
+  };
+
+  /**
+   * Deletes a comment both on server and locally
+   */
+  const handleDeleteComment = async (postId: string, userId: string, commentId: string) => {
+    try {
+      const result = await deleteComment(postId, userId, commentId);
+
+      if (result?.status === 'success') {
+        setNewsPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post.id === postId
+              ? {
+                  ...post,
+                  comments: (post.comments ?? []).filter((comment) => comment.id !== commentId),
+                }
+              : post,
+          ),
+        );
+      } else {
+        console.error('Failed to delete comment:', result?.message);
+        alert(result?.message || 'Failed to delete comment.');
+      }
+    } catch (error) {
+      console.error('Error deleting comment:', error);
+      alert('An error occurred while deleting the comment.');
+    }
+  };
+
+  /**
+   * Formats date strings consistently
+   */
+  const formatDate = (dateString: string) => {
+    try {
+      return new Intl.DateTimeFormat('sv-SE', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone: 'Europe/Stockholm',
+      }).format(new Date(dateString));
+    } catch (error) {
+      console.error('Date formatting error:', error);
+      return 'Invalid date';
+    }
+  };
+
   return {
     newsPosts,
     handleLikePost,
     handleLikeComment,
     isLikeInProgress,
+    handleAddCommentLocally,
+    handleDeleteComment,
+    formatDate,
   };
 }
