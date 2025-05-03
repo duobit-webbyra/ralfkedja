@@ -1,12 +1,11 @@
 'use client';
 import React, { useState } from 'react';
-import { saveComment, deleteComment } from './send_comment';
+import { saveComment, deleteComment, likeComment, likePost } from './send_comment';
 import { User } from '@/payload-types';
 import { Form, TextAreaNew } from '../Form';
 import { v4 as uuidv4 } from 'uuid';
 import { IoSend } from 'react-icons/io5';
 import { MdDeleteOutline } from 'react-icons/md';
-import { cp } from 'fs';
 
 interface NewsClientProps {
   newsPosts: ClientNews[];
@@ -24,6 +23,9 @@ export interface ClientNews {
   title: string;
   content: string;
   createdAt?: string;
+  likes?: {
+    user: string;
+  }[];
   comments: {
     id: string;
     comment: string;
@@ -32,11 +34,183 @@ export interface ClientNews {
       name: string;
     };
     createdAt: string;
+    likes?: {
+      user: string;
+    }[];
   }[];
 }
 
 function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
   const [newsPosts, setNewsPosts] = useState<ClientNews[]>(initialNewsPosts);
+
+  const handleLikePost = async (postId: string) => {
+    // Get the current post
+    const post = newsPosts.find((post) => post.id === postId);
+
+    if (!post) {
+      console.error('Post not found');
+      return;
+    }
+
+    // Check if user has liked this post in the current client state
+    // This is just for optimistic UI update and will be re-verified on the server
+    const clientSideAlreadyLiked = post.likes?.some((like) => {
+      const likeUserId = typeof like.user === 'string' ? like.user : like.user.id;
+      return likeUserId === user.user.id;
+    });
+
+    // Optimistically update the UI
+    setNewsPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        post.id === postId
+          ? {
+              ...post,
+              likes: clientSideAlreadyLiked
+                ? post.likes?.filter((like) => {
+                    const likeUserId = typeof like.user === 'string' ? like.user : like.user.id;
+                    return likeUserId !== user.user.id;
+                  }) // Remove like
+                : [...(post.likes || []), { user: user.user.id }], // Add like
+            }
+          : post,
+      ),
+    );
+
+    // Call the server action to update the database
+    // We no longer pass the alreadyLiked flag - server will determine this
+    try {
+      const result = await likePost(postId, user.user.id);
+
+      if (result.status !== 'success') {
+        console.error('Failed to toggle like on post:', result.message);
+        alert(result.message || 'Failed to toggle like on post.');
+
+        // Rollback the optimistic update if the server action fails
+        setNewsPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post.id === postId
+              ? {
+                  ...post,
+                  likes: clientSideAlreadyLiked
+                    ? [...(post.likes || []), { user: user.user.id }] // Re-add like
+                    : post.likes?.filter((like) => {
+                        const likeUserId = typeof like.user === 'string' ? like.user : like.user.id;
+                        return likeUserId !== user.user.id;
+                      }), // Remove like
+                }
+              : post,
+          ),
+        );
+      } else if (clientSideAlreadyLiked !== !result.wasLiked) {
+        // If our client prediction was wrong (server found a different like state),
+        // update to match server state
+        setNewsPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post.id === postId
+              ? {
+                  ...post,
+                  likes: result.wasLiked
+                    ? [
+                        ...(post.likes || []).filter((like) => {
+                          const likeUserId =
+                            typeof like.user === 'string' ? like.user : like.user.id;
+                          return likeUserId !== user.user.id;
+                        }),
+                        { user: user.user.id },
+                      ] // Ensure like is added
+                    : post.likes?.filter((like) => {
+                        const likeUserId = typeof like.user === 'string' ? like.user : like.user.id;
+                        return likeUserId !== user.user.id;
+                      }), // Ensure like is removed
+                }
+              : post,
+          ),
+        );
+      }
+    } catch (error) {
+      console.error('Error toggling like on post:', error);
+      alert('An error occurred while toggling the like on the post.');
+
+      // Rollback optimistic update on error
+      setNewsPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post.id === postId
+            ? {
+                ...post,
+                likes: clientSideAlreadyLiked
+                  ? [...(post.likes || []), { user: user.user.id }] // Re-add like
+                  : post.likes?.filter((like) => {
+                      const likeUserId = typeof like.user === 'string' ? like.user : like.user.id;
+                      return likeUserId !== user.user.id;
+                    }), // Remove like
+              }
+            : post,
+        ),
+      );
+    }
+  };
+
+  const handleLikeComment = async (postId: string, commentId: string) => {
+    const alreadyLiked = newsPosts
+      .find((post) => post.id === postId)
+      ?.comments.find((comment) => comment.id === commentId)
+      ?.likes?.some((like) => like.user === user.user.id);
+
+    // Optimistically update the UI
+    setNewsPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        post.id === postId
+          ? {
+              ...post,
+              comments: post.comments.map((comment) =>
+                comment.id === commentId
+                  ? {
+                      ...comment,
+                      likes: alreadyLiked
+                        ? comment.likes?.filter((like) => like.user !== user.user.id) // Remove like
+                        : [...(comment.likes || []), { user: user.user.id }], // Add like
+                    }
+                  : comment,
+              ),
+            }
+          : post,
+      ),
+    );
+
+    // Call the server action to update the database
+    try {
+      const result = await likeComment(postId, commentId, user.user.id, alreadyLiked);
+
+      if (result.status !== 'success') {
+        console.error('Failed to toggle like on comment:', result.message);
+        alert(result.message || 'Failed to toggle like on comment.');
+
+        // Rollback the optimistic update if the server action fails
+        setNewsPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post.id === postId
+              ? {
+                  ...post,
+                  comments: post.comments.map((comment) =>
+                    comment.id === commentId
+                      ? {
+                          ...comment,
+                          likes: alreadyLiked
+                            ? [...(comment.likes || []), { user: user.user.id }] // Re-add like
+                            : comment.likes?.filter((like) => like.user !== user.user.id), // Remove like
+                        }
+                      : comment,
+                  ),
+                }
+              : post,
+          ),
+        );
+      }
+    } catch (error) {
+      console.error('Error toggling like on comment:', error);
+      alert('An error occurred while toggling the like on the comment.');
+    }
+  };
 
   const handleAddCommentLocally = (
     postId: string,
@@ -121,6 +295,9 @@ function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
             </p>
             <p className='my-4'>{post.content}</p>
             <div className='mt-4'>
+              <button className='text-primary-500' onClick={() => handleLikePost(post.id)}>
+                👍 {post.likes?.length || 0} Likes
+              </button>
               <h3 className='text-lg font-semibold'>Kommentarer:</h3>
               <ul className='mt-2 space-y-2'>
                 {post.comments.map((comment) => (
@@ -183,6 +360,12 @@ function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
                   placeholder='Skriv en kommentar...'
                   className='px-5 py-4'
                   required
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault(); // Prevent adding a new line
+                      e.currentTarget.form?.requestSubmit(); // Programmatically submit the form
+                    }
+                  }}
                 />
                 <button
                   type='submit'

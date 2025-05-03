@@ -31,6 +31,7 @@ export default async function NewsServer() {
       title: post.title as string,
       content: post.content as string,
       createdAt: post.createdAt as string,
+      likes: post.likes,
       comments: (post.comments || []).map((comment: any) => ({
         id: comment.id as string,
         comment: comment.comment as string,
@@ -40,6 +41,7 @@ export default async function NewsServer() {
           // No other user fields are sent to the client
         },
         createdAt: comment.createdAt || new Date().toISOString(),
+        likes: comment.likes,
       })),
     }));
 

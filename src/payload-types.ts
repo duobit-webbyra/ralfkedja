@@ -142,12 +142,24 @@ export interface News {
   id: string;
   title: string;
   content: string;
+  likes?:
+    | {
+        user: string | User;
+        id?: string | null;
+      }[]
+    | null;
   comments?:
     | {
         id: string | null;
         comment: string;
         author: string | User;
         createdAt?: string | null;
+        likes?:
+          | {
+              user: string | User;
+              id?: string | null;
+            }[]
+          | null;
       }[]
     | null;
   updatedAt: string;
@@ -285,6 +297,12 @@ export interface VideosSelect<T extends boolean = true> {
 export interface NewsSelect<T extends boolean = true> {
   title?: T;
   content?: T;
+  likes?:
+    | T
+    | {
+        user?: T;
+        id?: T;
+      };
   comments?:
     | T
     | {
@@ -292,6 +310,12 @@ export interface NewsSelect<T extends boolean = true> {
         comment?: T;
         author?: T;
         createdAt?: T;
+        likes?:
+          | T
+          | {
+              user?: T;
+              id?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;

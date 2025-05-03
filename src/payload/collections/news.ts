@@ -27,6 +27,19 @@ export const News: CollectionConfig = {
       label: 'Innehåll',
     },
     {
+      name: 'likes',
+      type: 'array',
+      label: 'Likes',
+      fields: [
+        {
+          name: 'user',
+          type: 'relationship',
+          relationTo: 'users',
+          required: true,
+        },
+      ],
+    },
+    {
       name: 'comments',
       type: 'array',
       label: 'Kommentarer',
@@ -58,6 +71,19 @@ export const News: CollectionConfig = {
           hooks: {
             beforeChange: [({ value }) => value || new Date().toISOString()],
           },
+        },
+        {
+          name: 'likes', // Add likes for comments
+          type: 'array',
+          label: 'Likes',
+          fields: [
+            {
+              name: 'user',
+              type: 'relationship',
+              relationTo: 'users', // Reference to the users collection
+              required: true,
+            },
+          ],
         },
       ],
     },

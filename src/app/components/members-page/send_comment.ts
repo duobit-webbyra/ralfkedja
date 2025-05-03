@@ -158,3 +158,123 @@ export async function deleteComment(
     return { status: 'error', message: 'Failed to delete comment. Please try again.' };
   }
 }
+
+// Helper to check if a user has liked something
+function hasUserLiked(likes, userId) {
+  return (
+    likes?.some((like) => {
+      // Handle both string IDs and user objects
+      const likeUserId = typeof like.user === 'string' ? like.user : like.user.id;
+      return likeUserId === userId;
+    }) || false
+  );
+}
+
+// Server-side post like function
+export async function likePost(
+  postId: string,
+  userId: string,
+): Promise<{ status: string; message?: string }> {
+  try {
+    const payload = await getPayload({ config });
+
+    // Fetch the post
+    const post = await payload.findByID({
+      collection: 'news',
+      id: postId,
+    });
+
+    if (!post) {
+      return { status: 'error', message: 'Post not found.' };
+    }
+
+    // Check if user has already liked
+    const alreadyLiked = hasUserLiked(post.likes, userId);
+
+    // Update likes - add or remove based on server check
+    let updatedLikes;
+    if (alreadyLiked) {
+      // Remove like
+      updatedLikes = post.likes?.filter((like) => {
+        const likeUserId = typeof like.user === 'string' ? like.user : like.user.id;
+        return likeUserId !== userId;
+      });
+    } else {
+      // Add like
+      updatedLikes = [...(post.likes || []), { user: userId }];
+    }
+
+    // Update database
+    await payload.update({
+      collection: 'news',
+      id: postId,
+      data: { likes: updatedLikes },
+    });
+
+    return { status: 'success' };
+  } catch (error) {
+    console.error('Error toggling like on post:', error);
+    return { status: 'error', message: 'Failed to toggle like on post.' };
+  }
+}
+
+// Server-side comment like function
+export async function likeComment(
+  postId: string,
+  commentId: string,
+  userId: string,
+): Promise<{ status: string; message?: string }> {
+  try {
+    const payload = await getPayload({ config });
+
+    // Fetch the post
+    const post = await payload.findByID({
+      collection: 'news',
+      id: postId,
+    });
+
+    if (!post) {
+      return { status: 'error', message: 'Post not found.' };
+    }
+
+    // Find the comment
+    const comment = post.comments?.find((c) => c.id === commentId);
+    if (!comment) {
+      return { status: 'error', message: 'Comment not found.' };
+    }
+
+    // Check if user has already liked
+    const alreadyLiked = hasUserLiked(comment.likes, userId);
+
+    // Update comments with modified like
+    const updatedComments = post.comments.map((c) => {
+      if (c.id === commentId) {
+        let updatedLikes;
+        if (alreadyLiked) {
+          // Remove like
+          updatedLikes = c.likes?.filter((like) => {
+            const likeUserId = typeof like.user === 'string' ? like.user : like.user.id;
+            return likeUserId !== userId;
+          });
+        } else {
+          // Add like
+          updatedLikes = [...(c.likes || []), { user: userId }];
+        }
+        return { ...c, likes: updatedLikes };
+      }
+      return c;
+    });
+
+    // Update database
+    await payload.update({
+      collection: 'news',
+      id: postId,
+      data: { comments: updatedComments },
+    });
+
+    return { status: 'success' };
+  } catch (error) {
+    console.error('Error toggling like on comment:', error);
+    return { status: 'error', message: 'Failed to toggle like on comment.' };
+  }
+}
