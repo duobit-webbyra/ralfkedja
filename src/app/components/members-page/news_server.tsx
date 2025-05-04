@@ -53,8 +53,8 @@ export default async function NewsServer() {
     console.error('Error loading news:', error);
     return (
       <div className='p-6 bg-red-100 rounded-lg text-center'>
-        <h2 className='text-xl font-bold'>Error Loading News</h2>
-        <p>There was an error loading the news. Please try again later.</p>
+        <h2 className='text-xl font-bold'>Fel vid inläsning av nyheter</h2>
+        <p>Det uppstod ett fel vid inläsning av nyheterna. Försök igen senare.</p>
       </div>
     );
   }

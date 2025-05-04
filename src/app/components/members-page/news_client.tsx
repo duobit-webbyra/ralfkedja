@@ -6,6 +6,7 @@ import { Form, TextAreaNew } from '../Form';
 import { v4 as uuidv4 } from 'uuid';
 import { IoSend } from 'react-icons/io5';
 import { MdDeleteOutline } from 'react-icons/md';
+import Heart from '../graphics/heart';
 
 interface NewsClientProps {
   newsPosts: ClientNews[];
@@ -112,10 +113,28 @@ function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
   };
 
   const handleLikeComment = async (postId: string, commentId: string) => {
-    const alreadyLiked = newsPosts
-      .find((post) => post.id === postId)
-      ?.comments.find((comment) => comment.id === commentId)
-      ?.likes?.some((like) => like.user === user.user.id);
+    // Find the post and comment, and check if the user has already liked the comment
+    const post = newsPosts.find((post) => post.id === postId);
+
+    if (!post) {
+      console.error('Post not found:', postId);
+      return;
+    }
+
+    const comment = post.comments.find((comment) => comment.id === commentId);
+
+    if (!comment) {
+      console.error('Comment not found:', commentId);
+      return;
+    }
+
+    const alreadyLiked = comment.likes?.some((like) => {
+      const likeUserId = typeof like.user === 'string' ? like.user : like.user?.id;
+      return likeUserId === user.user.id;
+    });
+
+    console.log('Comment before like:', comment);
+    console.log('Already liked:', alreadyLiked);
 
     // Optimistically update the UI
     setNewsPosts((prevPosts) =>
@@ -128,7 +147,11 @@ function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
                   ? {
                       ...comment,
                       likes: alreadyLiked
-                        ? comment.likes?.filter((like) => like.user !== user.user.id) // Remove like
+                        ? comment.likes?.filter((like) => {
+                            const likeUserId =
+                              typeof like.user === 'string' ? like.user : like.user?.id;
+                            return likeUserId !== user.user.id;
+                          }) // Remove like
                         : [...(comment.likes || []), { user: user.user.id }], // Add like
                     }
                   : comment,
@@ -140,7 +163,7 @@ function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
 
     // Call the server action to update the database
     try {
-      const result = await likeComment(postId, commentId, user.user.id, alreadyLiked);
+      const result = await likeComment(postId, commentId, user.user.id);
 
       if (result.status !== 'success') {
         console.error('Failed to toggle like on comment:', result.message);
@@ -158,7 +181,11 @@ function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
                           ...comment,
                           likes: alreadyLiked
                             ? [...(comment.likes || []), { user: user.user.id }] // Re-add like
-                            : comment.likes?.filter((like) => like.user !== user.user.id), // Remove like
+                            : comment.likes?.filter((like) => {
+                                const likeUserId =
+                                  typeof like.user === 'string' ? like.user : like.user?.id;
+                                return likeUserId !== user.user.id;
+                              }), // Remove like
                         }
                       : comment,
                   ),
@@ -250,26 +277,39 @@ function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
       <div className='flex flex-col gap-16'>
         {newsPosts.map((post) => (
           <div key={post.id} className='bg-tertiary-100 p-6 rounded-lg shadow-sm flex flex-col'>
-            <h2 className='text-xl font-bold'>{post.title}</h2>
-            <p className='text-sm text-gray-500'>
-              Ralf Kedja • Publicerad {formatDate(post.createdAt || new Date().toISOString())}
-            </p>
-            <p className='my-4'>{post.content}</p>
-            <div className='mt-4'>
-              <button className='text-primary-500' onClick={() => handleLikePost(post.id)}>
-                👍 {post.likes?.length || 0} Likes
-              </button>
-              <h3 className='text-lg font-semibold'>Kommentarer:</h3>
-              <ul className='mt-2 space-y-2'>
-                {post.comments.map((comment) => (
-                  <li key={comment.id} className='bg-tertiary-200 py-2 pl-4 pr-2 rounded-lg'>
-                    <div className='flex justify-between items-start'>
-                      <div>
-                        <p className='mb-2 break-all'>{comment.comment}</p>
-                        <p className='text-primary-200 text-xs'>
-                          {comment.author.name} • {formatDate(comment.createdAt)}
-                        </p>
-                      </div>
+            <div className='mb-6'>
+              <h2 className='text-xl font-bold'>{post.title}</h2>
+              <p className='text-sm text-gray-500'>
+                Ralf Kedja • Publicerad {formatDate(post.createdAt || new Date().toISOString())}
+              </p>
+              <p className='my-4'>{post.content}</p>
+
+              <div className='flex items-center gap-1'>
+                <button
+                  className='text-primary-500 cursor-pointer'
+                  onClick={() => handleLikePost(post.id)}
+                >
+                  <Heart
+                    filled={post.likes?.some(
+                      (like) => like.user === user.user.id, // Check if the user has liked the post
+                    )}
+                  />
+                </button>
+                <p>{post.likes?.length || 0}</p>
+              </div>
+            </div>
+            <h3 className='text-lg font-semibold'>Kommentarer:</h3>
+            <ul className='mt-2 space-y-2'>
+              {post.comments.map((comment) => (
+                <li key={comment.id} className='bg-tertiary-200 py-2 pl-4 rounded-lg'>
+                  <div className='flex justify-between items-center'>
+                    <div>
+                      <p className='mb-2 break-all'>{comment.comment}</p>
+                      <p className='text-primary-200 text-xs'>
+                        {comment.author.name} • {formatDate(comment.createdAt)}
+                      </p>
+                    </div>
+                    <div className='flex  gap-2 justify-start'>
                       {user.user.id === comment.author.id && (
                         <button
                           className='cursor-pointer'
@@ -279,64 +319,73 @@ function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
                           <MdDeleteOutline size={20} color='#424847' />
                         </button>
                       )}
+                      <div className='flex  gap-1'>
+                        <button
+                          className='text-primary-500 cursor-pointer'
+                          onClick={() => handleLikeComment(post.id, comment.id)}
+                        >
+                          <Heart
+                            filled={comment.likes?.some(
+                              (like) => like.user === user.user.id, // Check if the user has liked the comment
+                            )}
+                          />
+                        </button>
+                        <p className='w-10'>{comment.likes?.length || 0}</p>
+                      </div>
                     </div>
-                  </li>
-                ))}
-              </ul>
-              <Form
-                className='mt-4 flex outline-none focus-within:border-2 focus-within:border-tertiary flex-col gap-2 bg-[#F5F5F5] border rounded items-end'
-                action={async (formData) => {
-                  try {
-                    // Get the comment text for optimistic UI update
-                    const commentText = formData.get('comment')?.toString() || '';
-                    const commentId = uuidv4();
-                    formData.append('commentId', commentId);
-                    formData.append('postId', post.id);
-                    formData.append('author', user.user.id);
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <Form
+              className='mt-4 flex outline-none focus-within:border-2 focus-within:border-tertiary flex-col gap-2 bg-[#F5F5F5] border rounded items-end'
+              action={async (formData) => {
+                try {
+                  // Get the comment text for optimistic UI update
+                  const commentText = formData.get('comment')?.toString() || '';
+                  const commentId = uuidv4();
+                  formData.append('commentId', commentId);
+                  formData.append('postId', post.id);
+                  formData.append('author', user.user.id);
 
-                    // Call server action
-                    const result = await saveComment(formData);
+                  // Call server action
+                  const result = await saveComment(formData);
 
-                    // Add comment locally for immediate UI update
-                    if (!result?.status || result.status !== 'error') {
-                      handleAddCommentLocally(
-                        post.id,
-                        commentText,
-                        commentId,
-                        user.user.id,
-                        user.user.name,
-                      );
-                    } else {
-                      console.error('Failed to save comment:', result.message);
-                      alert(result.message || 'Failed to save comment.');
-                    }
-                  } catch (error) {
-                    console.error('Error saving comment:', error);
-                    alert('An error occurred while saving the comment.');
+                  // Add comment locally for immediate UI update
+                  if (!result?.status || result.status !== 'error') {
+                    handleAddCommentLocally(
+                      post.id,
+                      commentText,
+                      commentId,
+                      user.user.id,
+                      user.user.name,
+                    );
+                  } else {
+                    console.error('Failed to save comment:', result.message);
+                    alert(result.message || 'Failed to save comment.');
+                  }
+                } catch (error) {
+                  console.error('Error saving comment:', error);
+                  alert('An error occurred while saving the comment.');
+                }
+              }}
+            >
+              <TextAreaNew
+                name='comment'
+                placeholder='Skriv en kommentar...'
+                className='px-5 py-4'
+                required
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault(); // Prevent adding a new line
+                    e.currentTarget.form?.requestSubmit(); // Programmatically submit the form
                   }
                 }}
-              >
-                <TextAreaNew
-                  name='comment'
-                  placeholder='Skriv en kommentar...'
-                  className='px-5 py-4'
-                  required
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                      e.preventDefault(); // Prevent adding a new line
-                      e.currentTarget.form?.requestSubmit(); // Programmatically submit the form
-                    }
-                  }}
-                />
-                <button
-                  type='submit'
-                  className='cursor-pointer px-3 py-3'
-                  aria-label='Send comment'
-                >
-                  <IoSend size={20} color='#424847' />
-                </button>
-              </Form>
-            </div>
+              />
+              <button type='submit' className='cursor-pointer px-3 py-3' aria-label='Send comment'>
+                <IoSend size={20} color='#424847' />
+              </button>
+            </Form>
           </div>
         ))}
       </div>
