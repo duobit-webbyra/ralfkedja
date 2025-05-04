@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { saveComment, deleteComment, likeComment, likePost } from './send_comment';
 import { User } from '@/payload-types';
 import { Form, TextAreaNew } from '../Form';
@@ -43,7 +43,10 @@ export interface ClientNews {
 
 function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
   const [newsPosts, setNewsPosts] = useState<ClientNews[]>(initialNewsPosts);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [targetComment, setTargetComment] = useState<{ postId: string; commentId: string } | null>(
+    null,
+  );
   const handleLikePost = async (postId: string) => {
     // Find the post and check if the user has already liked it
     const post = newsPosts.find((post) => post.id === postId);
@@ -268,18 +271,59 @@ function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
     }
   };
 
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'scroll';
+    }
+
+    // Cleanup when the component unmounts
+    return () => {};
+  }, [isModalOpen]);
+
   return (
     <>
-      <div className='mb-6'>
+      {isModalOpen && targetComment && (
+        <div className='fixed inset-0 bg-black/70 flex items-center justify-center z-50'>
+          <div className='bg-white p-2 rounded-lg shadow-lg w-80'>
+            <div className='p-2'>
+              <h2 className='text-sm! mb-2'>Radera kommentar?</h2>
+              <p className=' mb-2'>Är du säker på att du vill radera din kommentar?</p>
+            </div>
+            <div className='flex gap-2'>
+              <button
+                className='bg-primary-300 flex-1 text-white px-4 py-2 rounded hover:bg-primary-200 cursor-pointer'
+                onClick={() => {
+                  handleDeleteComment(targetComment.postId, user.user.id, targetComment.commentId);
+                  setIsModalOpen(false);
+                }}
+              >
+                Radera
+              </button>
+              <button
+                className='bg-gray-300 text-black flex-1 px-4 py-2 rounded hover:bg-gray-200 cursor-pointer'
+                onClick={() => setIsModalOpen(false)}
+              >
+                Ångra
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      <div className=''>
         <h1 className='text-2xl font-bold'>Nyheter</h1>
         <p>Läs de senaste nyheter och uppdateringar!</p>
       </div>
       <div className='flex flex-col gap-16'>
         {newsPosts.map((post) => (
-          <div key={post.id} className='bg-tertiary-100 p-6 rounded-lg shadow-sm flex flex-col'>
+          <div
+            key={post.id}
+            className='bg-tertiary-100 p-4 md:p-6 rounded-lg shadow-md flex flex-col'
+          >
             <div className='mb-6'>
               <h2 className='text-xl font-bold'>{post.title}</h2>
-              <p className='text-sm text-gray-500'>
+              <p className='text-xs! text-gray-500!'>
                 Ralf Kedja • Publicerad {formatDate(post.createdAt || new Date().toISOString())}
               </p>
               <p className='my-4'>{post.content}</p>
@@ -305,7 +349,7 @@ function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
                   <div className='flex justify-between items-center'>
                     <div>
                       <p className='mb-2 break-all'>{comment.comment}</p>
-                      <p className='text-primary-200 text-xs'>
+                      <p className='text-xs! text-gray-500!'>
                         {comment.author.name} • {formatDate(comment.createdAt)}
                       </p>
                     </div>
@@ -313,7 +357,10 @@ function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
                       {user.user.id === comment.author.id && (
                         <button
                           className='cursor-pointer'
-                          onClick={() => handleDeleteComment(post.id, user.user.id, comment.id)}
+                          onClick={() => {
+                            setIsModalOpen(true);
+                            setTargetComment({ postId: post.id, commentId: comment.id });
+                          }}
                           aria-label='Delete comment'
                         >
                           <MdDeleteOutline size={20} color='#424847' />
@@ -338,7 +385,7 @@ function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
               ))}
             </ul>
             <Form
-              className='mt-4 flex outline-none focus-within:border-2 focus-within:border-tertiary flex-col gap-2 bg-[#F5F5F5] border rounded items-end'
+              className='mt-4 outline-none flex focus-within:border-2 focus-within:border-tertiary bg-[#F5F5F5] border rounded items-end'
               action={async (formData) => {
                 try {
                   // Get the comment text for optimistic UI update
@@ -382,7 +429,11 @@ function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
                   }
                 }}
               />
-              <button type='submit' className='cursor-pointer px-3 py-3' aria-label='Send comment'>
+              <button
+                type='submit'
+                className='cursor-pointer px-2 py-2 flex items-end'
+                aria-label='Send comment'
+              >
                 <IoSend size={20} color='#424847' />
               </button>
             </Form>

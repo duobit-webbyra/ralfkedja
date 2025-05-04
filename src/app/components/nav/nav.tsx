@@ -93,10 +93,11 @@ export function NavMobile() {
 
   useEffect(() => {
     if (isOpen) {
-      document.body.classList.add(style.scroll);
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.classList.remove(style.scroll);
+      document.body.style.overflow = 'scroll';
     }
+    return () => {};
   }, [isOpen]);
 
   return (

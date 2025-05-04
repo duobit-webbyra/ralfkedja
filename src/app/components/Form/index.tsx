@@ -200,7 +200,7 @@ export function TextAreaNew({ label, className, ...rest }: TextAreaProps) {
           'w-full min-h-[60px] resize-none outline-none bg-secondary placeholder-secondary-accent ',
           className, // Merge additional class names
         )}
-        rows={1} // Start with one row
+        rows={2} // Start with one row
         {...rest}
       ></textarea>
     </div>
