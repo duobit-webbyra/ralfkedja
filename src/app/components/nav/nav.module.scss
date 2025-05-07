@@ -160,3 +160,19 @@
     overflow: hidden;
   }
 }
+
+.navDefault {
+  display: none;
+
+  @media (min-width: 1075px) {
+    display: flex;
+  }
+}
+
+.navMobile {
+  display: flex;
+
+  @media (min-width: 1075px) {
+    display: none;
+  }
+}

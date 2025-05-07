@@ -2,7 +2,7 @@ import { ButtonProps } from './button-interface';
 import BaseButton from './base-button';
 import style from './button-style.module.scss';
 
-export default function PrimaryButton(props: Omit<ButtonProps, 'className'>) {
+export default function PrimaryButton(props: ButtonProps) {
   return (
     <BaseButton className={style['primary-button']} {...props}>
       {props.children}
