@@ -6,6 +6,7 @@ import config from '@payload-config';
 import { getPayload } from 'payload';
 import { Review } from '@/payload-types';
 import { Link } from '@/app/components/link/link';
+import ReviewStar from '../graphics/review-star';
 const parseReviewAuthor = (name: string | undefined) => {
   if (!name) return '';
 
@@ -54,6 +55,16 @@ export default async function Reviews() {
         >
           <PrimaryButton>Läs fler rescensioner här</PrimaryButton>
         </Link>
+        <div className='flex flex-col items-center gap-2'>
+          <p className='text-white! italic'>Över 20 000 utförda behandlingar</p>
+          <div className='flex gap-[1px] items-center '>
+            <ReviewStar />
+            <ReviewStar />
+            <ReviewStar />
+            <ReviewStar />
+            <ReviewStar />
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -8,7 +8,7 @@
 .content {
   display: flex;
   flex-direction: column;
-  gap: 5rem;
+  gap: 2rem;
   width: $content-width;
 
   & > .text {
@@ -31,8 +31,8 @@
 
   & > .review-cards {
     display: flex;
-    gap: 2.5rem;
-
+    gap: 4rem;
+    margin-bottom: 3rem;
     & > * {
       flex: 1;
     }

@@ -53,7 +53,7 @@ export default function LandingPageHero() {
         <div className={style.left}>
           <div className={style.text}>
             <h1>Balans för Kropp och Själ</h1>
-            <p>
+            <p className='text-primary-400!'>
               Friskvårdande behandlingar inom kiropraktik, kinesiologi, och biomagnetism för att
               främja ett hälsosammare liv.
             </p>
@@ -61,16 +61,6 @@ export default function LandingPageHero() {
           <div className={style.cta}>
             <BookDirectly>Boka tid direkt</BookDirectly>
             <PhoneNumber />
-          </div>
-          <div className={style.review}>
-            <div style={{ display: 'flex' }}>
-              <ReviewStar />
-              <ReviewStar />
-              <ReviewStar />
-              <ReviewStar />
-              <ReviewStar />
-            </div>
-            <p style={{ fontSize: '16px' }}>Över 20 000 utförda behandlingar</p>
           </div>
         </div>
         <div className={style.right}>
