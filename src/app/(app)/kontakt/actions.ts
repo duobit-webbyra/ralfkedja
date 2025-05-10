@@ -4,7 +4,7 @@ import nodemailer from 'nodemailer';
 import config from '@payload-config';
 import { getPayload } from 'payload';
 
-export async function sendEmail(formData: FormData) {
+export async function verifyTurnstile(formData: FormData) {
   const turnstileToken = formData.get('cf-turnstile-response');
   const verificationResponse = await fetch(
     'https://challenges.cloudflare.com/turnstile/v0/siteverify',
@@ -27,6 +27,41 @@ export async function sendEmail(formData: FormData) {
       message: 'Något gick fel. Försök igen senare',
       status: 'error',
     };
+  }
+
+  return {
+    message: 'Verification successful',
+    status: 'success',
+  };
+}
+
+export async function sendEmail(formData: FormData) {
+  const turnstileToken = formData.get('cf-turnstile-response');
+  const verificationResponse = await fetch(
+    'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+    {
+      body: JSON.stringify({
+        response: turnstileToken,
+        secret: process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+    },
+  );
+
+  const verificationData = await verificationResponse.json();
+
+  if (!verificationData.success) {
+    console.log('Verification failed:', verificationData);
+    return {
+      message: 'Något gick fel. Försök igen senare',
+      status: 'error',
+    };
+  }
+  if (verificationData.success) {
+    console.log('Verification successful:', verificationData);
   }
 
   const payload = await getPayload({ config });

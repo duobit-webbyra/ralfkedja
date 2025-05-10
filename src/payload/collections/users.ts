@@ -20,7 +20,11 @@ export const Users: CollectionConfig = {
       return isAdmin({ req });
     },
   },
-  auth: true,
+  auth: {
+    tokenExpiration: 172800, // 2 days
+    maxLoginAttempts: 5,
+    lockTime: 600 * 1000, // 10 minutes
+  },
   fields: [
     {
       name: 'name',

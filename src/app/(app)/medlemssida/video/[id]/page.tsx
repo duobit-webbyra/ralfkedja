@@ -77,7 +77,7 @@ export default async function VideoPage({ params }: { params: { id: string } }) 
         </div>
       ) : (
         <div className='w-full flex items-center justify-center aspect-video relative rounded overflow-hidden shadow-lg bg-black'>
-          <h3 className='text-white! rounded-lg'>Videon är ej tillgänglig.</h3>
+          <h3 className='text-white!'>Videon är ej tillgänglig.</h3>
         </div>
       )}
     </Container>

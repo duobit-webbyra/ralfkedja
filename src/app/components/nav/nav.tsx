@@ -39,6 +39,7 @@ export function NavDefault({ user }: { user: any }) {
       });
       // Force a full page reload to re-fetch the user state
       window.location.reload();
+      window.location.href = '/';
     } catch (error) {
       console.error('Failed to log out:', error);
     }
