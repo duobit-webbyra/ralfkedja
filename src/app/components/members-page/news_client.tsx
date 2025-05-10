@@ -313,7 +313,7 @@ function NewsClient({ newsPosts: initialNewsPosts, user, sliceList }: NewsClient
         </div>
       )}
       <div className=''>
-        {!sliceList ? (
+        {sliceList ? (
           <>
             <h1 className='text-[1.5rem]! md:text-3xl!'>Nyheter</h1>
             <p>Läs de senaste nyheter och uppdateringar!</p>

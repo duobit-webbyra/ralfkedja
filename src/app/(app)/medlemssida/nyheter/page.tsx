@@ -15,8 +15,10 @@ export default async function VideoPage() {
   }
 
   return (
-    <Container className='py-16 '>
-      <NewsServer user={user} />
-    </Container>
+    <section className='bg-[#F9f9f9]'>
+      <Container className='py-16 '>
+        <NewsServer user={user} sliceList={false} />
+      </Container>
+    </section>
   );
 }

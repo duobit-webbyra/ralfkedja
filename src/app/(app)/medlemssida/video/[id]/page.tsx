@@ -12,7 +12,7 @@ export default async function VideoPage({ params }: { params: { id: string } }) 
   }
 
   const payload = await getPayload({ config });
-  const paramsId = await params.id;
+  const paramsId = params.id;
   const video = await payload.findByID({
     collection: 'videos',
     id: paramsId,
@@ -32,8 +32,17 @@ export default async function VideoPage({ params }: { params: { id: string } }) 
   };
 
   const getYoutubeEmbedLink = (url: string) => {
-    const videoId = url.split('/watch?v=')[1];
-    return `https://www.youtube.com/embed/${videoId}`;
+    try {
+      const urlObj = new URL(url);
+      const videoId = urlObj.searchParams.get('v');
+      if (!videoId) {
+        throw new Error('Invalid YouTube URL');
+      }
+      return `https://www.youtube.com/embed/${videoId}`;
+    } catch (error) {
+      console.error('Failed to parse YouTube URL:', error);
+      return ''; // Return an empty string or handle the error as needed
+    }
   };
 
   return (

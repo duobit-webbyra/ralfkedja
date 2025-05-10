@@ -27,30 +27,36 @@ const navigation: NavigationData[] = [
   { label: 'Kontakt', slug: '/kontakt' },
 ];
 
-export function NavDefault({
-  user,
-  handleLogout,
-  router,
-}: {
-  user: any;
-  handleLogout: () => void;
-  router: any;
-}) {
+export function NavDefault({ user }: { user: any }) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/logout`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+      // Force a full page reload to re-fetch the user state
+      window.location.reload();
+    } catch (error) {
+      console.error('Failed to log out:', error);
+    }
+  };
 
   return (
-    <Container className='flex justify-between items-center w-full h-[var(--nav-height)] px-4 bg-tertiary-250'>
-      <ul className='flex items-center gap-10'>
+    <Container className='relative flex justify-between items-center w-full h-[var(--nav-height)] px-4 bg-tertiary-250'>
+      <ul className='flex h-full items-center gap-10'>
         {navigation.map((item, index) => (
           <li
             key={index}
-            className={`relative flex items-center ${
+            className={`relative h-full flex items-center ${
               pathname === item.slug
-                ? 'after:content-[""] after:absolute after:bottom-0 after:h-[2px] after:w-full after:bg-black'
+                ? 'after:content-[""] after:absolute after:bottom-0 after:h-[4px] after:w-full after:bg-black'
                 : ''
             }`}
           >
-            <Link href={item.slug || '/'} className='hover:text-gray-700'>
+            <Link href={item.slug || '/'} className='hover:text-gray-800'>
               {item.label}
             </Link>
           </li>
@@ -67,20 +73,32 @@ export function NavDefault({
   );
 }
 
-export function NavMobile({
-  user,
-  handleLogout,
-  router,
-}: {
-  user: any;
-  handleLogout: () => void;
-  router: any;
-}) {
+export function NavMobile({ user }: { user: any }) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-
+  const router = useRouter();
   const toggleMenu = () => {
     setIsOpen((prev) => !prev);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/logout`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+      // Force a full page reload to re-fetch the user state
+      window.location.reload();
+      window.location.href = '/';
+      setIsOpen(false);
+    } catch (error) {
+      console.error('Failed to log out:', error);
+    }
+  };
+
+  const handleLogin = async () => {
+    router.push('/logga-in');
+    setIsOpen(false);
   };
 
   useEffect(() => {
@@ -96,7 +114,7 @@ export function NavMobile({
 
   return (
     <div className='flex justify-between items-center w-full px-4 h-[var(--nav-height)] bg-tertiary-250'>
-      <Link href='/' className='text-2xl'>
+      <Link href='/' className='text-3xl!'>
         Ralf Kedja
       </Link>
       <div className='w-8 h-8 z-50' onClick={toggleMenu}>
@@ -119,7 +137,7 @@ export function NavMobile({
             <Link
               href={item.slug || '/'}
               onClick={toggleMenu}
-              className='hover:text-gray-700 text-2xl md:text-4xl'
+              className='hover:text-gray-700 text-2xl! md:text-4xl!'
             >
               {item.label}
             </Link>
@@ -127,74 +145,16 @@ export function NavMobile({
         ))}
         <div className='flex flex-col gap-4 items-center '>
           {user && (
-            <Link href='/medlemssida' onClick={toggleMenu} className='hover:text-gray-700 text-2xl'>
+            <Link href='/medlemssida' className='text-2xl! md:text-4xl!'>
               Medlemssida
             </Link>
           )}
-          <PrimaryButton
-            onClick={() => {
-              if (user) {
-                handleLogout();
-              } else {
-                router.push('/logga-in');
-              }
-              toggleMenu();
-            }}
-          >
+          <PrimaryButton onClick={() => (user ? handleLogout() : handleLogin())}>
             {user ? 'Logga ut' : 'Logga in'}
           </PrimaryButton>
           <BookDirectly>Boka tid</BookDirectly>
         </div>
       </ul>
     </div>
-  );
-}
-
-export default function Nav({ user }: { user: any }) {
-  const pathname = usePathname();
-  const router = useRouter();
-
-  const handleLogout = async () => {
-    try {
-      await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/logout`, {
-        method: 'POST',
-        credentials: 'include',
-      });
-      router.refresh(); // Refresh the page to reflect the logout state
-    } catch (error) {
-      console.error('Failed to log out:', error);
-    }
-  };
-
-  return (
-    <header className='sticky top-0 z-[500] bg-tertiary-250'>
-      <div className={style.navDefault}>
-        <Container className='flex justify-between items-center w-full h-[var(--nav-height)] px-4 bg-tertiary-250'>
-          <ul className='flex items-center gap-10'>
-            {navigation.map((item, index) => (
-              <li
-                key={index}
-                className={`relative flex items-center ${
-                  pathname === item.slug
-                    ? 'after:content-[""] after:absolute after:bottom-0 after:h-[2px] after:w-full after:bg-black'
-                    : ''
-                }`}
-              >
-                <Link href={item.slug || '/'} className='hover:text-gray-700'>
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <div className='flex items-center gap-4'>
-            <BookDirectly>Boka tid</BookDirectly>
-            {user && <Link href='/medlemssida'>Medlemssida</Link>}
-            <PrimaryButton onClick={() => (user ? handleLogout() : router.push('/logga-in'))}>
-              {user ? 'Logga ut' : 'Logga in'}
-            </PrimaryButton>
-          </div>
-        </Container>
-      </div>
-    </header>
   );
 }

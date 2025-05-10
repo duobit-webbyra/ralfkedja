@@ -6,9 +6,10 @@ import PrimaryButton from '@/app/components/button/primary-button';
 import { Form, Input } from '@/app/components/Form';
 import { Link } from '@/app/components/link/link';
 import Container from '@/app/components/essentials/Container';
+import SecondaryButton from '@/app/components/button/secondary-button';
 
 export default function LoginForm() {
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
@@ -18,7 +19,7 @@ export default function LoginForm() {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/login`, {
         method: 'POST',
-        credentials: 'include', // Include cookies in the request
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -29,13 +30,12 @@ export default function LoginForm() {
         throw new Error('Login failed');
       }
 
-      // Perform a full page reload to ensure the NavWrapper re-fetches the user state
-      window.location.href = '/medlemssida'; // Redirect to medlemssida after successful login
+      // Redirect to a new page to trigger a server-side re-render
+      window.location.href = '/medlemssida';
     } catch (error) {
       console.error('Login failed:', error);
-      // Optionally, handle login failure (e.g., show an error message)
     }
-  }
+  };
 
   return (
     <section className='relative flex min-h-[calc(100vh-var(--nav-height)-var(--info-header-height))] items-center justify-center'>
@@ -44,9 +44,8 @@ export default function LoginForm() {
         src='/nature3.webp'
         alt='Background'
         layout='fill'
-        objectFit='cover'
         quality={100}
-        className='-z-10' // Ensure the image is behind all other elements
+        className='-z-10 object-cover' // Ensure the image is behind all other elements
       />
 
       {/* Dark Overlay */}
@@ -70,8 +69,10 @@ export default function LoginForm() {
             <Input placeholder='E-post' name='email' type='email' required />
             <Input placeholder='Lösenord' name='password' type='password' required />
           </div>
-          <div className='w-max flex justify-end'>
-            <PrimaryButton type='submit'>Logga in</PrimaryButton>
+          <div className='w-full flex justify-center'>
+            <div className='w-max'>
+              <SecondaryButton type='submit'>Logga in</SecondaryButton>
+            </div>
           </div>
         </Form>
       </Container>

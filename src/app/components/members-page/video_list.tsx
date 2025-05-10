@@ -50,16 +50,17 @@ export default async function VideosList({ sliceList }: VideoListProps) {
                 className='flex flex-col group'
               >
                 {thumbnail ? (
-                  <div className='relative w-full h-[250px] overflow-hidden rounded bg-gray-200'>
+                  <div className='relative w-full aspect-video overflow-hidden rounded bg-gray-200'>
                     <Image
                       src={thumbnail}
                       alt={`${video.title} thumbnail`}
                       fill
-                      className='group rounded object-cover group-hover:scale-105 transition-transform duration-300'
+                      className='object-cover group-hover:scale-105 transition-transform duration-300'
+                      sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
                     />
                   </div>
                 ) : (
-                  <div className='flex items-center justify-center w-full h-[250px] bg-black rounded'>
+                  <div className=' relative flex items-center aspect-video justify-center w-full  bg-black rounded'>
                     <span className='text-4xl! text-tertiary-100! font-bold'>?</span>
                   </div>
                 )}

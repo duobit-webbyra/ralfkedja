@@ -50,7 +50,7 @@ export default async function NewsServer({ user, sliceList }: NewsServerProps) {
 
     return (
       <>
-        <NewsClient newsPosts={newsPosts} user={user} sliceList />
+        <NewsClient newsPosts={newsPosts} user={user} sliceList={sliceList} />
         {sliceList && (
           <div className='flex justify-center'>
             <Link href='/medlemssida/nyheter' className=' hover:underline! '>
