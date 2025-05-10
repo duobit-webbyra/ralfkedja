@@ -6,8 +6,8 @@ import Container from '@/app/components/essentials/Container';
 export default function CourseRegistration() {
   return (
     <div className={style.container}>
-      <Container className='flex flex-col md:flex-row gap-8'>
-        <div className='w-full md:w-1/2'>
+      <Container className='flex flex-col md:flex-row gap-8 md:gap-24'>
+        <div className='w-full md:flex-1'>
           <Title
             heading='Kurser'
             subHeading='Delta i kommande kurser!'

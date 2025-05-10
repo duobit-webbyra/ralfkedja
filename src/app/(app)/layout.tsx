@@ -1,5 +1,5 @@
 import React from 'react';
-
+import NavWrapper from '@/app/components/nav/nav-wrapper';
 import { DM_Serif_Display } from 'next/font/google';
 const dmSerifDisplay = DM_Serif_Display({
   weight: '400',
@@ -9,7 +9,7 @@ const dmSerifDisplay = DM_Serif_Display({
 const mainFont = dmSerifDisplay;
 
 import '@/app/styles/globals.scss';
-import Nav from '../components/nav/nav';
+
 import HeaderInfo from '../components/header/info';
 import Footer from '../components/footer/footer';
 import { AuthProvider } from '../providers/auth';
@@ -22,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={mainFont.className}>
         <AuthProvider>
           <HeaderInfo />
-          <Nav />
+          <NavWrapper />
           <main>{children}</main>
           <Footer />
         </AuthProvider>

@@ -181,7 +181,7 @@ export function TextArea({ label, className, ...rest }: TextAreaProps) {
       {label && <label>{label}</label>}
       <textarea
         className={clsx(
-          'w-full resize-none h-max!  rounded-xl bg-secondary px-5 py-4 placeholder-secondary-accent outline-none focus-within:border-2 focus-within:border-tertiary',
+          'w-full resize-none h-max! rounded-xl bg-tertiary-200! px-5 py-4 placeholder-secondary-accent outline-none focus-within:border-2 focus-within:border-black',
           className, // Merge additional class names
         )}
         rows={1} // Start with one row
@@ -197,7 +197,7 @@ export function TextAreaNew({ label, className, ...rest }: TextAreaProps) {
       {label && <label>{label}</label>}
       <textarea
         className={clsx(
-          'w-full min-h-[60px] resize-none outline-none bg-secondary placeholder-secondary-accent ',
+          'w-full min-h-[60px] resize-none outline-none  placeholder-secondary-accent ',
           className, // Merge additional class names
         )}
         rows={2} // Start with one row

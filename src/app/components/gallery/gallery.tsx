@@ -34,6 +34,7 @@ const GalleryGrid = async () => {
                         alt={`${(item.image as Media).alt}`}
                         fill
                         style={{ objectFit: 'cover' }}
+                        loading='lazy'
                         sizes='(max-width: 720px) 90vw,(max-width: 1440px) 45vw, 50vw'
                       />
                     </div>

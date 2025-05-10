@@ -81,7 +81,7 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .content {
@@ -119,8 +119,8 @@
   &:focus {
     outline: none;
     box-shadow: none;
-    outline: 4px solid;
-    outline-color: $secondary-200;
+    outline: 2px solid;
+    outline-color: black;
   }
 }
 

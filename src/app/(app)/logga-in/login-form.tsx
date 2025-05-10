@@ -1,25 +1,36 @@
 'use client';
 
 import React from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/app/providers/auth';
+import Image from 'next/image';
 import PrimaryButton from '@/app/components/button/primary-button';
 import { Form, Input } from '@/app/components/Form';
 import { Link } from '@/app/components/link/link';
 import Container from '@/app/components/essentials/Container';
-export default function LoginForm() {
-  const { login } = useAuth();
-  const router = useRouter();
 
+export default function LoginForm() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
+
     try {
-      await login({ email, password });
-      router.push('/medlemssida'); // Redirect to medlemssida after successful login
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/login`, {
+        method: 'POST',
+        credentials: 'include', // Include cookies in the request
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Login failed');
+      }
+
+      // Perform a full page reload to ensure the NavWrapper re-fetches the user state
+      window.location.href = '/medlemssida'; // Redirect to medlemssida after successful login
     } catch (error) {
       console.error('Login failed:', error);
       // Optionally, handle login failure (e.g., show an error message)
@@ -27,11 +38,25 @@ export default function LoginForm() {
   }
 
   return (
-    <section className='flex min-h-[calc(100vh-var(--nav-height)-var(--info-header-height))] items-center justify-center !bg-tertiary-100'>
-      <Container className='flex flex-col gap-12 max-w-[600]'>
+    <section className='relative flex min-h-[calc(100vh-var(--nav-height)-var(--info-header-height))] items-center justify-center'>
+      {/* Background Image */}
+      <Image
+        src='/nature3.webp'
+        alt='Background'
+        layout='fill'
+        objectFit='cover'
+        quality={100}
+        className='-z-10' // Ensure the image is behind all other elements
+      />
+
+      {/* Dark Overlay */}
+      <div className='absolute inset-0 bg-black opacity-85 -z-10'></div>
+
+      {/* Content */}
+      <Container className='relative flex flex-col gap-12 max-w-[600] text-white'>
         <div className=''>
-          <h1 className=''>Logga in till medlemssidan</h1>
-          <span>
+          <h1 className='text-white!'>Logga in till medlemssidan</h1>
+          <span className='text-white!'>
             Logga in för att få tillgång till exklusivt extramaterial. Är du inte medlem ännu men
             intresserad?{' '}
             <Link href='/kontakt' className='!underline'>

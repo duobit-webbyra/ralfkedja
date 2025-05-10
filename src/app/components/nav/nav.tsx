@@ -150,27 +150,50 @@ export function NavMobile({
   );
 }
 
-export default function Nav() {
-  const { user, logout } = useAuth();
+export default function Nav({ user }: { user: any }) {
+  const pathname = usePathname();
   const router = useRouter();
+
   const handleLogout = async () => {
     try {
-      await logout();
-      router.push('/');
+      await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/logout`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+      router.refresh(); // Refresh the page to reflect the logout state
     } catch (error) {
-      console.error('Logout failed:', error);
+      console.error('Failed to log out:', error);
     }
   };
+
   return (
     <header className='sticky top-0 z-[500] bg-tertiary-250'>
-      {/* NavDefault is visible above 1100px */}
       <div className={style.navDefault}>
-        <NavDefault user={user} handleLogout={handleLogout} router={router} />
-      </div>
-
-      {/* NavMobile is visible below 1100px */}
-      <div className={style.navMobile}>
-        <NavMobile user={user} handleLogout={handleLogout} router={router} />
+        <Container className='flex justify-between items-center w-full h-[var(--nav-height)] px-4 bg-tertiary-250'>
+          <ul className='flex items-center gap-10'>
+            {navigation.map((item, index) => (
+              <li
+                key={index}
+                className={`relative flex items-center ${
+                  pathname === item.slug
+                    ? 'after:content-[""] after:absolute after:bottom-0 after:h-[2px] after:w-full after:bg-black'
+                    : ''
+                }`}
+              >
+                <Link href={item.slug || '/'} className='hover:text-gray-700'>
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div className='flex items-center gap-4'>
+            <BookDirectly>Boka tid</BookDirectly>
+            {user && <Link href='/medlemssida'>Medlemssida</Link>}
+            <PrimaryButton onClick={() => (user ? handleLogout() : router.push('/logga-in'))}>
+              {user ? 'Logga ut' : 'Logga in'}
+            </PrimaryButton>
+          </div>
+        </Container>
       </div>
     </header>
   );

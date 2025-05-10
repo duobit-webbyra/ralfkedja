@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import style from '../contact/contact-form.module.scss';
 import PrimaryButton from '../button/primary-button';
-import { Input } from '../Form';
+import { Input, Form, TextArea } from '../Form';
 
 import { sendCourseInquiry } from '@/app/(app)/kontakt/actions';
 import { useFormStatus } from 'react-dom';
@@ -39,7 +39,7 @@ export default function CourseForm() {
     <div className={style.container}>
       <div className='flex flex-col gap-8'>
         <h2 className='md:text-center'>Intresseanmälan</h2>
-        <form className={style.form} action={sendCourseInquiry} onSubmit={handleSubmit}>
+        <Form className={style.form} action={sendCourseInquiry} onSubmit={handleSubmit}>
           <div className={`flex flex-col gap-4 ${style['inputs']}`}>
             <Input
               className='bg-tertiary-200'
@@ -105,17 +105,17 @@ export default function CourseForm() {
               </div>
             </div>
             <p className='text-xl!'>Övriga frågor och funderingar:</p>
-            <textarea
+            <TextArea
               className={style.textarea}
               placeholder='Meddelande'
               maxLength={500}
               name='message'
-            ></textarea>
+            ></TextArea>
           </div>
           {error && <p style={{ color: 'var(--secondary-200)' }}>{error}</p>}
           <Submit />
           <Turnstile />
-        </form>
+        </Form>
       </div>
     </div>
   );

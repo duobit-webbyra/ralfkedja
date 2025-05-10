@@ -1,31 +1,31 @@
 import { getPayload } from 'payload';
 import config from '@payload-config';
 import NewsClient from './news_client';
-import { getUser } from '@/app/providers/auth-server';
+import Link from 'next/link';
 import { ClientNews } from './news_client';
 
-export default async function NewsServer() {
+interface NewsServerProps {
+  user: {
+    user: {
+      id: string;
+      name: string;
+    };
+  };
+  sliceList?: boolean; // New prop to fetch only the latest 6 news
+}
+
+export default async function NewsServer({ user, sliceList }: NewsServerProps) {
   try {
     const payload = await getPayload({ config });
-    const user = await getUser();
-
-    if (!user) {
-      // Handle unauthenticated user case
-      return (
-        <div className='p-6 bg-red-100 rounded-lg text-center'>
-          <h2 className='text-xl font-bold'>Authentication Required</h2>
-          <p>Please log in to view news and comments.</p>
-        </div>
-      );
-    }
 
     const news_response = await payload.find({
       collection: 'news',
-      sort: '-createdAt', // Sort by newest first
-      depth: 1, // Limit depth of relationship resolution
+      sort: '-createdAt',
+      depth: 1,
+      limit: sliceList ? 4 : undefined,
     });
 
-    // Convert to ClientNews format, sanitizing data to prevent leakage
+    // Convert to ClientNews format
     const newsPosts: ClientNews[] = news_response.docs.map((post) => ({
       id: post.id,
       title: post.title as string,
@@ -34,7 +34,7 @@ export default async function NewsServer() {
       likes: (post.likes || []).map((like: any) => ({
         user: typeof like.user === 'string' ? like.user : like.user?.id, // Normalize user field
       })),
-      comments: (post.comments || []).map((comment: any) => ({
+      comments: (post.comments || []).slice(0, 3).map((comment: any) => ({
         id: comment.id as string,
         comment: comment.comment as string,
         author: {
@@ -48,7 +48,18 @@ export default async function NewsServer() {
       })),
     }));
 
-    return <NewsClient newsPosts={newsPosts} user={user} />;
+    return (
+      <>
+        <NewsClient newsPosts={newsPosts} user={user} sliceList />
+        {sliceList && (
+          <div className='flex justify-center'>
+            <Link href='/medlemssida/nyheter' className=' hover:underline! '>
+              Visa alla nyheter
+            </Link>
+          </div>
+        )}
+      </>
+    );
   } catch (error) {
     console.error('Error loading news:', error);
     return (

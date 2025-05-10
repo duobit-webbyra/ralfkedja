@@ -14,6 +14,37 @@ type CommentResponse = {
   };
 };
 
+export async function fetchAllComments(postId: string): Promise<CommentResponse> {
+  if (!postId) {
+    return { status: 'error', message: 'Post ID is required.' };
+  }
+
+  try {
+    const payload = await getPayload({ config });
+
+    // Fetch the post with all comments
+    const post = await payload.findByID({
+      collection: 'news',
+      id: postId,
+      depth: 1, // Ensure we fetch related data
+    });
+
+    if (!post) {
+      return { status: 'error', message: 'Post not found.' };
+    }
+
+    return {
+      status: 'success',
+      data: {
+        comments: post.comments || [], // Return all comments
+      },
+    };
+  } catch (error) {
+    console.error('Error fetching all comments:', error);
+    return { status: 'error', message: 'Failed to fetch comments. Please try again.' };
+  }
+}
+
 export async function saveComment(formData: FormData): Promise<CommentResponse> {
   const postId = formData.get('postId')?.toString();
   const comment = formData.get('comment')?.toString();

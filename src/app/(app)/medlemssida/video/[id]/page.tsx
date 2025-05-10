@@ -39,7 +39,7 @@ export default async function VideoPage({ params }: { params: { id: string } }) 
   return (
     <Container className='py-16'>
       <div className='flex flex-col pb-6 gap-4'>
-        <h1 className='text-2xl md:text-3xl font-bold '>{video.title}</h1>
+        <h1 className='text-3xl! md:text-5xl!'>{video.title}</h1>
         <p className='text-gray-700'>{video.description}</p>
       </div>
       {isValidUrl(video.url) ? (

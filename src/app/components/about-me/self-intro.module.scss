@@ -65,7 +65,7 @@
 
 @media (max-width: $media-md) {
   .content {
-    flex-direction: column-reverse;
+    flex-direction: column;
     gap: 2rem;
     & > .image-container {
       box-shadow: 4px 4px $primary-400;

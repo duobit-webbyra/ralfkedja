@@ -14,9 +14,9 @@ interface NewsClientProps {
     user: {
       id: string;
       name: string;
-      role: string;
     };
   };
+  sliceList?: boolean;
 }
 
 export interface ClientNews {
@@ -41,12 +41,13 @@ export interface ClientNews {
   }[];
 }
 
-function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
+function NewsClient({ newsPosts: initialNewsPosts, user, sliceList }: NewsClientProps) {
   const [newsPosts, setNewsPosts] = useState<ClientNews[]>(initialNewsPosts);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [targetComment, setTargetComment] = useState<{ postId: string; commentId: string } | null>(
     null,
   );
+
   const handleLikePost = async (postId: string) => {
     // Find the post and check if the user has already liked it
     const post = newsPosts.find((post) => post.id === postId);
@@ -286,7 +287,7 @@ function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
     <>
       {isModalOpen && targetComment && (
         <div className='fixed inset-0 bg-black/70 flex items-center justify-center z-50'>
-          <div className='bg-white p-2 rounded-lg shadow-lg w-80'>
+          <div className='bg-white p-2 rounded-lg shadow-lg md:w-120 w-80 flex flex-col gap-4 py-6 px-8'>
             <div className='p-2'>
               <h2 className='text-sm! mb-2'>Radera kommentar?</h2>
               <p className=' mb-2'>Är du säker på att du vill radera din kommentar?</p>
@@ -312,8 +313,14 @@ function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
         </div>
       )}
       <div className=''>
-        <h1 className='text-2xl font-bold'>Nyheter</h1>
-        <p>Läs de senaste nyheter och uppdateringar!</p>
+        {!sliceList ? (
+          <>
+            <h1 className='text-[1.5rem]! md:text-3xl!'>Nyheter</h1>
+            <p>Läs de senaste nyheter och uppdateringar!</p>
+          </>
+        ) : (
+          <h1 className='text-center mb-8'>Alla nyheter</h1>
+        )}
       </div>
       <div className='flex flex-col gap-16'>
         {newsPosts.map((post) => (
@@ -322,7 +329,7 @@ function NewsClient({ newsPosts: initialNewsPosts, user }: NewsClientProps) {
             className='bg-tertiary-100 p-4 md:p-6 rounded-lg shadow-md flex flex-col'
           >
             <div className='mb-6'>
-              <h2 className='text-xl font-bold'>{post.title}</h2>
+              <h2 className='text-[1.5rem]! md:text-[2rem]!'>{post.title}</h2>
               <p className='text-xs! text-gray-500!'>
                 Ralf Kedja • Publicerad {formatDate(post.createdAt || new Date().toISOString())}
               </p>
