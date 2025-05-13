@@ -19,12 +19,14 @@ export const News: CollectionConfig = {
       type: 'text',
       required: true,
       label: 'Titel',
+      maxLength: 250,
     },
     {
       name: 'content',
       type: 'textarea',
       required: true,
       label: 'Innehåll',
+      maxLength: 5000,
     },
     {
       name: 'likes',
@@ -54,6 +56,7 @@ export const News: CollectionConfig = {
           type: 'textarea',
           required: true,
           label: 'Kommentar',
+          maxLength: 1000,
         },
         {
           name: 'author',

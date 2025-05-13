@@ -329,11 +329,11 @@ function NewsClient({ newsPosts: initialNewsPosts, user, sliceList }: NewsClient
             className='bg-tertiary-100 p-4 md:p-6 rounded-lg shadow-md flex flex-col'
           >
             <div className='mb-6'>
-              <h2 className='text-[1.5rem]! md:text-[2rem]!'>{post.title}</h2>
+              <h2 className='text-[1.5rem]! md:text-[2rem]! break-all'>{post.title}</h2>
               <p className='text-xs! text-gray-500!'>
                 Ralf Kedja • Publicerad {formatDate(post.createdAt || new Date().toISOString())}
               </p>
-              <p className='my-4'>{post.content}</p>
+              <p className='my-4 break-all'>{post.content}</p>
 
               <div className='flex items-center gap-1'>
                 <button
@@ -416,11 +416,9 @@ function NewsClient({ newsPosts: initialNewsPosts, user, sliceList }: NewsClient
                     );
                   } else {
                     console.error('Failed to save comment:', result.message);
-                    alert(result.message || 'Failed to save comment.');
                   }
                 } catch (error) {
                   console.error('Error saving comment:', error);
-                  alert('An error occurred while saving the comment.');
                 }
               }}
             >
@@ -428,6 +426,7 @@ function NewsClient({ newsPosts: initialNewsPosts, user, sliceList }: NewsClient
                 name='comment'
                 placeholder='Skriv en kommentar...'
                 className='px-5 py-4'
+                maxLength={1000}
                 required
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
