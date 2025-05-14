@@ -122,7 +122,7 @@ export function NavMobile({ user }: { user: any }) {
         {!isOpen ? <MenuOpenButton /> : <MenuCloseButton />}
       </div>
       <ul
-        className={`fixed top-[0] left-0 w-full h-full bg-tertiary-250 flex flex-col items-center gap-8 md:gap-12 pt-16 transition-transform duration-300 ${
+        className={`fixed top-[0] pb-4 overflow-y-auto left-0 w-full h-full bg-tertiary-250 flex flex-col items-center gap-8 md:gap-12 pt-16 transition-transform duration-300 ${
           isOpen ? 'translate-y-0' : '-translate-y-full'
         }`}
       >
