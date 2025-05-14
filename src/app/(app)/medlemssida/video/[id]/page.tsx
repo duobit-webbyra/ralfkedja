@@ -4,18 +4,20 @@ import { notFound, redirect } from 'next/navigation';
 import { getUser } from '@/app/providers/auth-server';
 import Container from '@/app/components/essentials/Container';
 
-export default async function VideoPage({ params }: { params: { id: string } }) {
-  const user = await getUser();
+type Params = Promise<{ id: string }>;
 
+export default async function VideoPage({ params }: { params: Params }) {
+  const { id } = await params;
+
+  const user = await getUser();
   if (!user) {
     redirect('/logga-in');
   }
 
   const payload = await getPayload({ config });
-  const paramsId = params.id;
   const video = await payload.findByID({
     collection: 'videos',
-    id: paramsId,
+    id,
   });
 
   if (!video) {
@@ -23,41 +25,26 @@ export default async function VideoPage({ params }: { params: { id: string } }) 
   }
 
   const isValidUrl = (url: string) => {
-    if (!url) {
-      console.log('URL is empty or undefined:', url); // Debugging
-      return false;
-    }
+    if (!url) return false;
     try {
       new URL(url);
       return true;
     } catch {
-      console.log('Invalid URL:', url); // Debugging
       return false;
     }
   };
 
   const getYoutubeEmbedLink = (url: string) => {
-    if (!isValidUrl(url)) {
-      console.log('Invalid URL passed to getYoutubeEmbedLink:', url); // Debugging
-      return '';
-    }
+    if (!isValidUrl(url)) return '';
     try {
       const urlObj = new URL(url);
-
-      // Only handle regular YouTube URLs with a 'v' query parameter
       const videoId = urlObj.searchParams.get('v');
-      if (!videoId) {
-        throw new Error('Invalid YouTube URL'); // If 'v' is missing, treat it as invalid
-      }
-
+      if (!videoId) throw new Error('Invalid YouTube URL');
       return `https://www.youtube.com/embed/${videoId}`;
-    } catch (error) {
-      console.error('Failed to parse YouTube URL:', error);
+    } catch {
       return '';
     }
   };
-
-  console.log('Video URL:', video.url); // Debugging
 
   return (
     <Container className='py-16'>
