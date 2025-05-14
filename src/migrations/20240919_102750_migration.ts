@@ -7,9 +7,10 @@ export async function up({ payload }: MigrateUpArgs): Promise<void> {
   payload.create({
     collection: 'users',
     data: {
+      name: 'Kevin Hormiz',
       role: 'host',
-      email: 'marwinhormiz@duobit.se',
-      password: 'test123',
+      email: 'kevinhormiz@gmail.com',
+      password: 'Natalie5685',
     },
   });
 }

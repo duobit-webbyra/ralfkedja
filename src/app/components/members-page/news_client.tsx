@@ -60,8 +60,7 @@ function NewsClient({ newsPosts: initialNewsPosts, user, sliceList }: NewsClient
     // Check if the user has already liked the post
     const alreadyLiked = post.likes?.some((like) => {
       // Normalize the user ID from the likes array
-      const likeUserId = typeof like.user === 'string' ? like.user : like.user?.id;
-      return likeUserId === user.user.id;
+      return like.user === user.user.id;
     });
 
     console.log('Post before like:', post);
@@ -75,8 +74,7 @@ function NewsClient({ newsPosts: initialNewsPosts, user, sliceList }: NewsClient
               ...post,
               likes: alreadyLiked
                 ? post.likes?.filter((like) => {
-                    const likeUserId = typeof like.user === 'string' ? like.user : like.user?.id;
-                    return likeUserId !== user.user.id;
+                    return like.user === user.user.id;
                   }) // Remove like
                 : [...(post.likes || []), { user: user.user.id }], // Add like
             }
@@ -101,9 +99,7 @@ function NewsClient({ newsPosts: initialNewsPosts, user, sliceList }: NewsClient
                   likes: alreadyLiked
                     ? [...(post.likes || []), { user: user.user.id }] // Re-add like
                     : post.likes?.filter((like) => {
-                        const likeUserId =
-                          typeof like.user === 'string' ? like.user : like.user?.id;
-                        return likeUserId !== user.user.id;
+                        return like.user === user.user.id;
                       }), // Remove like
                 }
               : post,
@@ -133,8 +129,7 @@ function NewsClient({ newsPosts: initialNewsPosts, user, sliceList }: NewsClient
     }
 
     const alreadyLiked = comment.likes?.some((like) => {
-      const likeUserId = typeof like.user === 'string' ? like.user : like.user?.id;
-      return likeUserId === user.user.id;
+      return like.user === user.user.id;
     });
 
     console.log('Comment before like:', comment);
@@ -152,9 +147,7 @@ function NewsClient({ newsPosts: initialNewsPosts, user, sliceList }: NewsClient
                       ...comment,
                       likes: alreadyLiked
                         ? comment.likes?.filter((like) => {
-                            const likeUserId =
-                              typeof like.user === 'string' ? like.user : like.user?.id;
-                            return likeUserId !== user.user.id;
+                            return like.user === user.user.id;
                           }) // Remove like
                         : [...(comment.likes || []), { user: user.user.id }], // Add like
                     }
@@ -186,9 +179,7 @@ function NewsClient({ newsPosts: initialNewsPosts, user, sliceList }: NewsClient
                           likes: alreadyLiked
                             ? [...(comment.likes || []), { user: user.user.id }] // Re-add like
                             : comment.likes?.filter((like) => {
-                                const likeUserId =
-                                  typeof like.user === 'string' ? like.user : like.user?.id;
-                                return likeUserId !== user.user.id;
+                                return like.user === user.user.id;
                               }), // Remove like
                         }
                       : comment,

@@ -4,13 +4,20 @@ import { getPayload } from 'payload';
 import config from '@payload-config';
 import { getUser } from '@/app/providers/auth-server';
 import { v4 as uuidv4 } from 'uuid';
-
+type RawComment = {
+  id?: string | null;
+  comment?: string;
+  author?: string | { id?: string | null; name?: string | null };
+  createdAt?: string | null;
+  likes?: { user: string | { id: string } }[] | null;
+};
 type CommentResponse = {
   status: 'success' | 'error';
   message?: string;
   data?: {
     postId?: string;
     commentId?: string;
+    comments?: RawComment[];
   };
 };
 
@@ -159,7 +166,12 @@ export async function deleteComment(
     }
 
     // Verify user owns the comment
-    if (commentToDelete.author.id !== userId) {
+    const authorId =
+      typeof commentToDelete.author === 'string'
+        ? commentToDelete.author
+        : commentToDelete.author?.id;
+
+    if (authorId !== userId) {
       return { status: 'error', message: 'Unauthorized: You can only delete your own comments.' };
     }
 
@@ -191,10 +203,12 @@ export async function deleteComment(
 }
 
 // Helper to check if a user has liked something
-function hasUserLiked(likes, userId) {
+function hasUserLiked(
+  likes: { user: string | { id: string } }[] | null | undefined,
+  userId: string,
+) {
   return (
     likes?.some((like) => {
-      // Handle both string IDs and user objects
       const likeUserId = typeof like.user === 'string' ? like.user : like.user.id;
       return likeUserId === userId;
     }) || false
@@ -278,7 +292,7 @@ export async function likeComment(
     const alreadyLiked = hasUserLiked(comment.likes, userId);
 
     // Update comments with modified like
-    const updatedComments = post.comments.map((c) => {
+    const updatedComments = (post.comments ?? []).map((c) => {
       if (c.id === commentId) {
         let updatedLikes;
         if (alreadyLiked) {

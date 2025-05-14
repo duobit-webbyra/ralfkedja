@@ -16,8 +16,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = useCallback<Login>(async (args) => {
     const user = await rest(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/login`, args);
-    setUser(user);
-    return user;
+    setUser(user ?? null);
+    return user ?? null;
   }, []);
 
   const logout = useCallback<Logout>(async () => {
