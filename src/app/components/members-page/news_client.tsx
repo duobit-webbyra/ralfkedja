@@ -324,7 +324,9 @@ function NewsClient({ newsPosts: initialNewsPosts, user, sliceList }: NewsClient
               <p className='text-xs! text-gray-500!'>
                 Ralf Kedja • Publicerad {formatDate(post.createdAt || new Date().toISOString())}
               </p>
-              <p className='my-4 break-all'>{post.content}</p>
+              <p className='my-4' style={{ overflowWrap: 'anywhere' }}>
+                {post.content}
+              </p>
 
               <div className='flex items-center gap-1'>
                 <button
@@ -346,7 +348,9 @@ function NewsClient({ newsPosts: initialNewsPosts, user, sliceList }: NewsClient
                 <li key={comment.id} className='bg-tertiary-200 py-2 pl-4 rounded-lg'>
                   <div className='flex justify-between items-center'>
                     <div>
-                      <p className='mb-2 break-all'>{comment.comment}</p>
+                      <p className='mb-2 ' style={{ overflowWrap: 'anywhere' }}>
+                        {comment.comment}
+                      </p>
                       <p className='text-xs! text-gray-500!'>
                         {comment.author.name} • {formatDate(comment.createdAt)}
                       </p>
