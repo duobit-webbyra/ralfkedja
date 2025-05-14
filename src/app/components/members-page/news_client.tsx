@@ -320,11 +320,16 @@ function NewsClient({ newsPosts: initialNewsPosts, user, sliceList }: NewsClient
             className='bg-tertiary-100 p-4 md:p-6 rounded-lg shadow-md flex flex-col'
           >
             <div className='mb-6'>
-              <h2 className='text-[1.5rem]! md:text-[2rem]! break-all'>{post.title}</h2>
+              <h2
+                className='text-[1.5rem]! md:text-[2rem]! wrap-break-word'
+                style={{ overflowWrap: 'anywhere' }}
+              >
+                {post.title}
+              </h2>
               <p className='text-xs! text-gray-500!'>
                 Ralf Kedja • Publicerad {formatDate(post.createdAt || new Date().toISOString())}
               </p>
-              <p className='my-4' style={{ overflowWrap: 'anywhere' }}>
+              <p className='my-4 wrap-break-word' style={{ overflowWrap: 'anywhere' }}>
                 {post.content}
               </p>
 
@@ -348,7 +353,7 @@ function NewsClient({ newsPosts: initialNewsPosts, user, sliceList }: NewsClient
                 <li key={comment.id} className='bg-tertiary-200 py-2 pl-4 rounded-lg'>
                   <div className='flex justify-between items-center'>
                     <div>
-                      <p className='mb-2 ' style={{ overflowWrap: 'anywhere' }}>
+                      <p className='mb-2 wrap-break-word' style={{ overflowWrap: 'anywhere' }}>
                         {comment.comment}
                       </p>
                       <p className='text-xs! text-gray-500!'>
