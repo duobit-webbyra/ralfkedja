@@ -18,7 +18,7 @@ export default function ContactPage() {
           inverse
         />
         <div className={style['contact-form']}>
-          <ContactForm layout='grid' />
+          <ContactForm grid />
         </div>
       </div>
     </>
