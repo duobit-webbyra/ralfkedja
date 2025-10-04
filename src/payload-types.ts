@@ -67,6 +67,7 @@ export interface Config {
   };
   blocks: {};
   collections: {
+    reviews: Review;
     users: User;
     media: Media;
     'payload-locked-documents': PayloadLockedDocument;
@@ -75,6 +76,7 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
+    reviews: ReviewsSelect<false> | ReviewsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -84,8 +86,18 @@ export interface Config {
   db: {
     defaultIDType: number;
   };
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    announcement: Announcement;
+    contact: Contact;
+    gallery: Gallery;
+    'highlight-reviews': HighlightReview;
+  };
+  globalsSelect: {
+    announcement: AnnouncementSelect<false> | AnnouncementSelect<true>;
+    contact: ContactSelect<false> | ContactSelect<true>;
+    gallery: GallerySelect<false> | GallerySelect<true>;
+    'highlight-reviews': HighlightReviewsSelect<false> | HighlightReviewsSelect<true>;
+  };
   locale: null;
   user: User & {
     collection: 'users';
@@ -115,10 +127,22 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews".
+ */
+export interface Review {
+  id: number;
+  name: string;
+  feedback: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
   id: number;
+  role: 'host' | 'admin' | 'user';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -163,6 +187,10 @@ export interface Media {
 export interface PayloadLockedDocument {
   id: number;
   document?:
+    | ({
+        relationTo: 'reviews';
+        value: number | Review;
+      } | null)
     | ({
         relationTo: 'users';
         value: number | User;
@@ -215,9 +243,20 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews_select".
+ */
+export interface ReviewsSelect<T extends boolean = true> {
+  name?: T;
+  feedback?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -284,6 +323,132 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "announcement".
+ */
+export interface Announcement {
+  id: number;
+  activate?: boolean | null;
+  message?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact".
+ */
+export interface Contact {
+  id: number;
+  address: {
+    street: string;
+    city: string;
+    zipcode: number;
+  };
+  phone: string;
+  email: string;
+  links?: {
+    facebook?: string | null;
+    instagram?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery".
+ */
+export interface Gallery {
+  id: number;
+  images?:
+    | {
+        image?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "highlight-reviews".
+ */
+export interface HighlightReview {
+  id: number;
+  reviews?: {
+    'review-one'?: (number | null) | Review;
+    'review-two'?: (number | null) | Review;
+    'review-three'?: (number | null) | Review;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "announcement_select".
+ */
+export interface AnnouncementSelect<T extends boolean = true> {
+  activate?: T;
+  message?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact_select".
+ */
+export interface ContactSelect<T extends boolean = true> {
+  address?:
+    | T
+    | {
+        street?: T;
+        city?: T;
+        zipcode?: T;
+      };
+  phone?: T;
+  email?: T;
+  links?:
+    | T
+    | {
+        facebook?: T;
+        instagram?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery_select".
+ */
+export interface GallerySelect<T extends boolean = true> {
+  images?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "highlight-reviews_select".
+ */
+export interface HighlightReviewsSelect<T extends boolean = true> {
+  reviews?:
+    | T
+    | {
+        'review-one'?: T;
+        'review-two'?: T;
+        'review-three'?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -1,0 +1,29 @@
+@import 'variables.scss';
+
+.container {
+  margin-top: 4rem;
+  display: flex;
+  gap: 2rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  & > .contact-form {
+    width: 100%;
+    max-width: 800px;
+  }
+}
+
+@media (max-width: $media-sm) {
+  .container {
+    & > .contact-form {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: $content-width) {
+  .container {
+    padding: 0 1rem;
+  }
+}

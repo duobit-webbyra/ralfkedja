@@ -1,0 +1,49 @@
+@import 'variables.scss';
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+  width: $content-width;
+
+  & > .text {
+    text-align: center;
+
+    & > h1 {
+      font-size: $text-base;
+      color: $tertiary-200;
+      text-transform: uppercase;
+    }
+
+    & > h2 {
+      color: $tertiary-100;
+    }
+
+    & > p {
+      color: $primary-100;
+    }
+  }
+
+  & > .review-cards {
+    display: flex;
+    gap: 2.5rem;
+
+    & > * {
+      flex: 1;
+    }
+  }
+}
+
+@media (max-width: $media-md) {
+  .content {
+    padding: 0 1rem;
+    & > .review-cards {
+      flex-direction: column;
+    }
+  }
+}

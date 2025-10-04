@@ -1,0 +1,62 @@
+@use 'variables.scss' as *;
+
+.container {
+  display: flex;
+  gap: 2rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  & > .content {
+    display: flex;
+    width: $content-width;
+
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+
+    & > .text {
+      width: 50%;
+    }
+
+    & > .contact-form-container {
+      display: flex;
+      flex-grow: 1;
+      justify-content: center;
+      border-radius: 16px;
+      background-color: $primary-200;
+      padding: 1rem;
+    }
+  }
+}
+
+@media (max-width: $content-width) {
+  .container {
+    & > .content {
+      width: 100%;
+      padding: 1rem;
+      & > .contact-form-container {
+        background-color: $primary-200;
+      }
+    }
+  }
+}
+
+@media (max-width: $media-sm) {
+  .container {
+    & > .content {
+      flex-direction: column;
+      width: 100%;
+      padding: 0rem 1rem;
+
+      & > .text {
+        width: 100%;
+      }
+
+      & > .contact-form-container {
+        background-color: $primary-200;
+        width: 100%;
+      }
+    }
+  }
+}
