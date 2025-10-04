@@ -1,12 +1,12 @@
 import type { User } from '@payload-types'
 
 export type Login = (
-  previousState: any,
   args: { email: string; password: string },
-) => Promise<User | null>
+) => Promise<void>
 
 export type Logout = () => Promise<void>
 
 export interface AuthContext {
-  user?: User | null
+  user?: User | null,
+  login: Login
 }

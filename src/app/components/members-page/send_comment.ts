@@ -1,9 +1,10 @@
 'use server'
 
-import { getPayload } from 'payload'
+import { APIError, APIErrorName, getPayload } from 'payload'
 import config from '@payload-config'
 import { getUser } from '@/app/providers/getUser'
 import { Comment, Likes, Post } from '@/payload-types'
+import { ApiError } from 'next/dist/server/api-utils'
 
 export async function fetchAllComments(id: number): Promise<CommentResponse> {
   if (!id) {
@@ -88,26 +89,19 @@ export async function createComment(
 
 export async function deleteComment(
   commentId: number,
-): Promise<{ status: 'success' | 'error' }> {
+): Promise<{ status: 'success' }> {
 
   const user = await getUser()
   // Validate input
   if (!user) {
-    return { status: 'error' }
+    throw new Error('User not found')
   }
 
   if (!commentId) {
-    return { status: 'error' }
+    throw new Error('Comment ID is required')
   }
 
   try {
-    // Get authenticated user to verify identity
-    const currentUser = await getUser()
-
-    if (!currentUser || currentUser.id !== user.id) {
-      return { status: 'error' }
-    }
-
     const payload = await getPayload({ config })
     const comment = await payload.findByID({
       collection: 'comments',
@@ -115,13 +109,13 @@ export async function deleteComment(
     })
 
     if (typeof comment.author !== 'object') {
-      return { status: 'error' }
+      throw new Error('Invalid comment author')
     }
 
     const author = comment.author
 
     if (author.id !== user.id) {
-      return { status: 'error' }
+      throw new Error('Unauthorized')
     }
 
     await payload.delete({
@@ -133,8 +127,11 @@ export async function deleteComment(
       status: 'success',
     }
   } catch (error) {
-    console.error('Failed to delete comment:', error)
-    return { status: 'error' }
+    if (error instanceof APIError) {
+      throw new Error('Failed to delete comment')
+    } else {
+      throw error
+    }
   }
 }
 
@@ -203,8 +200,14 @@ export async function likePost(
 // Server-side comment like function
 export async function likeComment(
   commentId: number,
-): Promise<{ status: string; message?: string }> {
+): Promise<{ comment: Comment }> {
   try {
+    const user = await getUser()
+
+    if (!user) {
+      throw new Error('User not found.')
+    }
+
     const payload = await getPayload({ config })
 
     // Fetch the post
@@ -214,47 +217,27 @@ export async function likeComment(
     })
 
     if (!comment) {
-      return { status: 'error', message: 'Post not found.' }
+      throw new Error('Comment not found.')
     }
 
-    // Find the comment
-    // const comment = post.comments?.find((c) => c.id === commentId)
-    // if (!comment) {
-    //   return { status: 'error', message: 'Comment not found.' }
-    // }
-
     // Check if user has already liked
-    // const alreadyLiked = hasUserLiked(comment.likes, userId)
+    const alreadyLiked = hasUserLiked(comment.likes, user.id)
 
-    // Update comments with modified like
-    // const updatedComments = (post.comments ?? []).map((c) => {
-    //   if (c.id === commentId) {
-    //     let updatedLikes
-    //     if (alreadyLiked) {
-    //       // Remove like
-    //       updatedLikes = c.likes?.filter((like) => {
-    //         const likeUserId = typeof like.user === 'object' ? like.user.id : like.user
-    //         return likeUserId !== userId
-    //       })
-    //     } else {
-    //       // Add like
-    //       updatedLikes = [...(c.likes || []), { user: userId }]
-    //     }
-    //     return { ...c, likes: updatedLikes }
-    //   }
-    //   return c
-    // })
+    comment.likes = alreadyLiked ? comment.likes.filter((like) => {
+      const likeUserId = typeof like.user === 'object' ? like.user.id : like.user
+      return likeUserId !== user.id
+    }) : [...(comment.likes || []), { user: user.id }]
 
     // Update database
-    // await payload.update({
-    //   collection: 'posts',
-    //   id: postId,
-    //   data: { comments: updatedComments },
-    // })
+    const newComment = await payload.update({
+      collection: 'comments',
+      id: commentId,
+      data: comment,
+    })
 
-    return { status: 'success' }
+    return { comment: newComment }
   } catch (error) {
     console.error('Error toggling like on comment:', error)
-    return { status: 'error', message: 'Failed to toggle like on comment.' }
+    throw new Error('Failed to toggle like on comment.')
   }
 }

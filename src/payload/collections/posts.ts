@@ -45,6 +45,7 @@ export const Posts: CollectionConfig = {
     {
       name: 'comments',
       type: 'join',
+      maxDepth: 3,
       label: 'Kommentarer',
       collection: 'comments',
       on: 'post'

@@ -8,9 +8,12 @@ import Container from '@/app/components/essentials/Container'
 import SecondaryButton from '@/app/components/button/secondary-button'
 import Turnstile from '@/app/components/turnstile'
 import { loginAction } from '@/app/providers/login'
+import { useAuth } from '@/app/providers/auth'
 
 export default function LoginForm() {
   const [state, formAction] = useActionState(loginAction, null)
+
+  const { login } = useAuth()
 
   return (
     <section className="relative flex min-h-[calc(100vh-var(--nav-height)-var(--info-header-height))] items-center justify-center">
@@ -42,7 +45,12 @@ export default function LoginForm() {
               för mer information!
             </span>
           </div>
-          <Form className="flex flex-col gap-8 w-full" action={formAction}>
+          <Form className="flex flex-col gap-8 w-full" action={async (formData) => {
+            const email = formData.get('email') as string;
+            const password = formData.get('password') as string;
+
+            await login({ email, password });
+          }}>
             <div className="flex flex-col gap-4 w-full">
               <Input className="bg-white" placeholder="E-post" name="email" type="email" required />
               <Input

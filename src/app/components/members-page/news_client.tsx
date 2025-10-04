@@ -16,6 +16,107 @@ interface NewsClientProps {
   sliceList?: boolean
 }
 
+const CommentComponent = React.memo(({ initialComment }: { initialComment: Comment | null }) => {
+  const { user } = useAuth()
+
+  const [comment, setComment] = useState<Comment | null>(initialComment)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  if (!comment) return null
+
+  const handleLikeComment = async () => {
+    try {
+      likeComment(comment.id).then((result) => {
+        setComment(result.comment)
+      })
+    } catch (error) {
+
+    }
+  }
+
+  const handleDeleteComment = async () => {
+    try {
+      deleteComment(comment.id).then(() => {
+        setComment(null)
+      })
+    } catch (error) {
+    }
+  }
+
+  const author = typeof comment?.author === 'object' ? comment.author : null
+
+  if (!author) return null
+
+  return <>
+    {isModalOpen && (
+      <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+        <div className="bg-white p-2 rounded-lg shadow-lg md:w-120 w-80 flex flex-col gap-4 py-6 px-8">
+          <div className="p-2">
+            <h2 className="text-sm! mb-2">Radera kommentar?</h2>
+            <p className=" mb-2">Är du säker på att du vill radera din kommentar?</p>
+          </div>
+          <div className="flex gap-2">
+            <button
+              className="bg-primary-300 flex-1 text-white px-4 py-2 rounded hover:bg-primary-200 cursor-pointer"
+              onClick={() => {
+                handleDeleteComment()
+                setIsModalOpen(false)
+              }}
+            >
+              Radera
+            </button>
+            <button
+              className="bg-gray-300 text-black flex-1 px-4 py-2 rounded hover:bg-gray-200 cursor-pointer"
+              onClick={() => setIsModalOpen(false)}
+            >
+              Ångra
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
+    <li key={comment.id} className="bg-tertiary-200 py-2 pl-4 rounded-lg">
+      <div className="flex justify-between items-center">
+        <div>
+          <p className="mb-2 wrap-break-word" style={{ overflowWrap: 'anywhere' }}>
+            {comment.comment}
+          </p>
+          <p className="text-xs! text-gray-500!">
+            {author.name} • {formatDate(comment.createdAt)}
+          </p>
+        </div>
+        <div className="flex  gap-2 justify-start">
+          {user.id === author.id && (
+            <button
+              className="cursor-pointer"
+              onClick={() => {
+                setIsModalOpen(true)
+              }}
+              aria-label="Delete comment"
+            >
+              <MdDeleteOutline size={20} color="#424847" />
+            </button>
+          )}
+          <div className="flex  gap-1">
+            <button
+              className="text-primary-500 cursor-pointer"
+              onClick={() => handleLikeComment()}
+            >
+              <Heart
+                filled={comment.likes?.some(
+                  (like) => typeof like.user === 'object' && like.user.id === user.id, // Check if the user has liked the comment
+                )}
+              />
+            </button>
+            <p className="w-10">{comment.likes?.length || 0}</p>
+          </div>
+        </div>
+      </div>
+    </li>
+
+  </>
+})
+
 const Comments = React.memo(({ post, initialComments }: { post: number, initialComments: Comment[] }) => {
 
   const [comments, setComments] = useState(initialComments.reduce((acc, comment) => {
@@ -44,89 +145,11 @@ const Comments = React.memo(({ post, initialComments }: { post: number, initialC
     }
   }
 
-  const handleDeleteComment = async (comment: number) => {
-    try {
-      const result = await deleteComment(comment)
-
-      if (result?.status === 'success') {
-        // setNewsPosts((prevPosts) =>
-        //   prevPosts.map((post) =>
-        //     post.id === postId
-        //       ? {
-        //         ...post,
-        //         comments: (post.comments ?? []).filter((comment) => comment.id !== commentId),
-        //       }
-        //       : post,
-        //   ),
-        // )
-      } else {
-      }
-    } catch (error) {
-      console.error('Error deleting comment:', error)
-      alert('An error occurred while deleting the comment.')
-    }
-  }
-
-  const handleLikeComment = async (comment: number) => {
-
-  }
-
   return (
     <>
       <ul className="mt-2 space-y-2">
         {Object.values(comments).map((comment) => {
-
-          let author: User
-
-          console.log(comment)
-
-          if (typeof comment.author === 'object') {
-            author = comment.author
-          } else {
-            return null
-          }
-
-          return (
-            <li key={comment.id} className="bg-tertiary-200 py-2 pl-4 rounded-lg">
-              <div className="flex justify-between items-center">
-                <div>
-                  <p className="mb-2 wrap-break-word" style={{ overflowWrap: 'anywhere' }}>
-                    {comment.comment}
-                  </p>
-                  <p className="text-xs! text-gray-500!">
-                    {comment.author.name} • {formatDate(comment.createdAt)}
-                  </p>
-                </div>
-                <div className="flex  gap-2 justify-start">
-                  {user.id === comment.author.id && (
-                    <button
-                      className="cursor-pointer"
-                      onClick={() => {
-                        // setIsModalOpen(true)
-                        // setTargetComment({ postId: post.id, commentId: comment.id })
-                      }}
-                      aria-label="Delete comment"
-                    >
-                      <MdDeleteOutline size={20} color="#424847" />
-                    </button>
-                  )}
-                  <div className="flex  gap-1">
-                    <button
-                      className="text-primary-500 cursor-pointer"
-                      onClick={() => handleLikeComment(comment.id)}
-                    >
-                      <Heart
-                        filled={comment.likes?.some(
-                          (like) => like.user === user.id, // Check if the user has liked the comment
-                        )}
-                      />
-                    </button>
-                    <p className="w-10">{comment.likes?.length || 0}</p>
-                  </div>
-                </div>
-              </div>
-            </li>
-          )
+          return <CommentComponent key={comment.id} initialComment={comment} />
         })}
       </ul>
       <Form
@@ -167,7 +190,7 @@ const Comments = React.memo(({ post, initialComments }: { post: number, initialC
   );
 })
 
-function PostView({
+function PostComponent({
   initialPost
 }: {
   initialPost: Post
@@ -276,46 +299,19 @@ function NewsClient({ initialPosts, sliceList }: NewsClientProps) {
 
   return (
     <>
-      {isModalOpen && targetComment && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-          <div className="bg-white p-2 rounded-lg shadow-lg md:w-120 w-80 flex flex-col gap-4 py-6 px-8">
-            <div className="p-2">
-              <h2 className="text-sm! mb-2">Radera kommentar?</h2>
-              <p className=" mb-2">Är du säker på att du vill radera din kommentar?</p>
-            </div>
-            <div className="flex gap-2">
-              <button
-                className="bg-primary-300 flex-1 text-white px-4 py-2 rounded hover:bg-primary-200 cursor-pointer"
-                onClick={() => {
-                  // handleDeleteComment(targetComment.postId, user.id, targetComment.commentId)
-                  setIsModalOpen(false)
-                }}
-              >
-                Radera
-              </button>
-              <button
-                className="bg-gray-300 text-black flex-1 px-4 py-2 rounded hover:bg-gray-200 cursor-pointer"
-                onClick={() => setIsModalOpen(false)}
-              >
-                Ångra
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-      <div className="">
+      <div className="flex flex-col gap-4">
         {sliceList ? (
           <>
-            <h1 className="text-[1.5rem]! md:text-3xl!">Nyheter</h1>
+            <h2 className="">Nyheter</h2>
             <p>Läs de senaste nyheter och uppdateringar!</p>
           </>
         ) : (
-          <h1 className="text-center mb-8">Alla nyheter</h1>
+          <h2 className="text-center mb-8">Alla nyheter</h2>
         )}
       </div>
       <div className="flex flex-col gap-16">
         {posts.map((post) => (
-          <PostView key={post.id} initialPost={post} />
+          <PostComponent key={post.id} initialPost={post} />
         ))}
       </div>
     </>

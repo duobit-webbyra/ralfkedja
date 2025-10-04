@@ -4,6 +4,7 @@ import { cookies } from 'next/headers'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { redirect } from 'next/navigation'
+import { revalidatePath } from 'next/cache'
 
 async function handleLogin(email: string, password: string) {
   try {
@@ -16,7 +17,7 @@ async function handleLogin(email: string, password: string) {
         email,
         password,
       },
-      req: {}, // You can pass additional request context if needed
+      req: {}, // You can pass additional request context if needed,
     })
 
     // result contains: { token, user, exp }
@@ -54,22 +55,24 @@ async function handleLogin(email: string, password: string) {
   }
 }
 
-export async function loginAction(previousState: any, formData: FormData) {
-  const email = formData.get('email') as string
-  const password = formData.get('password') as string
+export async function loginAction(email: string, password: string) {
 
+  console.log(email, password)
   const result = await handleLogin(email, password)
 
   if (!result.success) {
     return { error: result.error }
   }
 
-  ;(await cookies()).set('payload-token', result.token, {
+  ; (await cookies()).set('payload-token', result.token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
     maxAge: 60 * 60 * 24 * 7, // 7 days
   })
 
-  return redirect('/medlemssida')
+  return {
+    success: true,
+    user: result.user,
+  }
 }

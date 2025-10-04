@@ -24,12 +24,12 @@ export default async function VideosList({ sliceList }: VideoListProps) {
   const latestVideos = sliceList ? videos.docs.slice(0, 6) : videos.docs;
 
   return (
-    <section className='md:py-8  gap-8 flex flex-col '>
-      <div className='flex flex-col '>
+    <section className='md:py-8  gap-8 flex flex-col'>
+      <div className='flex flex-col gap-3'>
         {sliceList ? (
-          <h1 className='text-[1.5rem]! md:text-3xl!'>Senast uppladdade videos</h1>
+          <h2 className='text-md'>Senast uppladdade videos</h2>
         ) : (
-          <h1 className='text-center '>Alla videos</h1>
+          <h2 className='text-center '>Alla videos</h2>
         )}
         {sliceList && (
           <p className=' '>

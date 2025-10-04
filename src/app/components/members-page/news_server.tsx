@@ -14,6 +14,7 @@ export default async function NewsServer({ sliceList }: NewsServerProps) {
     const { docs } = await payload.find({
       collection: 'posts',
       sort: '-createdAt',
+      depth: 3,
       limit: sliceList ? 4 : undefined,
     })
 
