@@ -1,5 +1,35 @@
 @import 'variables.scss';
 
+.checkbox-group {
+  * > input[type='checkbox'],
+  * > input[type='radio'] {
+    margin-right: 0.5rem;
+    appearance: none;
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid black;
+    border-radius: 0.25rem;
+    position: relative;
+    cursor: pointer;
+
+    &:checked {
+      border-color: black;
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0.05rem;
+        left: 0.25rem;
+        width: 0.3rem;
+        height: 0.7rem;
+        border: solid black;
+        border-width: 0 0.2rem 0.2rem 0;
+        transform: rotate(45deg);
+      }
+    }
+  }
+}
+
 .textarea {
   background-color: $tertiary-100;
   padding: 12px 1rem;
@@ -22,97 +52,80 @@
   }
 }
 
-.container {
+.forminput {
+  background-color: $tertiary-100;
+  padding: 12px 1rem;
+  border-radius: 100px;
+
+  border: 0px solid;
+  font-family: dmSerifDisplay;
+
+  &::placeholder {
+    opacity: 0.8;
+    font-family: dmSerifDisplay;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+    outline: 4px solid;
+    outline-color: $secondary-200;
+  }
+}
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.inputs {
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+}
+
+.textarea {
+  background-color: $tertiary-100;
+  padding: 12px 1rem;
+  border-radius: 20px;
+  border: 0px solid;
+  min-height: 200px;
+  font-family: dmSerifDisplay;
+  resize: none;
   width: 100%;
 
-  .content {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-
-    & > .form {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-
-      & > textarea {
-        resize: none;
-      }
-
-      & > .inputs {
-        & > .checkbox-group {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-        }
-
-        input[type='number']::-webkit-outer-spin-button,
-        input[type='number']::-webkit-inner-spin-button {
-          -webkit-appearance: none;
-          margin: 0;
-        }
-
-        input[type='number'] {
-          -moz-appearance: textfield;
-        }
-
-        &.grid {
-          display: grid;
-          grid-template-rows: auto auto;
-          grid-auto-flow: column;
-          gap: 1rem;
-        }
-
-        &.flex {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-        }
-
-        & > .forminput {
-          background-color: $tertiary-100;
-          padding: 12px 1rem;
-          border-radius: 100px;
-
-          border: 0px solid;
-          font-family: dmSerifDisplay;
-
-          &::placeholder {
-            opacity: 0.8;
-            font-family: dmSerifDisplay;
-          }
-
-          &:focus {
-            outline: none;
-            box-shadow: none;
-            outline: 4px solid;
-            outline-color: $secondary-200;
-          }
-        }
-      }
-
-      & > textarea {
-        background-color: $tertiary-100;
-        padding: 12px 1rem;
-        border-radius: 20px;
-        border: 0px solid;
-        min-height: 200px;
-        font-family: dmSerifDisplay;
-
-        &::placeholder {
-          opacity: 0.8;
-          font-family: dmSerifDisplay;
-        }
-
-        &:focus {
-          outline: none;
-          box-shadow: none;
-          outline: 4px solid;
-          outline-color: $secondary-200;
-        }
-      }
-    }
+  &::placeholder {
+    opacity: 0.8;
+    font-family: dmSerifDisplay;
   }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+    outline: 2px solid;
+    outline-color: black;
+  }
+}
+
+.container {
+  width: 100%;
 }
 
 @media (max-width: $media-sm) {
@@ -138,7 +151,6 @@
 .input-selection {
   display: flex;
   align-items: center;
-  color: $tertiary-100;
 
   & > input[type='checkbox'],
   & > input[type='radio'] {
@@ -146,22 +158,22 @@
     appearance: none;
     width: 1rem;
     height: 1rem;
-    border: 1px solid $tertiary-100;
+    border: 1px solid black;
     border-radius: 0.25rem;
     position: relative;
     cursor: pointer;
 
     &:checked {
-      border-color: $tertiary-100;
+      border-color: black;
 
       &::after {
         content: '';
         position: absolute;
         top: 0.05rem;
         left: 0.25rem;
-        width: 0.25rem;
-        height: 0.5rem;
-        border: solid white;
+        width: 0.3rem;
+        height: 0.7rem;
+        border: solid black;
         border-width: 0 0.2rem 0.2rem 0;
         transform: rotate(45deg);
       }

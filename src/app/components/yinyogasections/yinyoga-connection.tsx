@@ -2,8 +2,8 @@ import React from 'react'
 import style from '../treatments/treatment.module.scss'
 import Title from '../utils/title'
 import Image from 'next/image'
-import TreatmentItem from '../treatments/treatment-item'
 
+import TreatmentItem from '../treatments/treatment-item'
 export default function YinYogaConnections() {
   return (
     <div className={style.container}>

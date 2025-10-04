@@ -4,11 +4,11 @@ import nodemailer from 'nodemailer'
 import config from '@payload-config'
 import { getPayload } from 'payload'
 
-interface CloudflareVerification {
+interface CloudflareValidation {
   success: boolean
 }
 
-export default async function sendEmail(prevState: any, formData: FormData) {
+export async function verifyTurnstile(previousState: any, formData: FormData) {
   const turnstileToken = formData.get('cf-turnstile-response')
   const verificationResponse = await fetch(
     'https://challenges.cloudflare.com/turnstile/v0/siteverify',
@@ -24,13 +24,48 @@ export default async function sendEmail(prevState: any, formData: FormData) {
     },
   )
 
-  const verificationData: CloudflareVerification = await verificationResponse.json()
+  const verificationData: CloudflareValidation = await verificationResponse.json()
 
   if (!verificationData.success) {
     return {
       message: 'Något gick fel. Försök igen senare',
       status: 'error',
     }
+  }
+
+  return {
+    message: 'Verification successful',
+    status: 'success',
+  }
+}
+
+export async function sendEmail(previousState: any, formData: FormData) {
+  const turnstileToken = formData.get('cf-turnstile-response')
+  const verificationResponse = await fetch(
+    'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+    {
+      body: JSON.stringify({
+        response: turnstileToken,
+        secret: process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+    },
+  )
+
+  const verificationData: CloudflareValidation = await verificationResponse.json()
+
+  if (!verificationData.success) {
+    console.log('Verification failed:', verificationData)
+    return {
+      message: 'Något gick fel. Försök igen senare',
+      status: 'error',
+    }
+  }
+  if (verificationData.success) {
+    console.log('Verification successful:', verificationData)
   }
 
   const payload = await getPayload({ config })
@@ -116,7 +151,7 @@ export async function sendCourseInquiry(previousState: any, formData: FormData) 
     },
   )
 
-  const verificationData: CloudflareVerification = await verificationResponse.json()
+  const verificationData: CloudflareValidation = await verificationResponse.json()
   const payload = await getPayload({ config })
   const data = await payload.findGlobal({
     slug: 'contact',

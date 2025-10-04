@@ -7,6 +7,16 @@
  */
 
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Likes".
+ */
+export type Likes =
+  | {
+      user: number | User;
+      id?: string | null;
+    }[]
+  | null;
+/**
  * Supported timezones in IANA format.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -67,6 +77,9 @@ export interface Config {
   };
   blocks: {};
   collections: {
+    comments: Comment;
+    posts: Post;
+    videos: Video;
     reviews: Review;
     users: User;
     media: Media;
@@ -74,8 +87,15 @@ export interface Config {
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    posts: {
+      comments: 'comments';
+    };
+  };
   collectionsSelect: {
+    comments: CommentsSelect<false> | CommentsSelect<true>;
+    posts: PostsSelect<false> | PostsSelect<true>;
+    videos: VideosSelect<false> | VideosSelect<true>;
     reviews: ReviewsSelect<false> | ReviewsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
@@ -127,12 +147,36 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "reviews".
+ * via the `definition` "comments".
  */
-export interface Review {
+export interface Comment {
   id: number;
-  name: string;
-  feedback: string;
+  post: number | Post;
+  comment: string;
+  author: number | User;
+  createdAt: string;
+  likes?:
+    | {
+        user: number | User;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: number;
+  title: string;
+  content: string;
+  likes?: Likes;
+  comments?: {
+    docs?: (number | Comment)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -142,6 +186,7 @@ export interface Review {
  */
 export interface User {
   id: number;
+  name: string;
   role: 'host' | 'admin' | 'user';
   updatedAt: string;
   createdAt: string;
@@ -160,6 +205,29 @@ export interface User {
       }[]
     | null;
   password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "videos".
+ */
+export interface Video {
+  id: number;
+  title: string;
+  description?: string | null;
+  url: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews".
+ */
+export interface Review {
+  id: number;
+  name: string;
+  feedback: string;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -187,6 +255,18 @@ export interface Media {
 export interface PayloadLockedDocument {
   id: number;
   document?:
+    | ({
+        relationTo: 'comments';
+        value: number | Comment;
+      } | null)
+    | ({
+        relationTo: 'posts';
+        value: number | Post;
+      } | null)
+    | ({
+        relationTo: 'videos';
+        value: number | Video;
+      } | null)
     | ({
         relationTo: 'reviews';
         value: number | Review;
@@ -243,6 +323,54 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "comments_select".
+ */
+export interface CommentsSelect<T extends boolean = true> {
+  post?: T;
+  comment?: T;
+  author?: T;
+  createdAt?: T;
+  likes?:
+    | T
+    | {
+        user?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts_select".
+ */
+export interface PostsSelect<T extends boolean = true> {
+  title?: T;
+  content?: T;
+  likes?: T | LikesSelect<T>;
+  comments?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Likes_select".
+ */
+export interface LikesSelect<T extends boolean = true> {
+  user?: T;
+  id?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "videos_select".
+ */
+export interface VideosSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  url?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "reviews_select".
  */
 export interface ReviewsSelect<T extends boolean = true> {
@@ -256,6 +384,7 @@ export interface ReviewsSelect<T extends boolean = true> {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  name?: T;
   role?: T;
   updatedAt?: T;
   createdAt?: T;

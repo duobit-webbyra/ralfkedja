@@ -1,11 +1,12 @@
 import type { CollectionConfig } from 'payload';
 import { isHost } from '../access/is-host';
 import { isAdmin } from '../access/is-admin';
+import { ValidationError, CollectionBeforeValidateHook } from 'payload';
 
 export const Users: CollectionConfig = {
   slug: 'users',
   admin: {
-    useAsTitle: 'email',
+    useAsTitle: 'name',
   },
   defaultSort: 'role',
   access: {
@@ -20,8 +21,18 @@ export const Users: CollectionConfig = {
       return isAdmin({ req });
     },
   },
-  auth: true,
+  auth: {
+    tokenExpiration: 172800, // 2 days
+    maxLoginAttempts: 5,
+    lockTime: 600 * 1000, // 10 minutes
+  },
+
   fields: [
+    {
+      name: 'name',
+      type: 'text',
+      required: true,
+    },
     {
       name: 'role',
       type: 'radio',

@@ -2,6 +2,7 @@ import React from 'react'
 import style from './treatment.module.scss'
 import Title from '../utils/title'
 import Image from 'next/image'
+
 export default function Kroppsbalansering() {
   return (
     <div className={style.container}>

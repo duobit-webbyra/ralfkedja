@@ -2,11 +2,12 @@ import React from 'react';
 import CourseForm from './course-form';
 import Title from '../utils/title';
 import style from './course-registration.module.scss';
+import Container from '@/app/components/essentials/Container';
 export default function CourseRegistration() {
   return (
     <div className={style.container}>
-      <div className={style.content}>
-        <div className={style.text}>
+      <Container className='flex flex-col md:flex-row gap-8 md:gap-24'>
+        <div className='w-full md:flex-1'>
           <Title
             heading='Kurser'
             subHeading='Delta i kommande kurser!'
@@ -14,10 +15,10 @@ export default function CourseRegistration() {
             left
           />
         </div>
-        <div className={style['contact-form-container']}>
-          <CourseForm layout='flex' />
+        <div className='w-full md:flex-1'>
+          <CourseForm />
         </div>
-      </div>
+      </Container>
     </div>
   );
 }

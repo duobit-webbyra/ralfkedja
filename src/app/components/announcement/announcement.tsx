@@ -1,5 +1,6 @@
 import { getPayload } from 'payload';
 import config from '@payload-config';
+import Container from '@/app/components/essentials/Container';
 
 export default async function Announcement() {
   const payload = await getPayload({ config });
@@ -11,19 +12,8 @@ export default async function Announcement() {
   if (!data || !data.activate || !data.message) return null;
 
   return (
-    <section
-      style={{
-        backgroundColor: 'var(--primary-300)',
-        padding: '1rem 0',
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        color: 'var(--secondary-100)',
-        fontSize: '1.5rem',
-        textAlign: 'center',
-      }}
-    >
-      {data.message}
+    <section className='bg-secondary-150 py-4 w-full flex justify-center text-white text-2xl text-center'>
+      <Container>{data.message}</Container>
     </section>
   );
 }

@@ -16,6 +16,9 @@ import { Announcement } from './payload/globals/announcement'
 import { Contact } from './payload/globals/contact'
 import { Gallery } from './payload/globals/gallery'
 import { HighlightReviews } from './payload/globals/highlight-reviews'
+import { Posts } from './payload/collections/posts'
+import { Videos } from './payload/collections/videos'
+import { Comments } from './payload/collections/comment'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -33,7 +36,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Reviews, Users, Media],
+  collections: [Comments, Posts, Videos, Reviews, Users, Media],
   globals: [Announcement, Contact, Gallery, HighlightReviews],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

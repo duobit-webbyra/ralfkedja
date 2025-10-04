@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   description:
     'Se exempel på arbete och behandlingar i galleriet. Få en visuell inblick i hur tjänsterna kan hjälpa dig att må bättre.',
 };
+export const dynamic = 'force-dynamic';
 
 export default function Page() {
   return (

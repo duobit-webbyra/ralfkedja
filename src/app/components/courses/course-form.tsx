@@ -1,15 +1,11 @@
 'use client'
-import React, { useState } from 'react'
-
+import React, { useActionState, useState } from 'react'
 import style from '../contact/contact-form.module.scss'
 import PrimaryButton from '../button/primary-button'
-
-interface CourseFormProps {
-  layout: 'grid' | 'flex'
-}
+import { Input, Form, TextArea } from '../Form'
 
 import { sendCourseInquiry } from '@/app/(app)/kontakt/actions'
-import { useFormState, useFormStatus } from 'react-dom'
+import { useFormStatus } from 'react-dom'
 import Turnstile from '../turnstile'
 
 const Submit = () => {
@@ -21,10 +17,10 @@ const Submit = () => {
   )
 }
 
-export default function CourseForm({ layout }: CourseFormProps) {
+export default function CourseForm() {
   const [error, setError] = useState('')
 
-  const [state, formAction] = useFormState(sendCourseInquiry, null)
+  const [state, formAction] = useActionState(sendCourseInquiry, null)
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     const form = event.currentTarget
@@ -43,12 +39,12 @@ export default function CourseForm({ layout }: CourseFormProps) {
 
   return (
     <div className={style.container}>
-      <div className={style.content}>
-        <h2 style={{ textAlign: 'center', color: 'var(--tertiary-100)' }}>Intresseanmälan</h2>
-        <form className={style.form} action={formAction} onSubmit={handleSubmit}>
-          <div className={`${style.inputs} ${layout === 'grid' ? style.grid : style.flex}`}>
-            <input
-              className={style.forminput}
+      <div className="flex flex-col gap-8">
+        <h2 className="md:text-center">Intresseanmälan</h2>
+        <Form className={style.form} action={formAction} onSubmit={handleSubmit}>
+          <div className={`flex flex-col gap-4 ${style['inputs']}`}>
+            <Input
+              className="bg-tertiary-200"
               type="text"
               placeholder="Namn"
               minLength={2}
@@ -56,8 +52,8 @@ export default function CourseForm({ layout }: CourseFormProps) {
               required
               name="name"
             />
-            <input
-              className={style.forminput}
+            <Input
+              className="bg-tertiary-200"
               type="email"
               placeholder="E-mail"
               minLength={5}
@@ -65,8 +61,8 @@ export default function CourseForm({ layout }: CourseFormProps) {
               required
               name="email"
             />
-            <input
-              className={style.forminput}
+            <Input
+              className="bg-tertiary-200"
               type="number"
               placeholder="Telefonnummer"
               minLength={2}
@@ -74,19 +70,17 @@ export default function CourseForm({ layout }: CourseFormProps) {
               required
               name="phone"
             />
-            <p style={{ color: 'var(--tertiary-100)', fontSize: '20px' }}>
-              Markera de kurser du är intresserad av nedan:
-            </p>
+            <p className="text-xl!">Markera de kurser du är intresserad av nedan:</p>
             <div className={style['checkbox-group']}>
-              <div className={style['input-selection']}>
+              <div>
                 <input type="checkbox" name="options" value="Biomagnetism steg 1-2" />
                 <label>Biomagnetism steg 1-2</label>
               </div>
-              <div className={style['input-selection']}>
+              <div>
                 <input type="checkbox" name="options" value="Touch for Health steg 1-4" />
                 <label>Touch for Health steg 1-4</label>
               </div>
-              <div className={style['input-selection']}>
+              <div>
                 <input
                   type="checkbox"
                   name="options"
@@ -94,9 +88,7 @@ export default function CourseForm({ layout }: CourseFormProps) {
                 />
                 Grundkurs i kinesiologi/muskeltestning
               </div>
-              <p style={{ color: 'var(--tertiary-100)', fontSize: '20px' }}>
-                Vilken stad skulle du föredra att gå kursen i?
-              </p>
+              <p className="text-xl!">Vilken stad skulle du föredra att gå kursen i?</p>
             </div>
             <div className={style['radio-group']}>
               <div className={style['input-selection']}>
@@ -114,20 +106,18 @@ export default function CourseForm({ layout }: CourseFormProps) {
                 <label>Stockholm</label>
               </div>
             </div>
-            <p style={{ color: 'var(--tertiary-100)', fontSize: '20px' }}>
-              Övriga frågor och funderingar:
-            </p>
-            <textarea
+            <p className="text-xl!">Övriga frågor och funderingar:</p>
+            <TextArea
               className={style.textarea}
               placeholder="Meddelande"
               maxLength={500}
               name="message"
-            ></textarea>
+            ></TextArea>
           </div>
           {error && <p style={{ color: 'var(--secondary-200)' }}>{error}</p>}
           <Submit />
           <Turnstile />
-        </form>
+        </Form>
       </div>
     </div>
   )
