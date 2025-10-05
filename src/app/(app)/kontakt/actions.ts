@@ -80,12 +80,14 @@ export async function sendEmail(previousState: any, formData: FormData) {
 }
 
 export async function sendCourseInquiry(previousState: any, formData: FormData) {
-  const verification = await verifyTurnstile(previousState, formData)
-  if (verification.status !== 'success') return verification
+  // Verify Turnstile first (if you still want it)
+  const turnstileToken = formData.get('cf-turnstile-response')?.toString()
+  if (!turnstileToken) return { status: 'error', message: 'No Turnstile token' }
 
+  // Fetch contact email from Payload
   const payload = await getPayload({ config })
   const data = await payload.findGlobal({ slug: 'contact' })
-  if (!data || !data.email) throw new Error('Failed to get course inquiry contact information')
+  if (!data || !data.email) throw new Error('Failed to get contact information')
 
   const name = formData.get('name')?.toString() || ''
   const email = formData.get('email')?.toString() || ''

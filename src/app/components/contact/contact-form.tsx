@@ -72,8 +72,8 @@ export default function ContactForm({ grid }: ContactFormProps) {
         name="message"
         required
       ></textarea>
-      <Submit />
       <Turnstile />
+      <Submit />
     </form>
   )
 }
