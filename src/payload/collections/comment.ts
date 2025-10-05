@@ -1,5 +1,5 @@
-import { CollectionConfig } from "payload";
-import { isAdmin } from "../access/is-admin";
+import { CollectionConfig } from 'payload'
+import { isAdmin } from '../access/is-admin'
 
 export const Comments: CollectionConfig = {
   slug: 'comments',
@@ -54,5 +54,5 @@ export const Comments: CollectionConfig = {
         },
       ],
     },
-  ]
+  ],
 }

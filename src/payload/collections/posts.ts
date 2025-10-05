@@ -48,7 +48,18 @@ export const Posts: CollectionConfig = {
       maxDepth: 3,
       label: 'Kommentarer',
       collection: 'comments',
-      on: 'post'
+      on: 'post',
     },
   ],
+  hooks: {
+    beforeDelete: [
+      async ({ id, req }) => {
+        // Delete all comments referencing this post
+        await req.payload.delete({
+          collection: 'comments',
+          where: { post: { equals: id } },
+        })
+      },
+    ],
+  },
 }
