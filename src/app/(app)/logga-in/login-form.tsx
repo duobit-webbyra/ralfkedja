@@ -11,9 +11,14 @@ import { loginAction } from '@/app/providers/login'
 import { useAuth } from '@/app/providers/auth'
 
 export default function LoginForm() {
-  const [state, formAction] = useActionState(loginAction, null)
-
   const { login } = useAuth()
+  const [state, formAction] = useActionState(loginActionWrapper, null)
+
+  async function loginActionWrapper(prevState: any, formData: FormData) {
+    const email = formData.get('email') as string
+    const password = formData.get('password') as string
+    return await loginAction(email, password)
+  }
 
   return (
     <section className="relative flex min-h-[calc(100vh-var(--nav-height)-var(--info-header-height))] items-center justify-center">
@@ -45,12 +50,7 @@ export default function LoginForm() {
               för mer information!
             </span>
           </div>
-          <Form className="flex flex-col gap-8 w-full" action={async (formData) => {
-            const email = formData.get('email') as string;
-            const password = formData.get('password') as string;
-
-            await login({ email, password });
-          }}>
+          <Form className="flex flex-col gap-8 w-full" action={formAction}>
             <div className="flex flex-col gap-4 w-full">
               <Input className="bg-white" placeholder="E-post" name="email" type="email" required />
               <Input
