@@ -10,12 +10,18 @@ interface CloudflareValidation {
 
 export async function verifyTurnstile(previousState: any, formData: FormData) {
   const turnstileToken = formData.get('cf-turnstile-response')
+  console.log('Turnstile token received:', turnstileToken) // <-- check this
+
+  if (!turnstileToken) {
+    return { message: 'No Turnstile token', status: 'error' }
+  }
+
   const params = new URLSearchParams()
   params.append('secret', process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY!)
-  params.append('response', turnstileToken!.toString())
+  params.append('response', turnstileToken.toString())
 
   const verificationResponse = await fetch(
-    'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+    'https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/flow/v0/siteverify',
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -24,18 +30,13 @@ export async function verifyTurnstile(previousState: any, formData: FormData) {
   )
 
   const verificationData: CloudflareValidation = await verificationResponse.json()
+  console.log('Turnstile verification response:', verificationData)
 
   if (!verificationData.success) {
-    return {
-      message: 'Något gick fel. Försök igen senare',
-      status: 'error',
-    }
+    return { message: 'Verification failed', status: 'error' }
   }
 
-  return {
-    message: 'Verification successful',
-    status: 'success',
-  }
+  return { message: 'Verification successful', status: 'success' }
 }
 
 export async function sendEmail(previousState: any, formData: FormData) {

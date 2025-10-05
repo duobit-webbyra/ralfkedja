@@ -47,7 +47,7 @@ export default function ContactForm({ grid }: ContactFormProps) {
         />
         <Input
           className={style.forminput}
-          type="number"
+          type="tel"
           placeholder="Telefonnummer"
           minLength={2}
           maxLength={150}
