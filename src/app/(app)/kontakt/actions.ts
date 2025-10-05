@@ -10,17 +10,16 @@ interface CloudflareValidation {
 
 export async function verifyTurnstile(previousState: any, formData: FormData) {
   const turnstileToken = formData.get('cf-turnstile-response')
+  const params = new URLSearchParams()
+  params.append('secret', process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY!)
+  params.append('response', turnstileToken!.toString())
+
   const verificationResponse = await fetch(
     'https://challenges.cloudflare.com/turnstile/v0/siteverify',
     {
-      body: JSON.stringify({
-        response: turnstileToken,
-        secret: process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
       method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString(),
     },
   )
 
@@ -40,32 +39,10 @@ export async function verifyTurnstile(previousState: any, formData: FormData) {
 }
 
 export async function sendEmail(previousState: any, formData: FormData) {
-  const turnstileToken = formData.get('cf-turnstile-response')
-  const verificationResponse = await fetch(
-    'https://challenges.cloudflare.com/turnstile/v0/siteverify',
-    {
-      body: JSON.stringify({
-        response: turnstileToken,
-        secret: process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-    },
-  )
-
-  const verificationData: CloudflareValidation = await verificationResponse.json()
-
-  if (!verificationData.success) {
-    console.log('Verification failed:', verificationData)
-    return {
-      message: 'Något gick fel. Försök igen senare',
-      status: 'error',
-    }
-  }
-  if (verificationData.success) {
-    console.log('Verification successful:', verificationData)
+  const verification = await verifyTurnstile(previousState, formData)
+  if (verification.status !== 'success') {
+    console.log('Turnstile verification failed:', verification)
+    return verification
   }
 
   const payload = await getPayload({ config })
@@ -97,7 +74,7 @@ export async function sendEmail(previousState: any, formData: FormData) {
   })
 
   try {
-    transporter.sendMail({
+    await transporter.sendMail({
       from: user,
       to: data.email,
       replyTo: email.toString(),
@@ -136,33 +113,16 @@ export async function sendEmail(previousState: any, formData: FormData) {
 }
 
 export async function sendCourseInquiry(previousState: any, formData: FormData) {
-  const turnstileToken = formData.get('cf-turnstile-response')
-  const verificationResponse = await fetch(
-    'https://challenges.cloudflare.com/turnstile/v0/siteverify',
-    {
-      body: JSON.stringify({
-        response: turnstileToken,
-        secret: process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-    },
-  )
+  const verification = await verifyTurnstile(previousState, formData)
+  if (verification.status !== 'success') {
+    console.log('Turnstile verification failed:', verification)
+    return verification
+  }
 
-  const verificationData: CloudflareValidation = await verificationResponse.json()
   const payload = await getPayload({ config })
   const data = await payload.findGlobal({
     slug: 'contact',
   })
-
-  if (!verificationData.success) {
-    return {
-      message: 'Något gick fel. Försök igen senare',
-      status: 'error',
-    }
-  }
 
   if (!data || !data.email) throw new Error('Failed to get course inquiry contact information')
 
@@ -189,7 +149,7 @@ export async function sendCourseInquiry(previousState: any, formData: FormData) 
   })
 
   try {
-    transporter.sendMail({
+    await transporter.sendMail({
       from: user,
       to: data.email,
       replyTo: email.toString(),
