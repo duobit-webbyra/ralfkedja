@@ -27,7 +27,7 @@ export default async function Page() {
       </section>
       <section className="bg-[#F9f9f9]">
         <Container className="py-16 flex flex-col gap-8 ">
-          <NewsServer user={user} sliceList />
+          <NewsServer sliceList />
         </Container>
       </section>
     </div>
