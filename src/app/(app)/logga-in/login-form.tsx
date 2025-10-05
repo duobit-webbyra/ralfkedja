@@ -17,7 +17,14 @@ export default function LoginForm() {
   async function loginActionWrapper(prevState: any, formData: FormData) {
     const email = formData.get('email') as string
     const password = formData.get('password') as string
-    return await loginAction(email, password)
+    const result = await loginAction(email, password)
+
+    if (result.success) {
+      // Redirect client-side
+      window.location.href = '/medlemssida'
+    }
+
+    return result
   }
 
   return (
