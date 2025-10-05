@@ -10,12 +10,30 @@
     font-size: $text-sm;
   }
 
-  &>p {
+  & > p {
     color: $primary-300;
   }
 
-  &>.title {
+  & > .title {
     display: flex;
     gap: 0.5rem;
   }
+
+  /* Ny styling för listor */
+  ul {
+    padding-left: 1.5rem; // lite indrag
+    margin: 0.5rem 0;
+    list-style-type: disc; // vanliga prickar
+    color: $primary-300;
+    font-size: 1rem; // något mindre text
+    line-height: 1.4; // luftigare
+  }
+
+  li {
+    margin-bottom: 0.25rem; // lite mellanrum mellan punkter
+  }
+}
+
+.section-alt {
+  background-color: var(--tertiary-200);
 }

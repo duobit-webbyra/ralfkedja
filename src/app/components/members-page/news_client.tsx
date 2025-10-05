@@ -47,6 +47,7 @@ function NewsClient({ newsPosts: initialNewsPosts, user, sliceList }: NewsClient
   const [targetComment, setTargetComment] = useState<{ postId: string; commentId: string } | null>(
     null,
   );
+  const [submittingPost, setSubmittingPost] = useState<string | null>(null); // <-- add this
 
   const handleLikePost = async (postId: string) => {
     // Find the post and check if the user has already liked it
@@ -394,6 +395,8 @@ function NewsClient({ newsPosts: initialNewsPosts, user, sliceList }: NewsClient
             <Form
               className='mt-4 outline-none flex focus-within:border-2 focus-within:border-tertiary bg-[#F5F5F5] border rounded items-end'
               action={async (formData) => {
+                if (submittingPost === post.id) return; // Prevent double submit
+                setSubmittingPost(post.id);
                 try {
                   // Get the comment text for optimistic UI update
                   const commentText = formData.get('comment')?.toString() || '';
@@ -419,6 +422,8 @@ function NewsClient({ newsPosts: initialNewsPosts, user, sliceList }: NewsClient
                   }
                 } catch (error) {
                   console.error('Error saving comment:', error);
+                } finally {
+                  setSubmittingPost(null);
                 }
               }}
             >
@@ -428,6 +433,7 @@ function NewsClient({ newsPosts: initialNewsPosts, user, sliceList }: NewsClient
                 className='px-5 py-4'
                 maxLength={1000}
                 required
+                disabled={submittingPost === post.id}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault(); // Prevent adding a new line
@@ -439,6 +445,7 @@ function NewsClient({ newsPosts: initialNewsPosts, user, sliceList }: NewsClient
                 type='submit'
                 className='cursor-pointer px-2 py-2 flex items-end'
                 aria-label='Send comment'
+                disabled={submittingPost === post.id}
               >
                 <IoSend size={20} color='#424847' />
               </button>

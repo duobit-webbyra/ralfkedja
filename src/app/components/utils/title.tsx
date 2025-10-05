@@ -16,12 +16,7 @@ export default function Title(props: TitleProps) {
       <h1>{props.heading}</h1>
       <h2>{props.subHeading}</h2>
       {Array.isArray(props.description) ? (
-        props.description.map((paragraph, index) => (
-          <React.Fragment key={index}>
-            <p>{paragraph}</p>
-            {index < props.description.length - 1 && <br />}
-          </React.Fragment>
-        ))
+        props.description.map((paragraph, index) => <p key={index}>{paragraph}</p>)
       ) : (
         <p>{props.description}</p>
       )}

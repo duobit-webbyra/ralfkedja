@@ -22,7 +22,7 @@ export default function LoginForm() {
 
     try {
       // Login API call
-      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/login`, {
+      const response = await fetch(`/api/users/login`, {
         method: 'POST',
         credentials: 'include',
         headers: {

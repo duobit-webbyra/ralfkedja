@@ -5,6 +5,7 @@ import { getUser } from '@/app/providers/auth-server';
 export default async function Page() {
   const user = await getUser();
 
+  console.log('User:', user);
   if (user) {
     redirect('/medlemssida');
     return null;

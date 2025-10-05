@@ -21,6 +21,7 @@ const navigation: NavigationData[] = [
   { label: 'Hem', slug: '/' },
   { label: 'Behandlingar', slug: '/behandlingar' },
   { label: 'Yinyoga', slug: '/yinyoga' },
+  { label: 'Touch For Health', slug: '/touch-for-health' },
   { label: 'Kurser', slug: '/kurser' },
   { label: 'Om mig', slug: '/om-mig' },
   { label: 'Galleri', slug: '/galleri' },
@@ -33,7 +34,7 @@ export function NavDefault({ user }: { user: any }) {
 
   const handleLogout = async () => {
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/logout`, {
+      await fetch(`/users/logout`, {
         method: 'POST',
         credentials: 'include',
       });

@@ -10,7 +10,7 @@ export default async function NavWrapper() {
 
   if (authToken) {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/me`, {
+      const response = await fetch(`/api/users/me`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${authToken}`,
