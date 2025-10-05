@@ -1,121 +1,121 @@
 // hooks/useNewsLikes.ts
-import { useState } from 'react';
-import { ClientNews } from '../news_client'; // Adjust the import path as needed
-
+import { useState } from 'react'
+import type { Post } from '@/payload-types'
+import type { Comment } from '@/payload-types'
 type LikePostFunction = (
-  postId: string,
-  userId: string,
+  postId: number,
+  userId: number,
 ) => Promise<{
-  status: string;
-  message?: string;
-  wasLiked?: boolean;
-}>;
+  status: string
+  message?: string
+  wasLiked?: boolean
+}>
 
 type LikeCommentFunction = (
-  postId: string,
-  commentId: string,
-  userId: string,
+  postId: number,
+  commentId: number,
+  userId: number,
 ) => Promise<{
-  status: string;
-  message?: string;
-  wasLiked?: boolean;
-}>;
+  status: string
+  message?: string
+  wasLiked?: boolean
+}>
 
 interface UseNewsLikesReturn {
-  newsPosts: ClientNews[];
-  handleLikePost: (postId: string) => Promise<void>;
-  handleLikeComment: (postId: string, commentId: string) => Promise<void>;
-  isLikeInProgress: (type: 'post' | 'comment', postId: string, commentId?: string) => boolean;
+  newsPosts: Post[]
+  handleLikePost: (postId: number) => Promise<void>
+  handleLikeComment: (postId: number, commentId: number) => Promise<void>
+  isLikeInProgress: (type: 'post' | 'comment', postId: number, commentId?: number) => boolean
   handleAddCommentLocally: (
-    postId: string,
+    postId: number,
     commentText: string,
-    commentId: string,
-    authorId: string,
+    commentId: number,
+    authorId: number,
     authorName: string,
-  ) => void;
-  handleDeleteComment: (postId: string, userId: string, commentId: string) => Promise<void>;
-  formatDate: (dateString: string) => string;
+  ) => void
+  handleDeleteComment: (postId: number, userId: number, commentId: number) => Promise<void>
+  formatDate: (dateString: string) => string
 }
 
 type DeleteCommentFunction = (
-  postId: string,
-  userId: string,
-  commentId: string,
+  postId: number,
+  userId: number,
+  commentId: number,
 ) => Promise<{
-  status: string;
-  message?: string;
-}>;
+  status: string
+  message?: string
+}>
 
 export function useNewsLikes(
-  initialNewsPosts: ClientNews[],
-  user: { user: { id: string } },
+  initialNewsPosts: Post[],
+  user: { user: { id: number } },
   likePost: LikePostFunction,
   likeComment: LikeCommentFunction,
   deleteComment: DeleteCommentFunction,
 ): UseNewsLikesReturn {
-  const [newsPosts, setNewsPosts] = useState<ClientNews[]>(initialNewsPosts);
+  const [newsPosts, setNewsPosts] = useState<Post[]>(initialNewsPosts)
   // Track ongoing like operations to prevent duplicate requests
-  const [pendingLikes, setPendingLikes] = useState<Set<string>>(new Set());
+  const [pendingLikes, setPendingLikes] = useState<Set<string>>(new Set())
 
   /**
    * Check if a like operation is in progress
    */
   const isLikeInProgress = (
     type: 'post' | 'comment',
-    postId: string,
-    commentId?: string,
+    postId: number,
+    commentId?: number,
   ): boolean => {
-    const operationKey = type === 'post' ? `post-${postId}` : `comment-${postId}-${commentId}`;
-    return pendingLikes.has(operationKey);
-  };
+    const operationKey = type === 'post' ? `post-${postId}` : `comment-${postId}-${commentId}`
+    return pendingLikes.has(operationKey)
+  }
 
   /**
    * Handles liking/unliking a post
    */
-  const handleLikePost = async (postId: string) => {
+  const handleLikePost = async (postId: number) => {
     // Prevent duplicate operations
-    const operationKey = `post-${postId}`;
+    const operationKey = `post-${postId}`
     if (pendingLikes.has(operationKey)) {
-      return; // Operation in progress, ignore
+      return // Operation in progress, ignore
     }
 
     // Get the current post
-    const post = newsPosts.find((p) => p.id === postId);
+    const post = newsPosts.find((p) => p.id === postId)
     if (!post) {
-      console.error('Post not found');
-      return;
+      console.error('Post not found')
+      return
     }
 
     // Check if user has liked this post
     const clientSideAlreadyLiked = post.likes?.some((like) => {
-      return typeof like.user === 'string'
+      return typeof like.user === 'number'
         ? like.user === user.user.id
-        : (like.user as any).id === user.user.id;
-    });
+        : (like.user as any).id === user.user.id
+    })
 
     // Mark operation as pending
-    setPendingLikes((prev) => new Set(prev).add(operationKey));
+    setPendingLikes((prev) => new Set(prev).add(operationKey))
 
     // Create a deep copy of the post likes for manipulation
     const updatedLikes = clientSideAlreadyLiked
       ? post.likes?.filter((like) => {
-          const likeUserId = typeof like.user === 'string' ? like.user : (like.user as any).id;
-          return likeUserId !== user.user.id;
+          const likeUserId = typeof like.user === 'number' ? like.user : (like.user as any).id
+          return likeUserId !== user.user.id
         })
-      : [...(post.likes || []), { user: user.user.id }];
+      : [...(post.likes || []), { user: user.user.id }]
 
     // Apply optimistic update
     setNewsPosts((prevPosts) =>
       prevPosts.map((p) => (p.id === postId ? { ...p, likes: updatedLikes } : p)),
-    );
+    )
 
     try {
       // Call server action
-      const result = await likePost(postId, user.user.id);
+      const result = await likePost(postId, user.user.id)
 
       if (result.status !== 'success') {
         // Revert on error
-        console.error('Failed to toggle like on post:', result.message);
+        console.error('Failed to toggle like on post:', result.message)
 
         // Revert to previous state
         setNewsPosts((prevPosts) =>
@@ -124,36 +124,35 @@ export function useNewsLikes(
               ? { ...p, likes: post.likes } // Revert to original likes state
               : p,
           ),
-        );
+        )
 
         // Show error to user
-        alert(result.message || 'Failed to toggle like on post.');
+        alert(result.message || 'Failed to toggle like on post.')
       } else if (result.wasLiked !== undefined) {
         // If server provides the accurate like state, use it
         // This ensures client and server stay in sync
         setNewsPosts((prevPosts) =>
           prevPosts.map((p) => {
-            if (p.id !== postId) return p;
+            if (p.id !== postId) return p
 
             // Filter out any potential duplicate likes
             const currentLikes =
               p.likes?.filter((like) => {
-                const likeUserId =
-                  typeof like.user === 'string' ? like.user : (like.user as any).id;
-                return likeUserId !== user.user.id;
-              }) || [];
+                const likeUserId = typeof like.user === 'number' ? like.user : (like.user as any).id
+                return likeUserId !== user.user.id
+              }) || []
 
             // Add user's like if server says it's liked
             return {
               ...p,
               likes: result.wasLiked ? [...currentLikes, { user: user.user.id }] : currentLikes,
-            };
+            }
           }),
-        );
+        )
       }
     } catch (error) {
-      console.error('Error toggling like on post:', error);
-      alert('An error occurred while toggling the like on the post.');
+      console.error('Error toggling like on post:', error)
+      alert('An error occurred while toggling the like on the post.')
 
       // Revert on exception
       setNewsPosts((prevPosts) =>
@@ -162,195 +161,183 @@ export function useNewsLikes(
             ? { ...p, likes: post.likes } // Revert to original likes state
             : p,
         ),
-      );
+      )
     } finally {
       // Remove from pending operations
       setPendingLikes((prev) => {
-        const updated = new Set(prev);
-        updated.delete(operationKey);
-        return updated;
-      });
+        const updated = new Set(prev)
+        updated.delete(operationKey)
+        return updated
+      })
     }
-  };
+  }
 
   /**
    * Handles liking/unliking a comment
    */
-  const handleLikeComment = async (postId: string, commentId: string) => {
-    // Prevent duplicate operations
-    const operationKey = `comment-${postId}-${commentId}`;
-    if (pendingLikes.has(operationKey)) {
-      return; // Operation in progress, ignore
-    }
+  const handleLikeComment = async (postId: number, commentId: number) => {
+    const operationKey = `comment-${postId}-${commentId}`
+    if (pendingLikes.has(operationKey)) return
 
-    // Find post and comment
-    const post = newsPosts.find((p) => p.id === postId);
-    if (!post) {
-      console.error('Post not found');
-      return;
-    }
+    const post = newsPosts.find((p) => p.id === postId)
+    if (!post) return console.error('Post not found')
 
-    const comment = post.comments.find((c) => c.id === commentId);
-    if (!comment) {
-      console.error('Comment not found');
-      return;
-    }
+    // Find the comment, skip numbers
+    const commentItem = post.comments?.docs?.find((c): c is Comment => typeof c !== 'number')
+    const comment = commentItem && commentItem.id === commentId ? commentItem : undefined
+    if (!comment) return console.error('Comment not found')
 
-    // Check if user has liked this comment
-    const clientSideAlreadyLiked = comment.likes?.some((like) =>
-      typeof like.user === 'string'
-        ? like.user === user.user.id
-        : (like.user as any).id === user.user.id,
-    );
+    // Check if user already liked
+    const clientSideAlreadyLiked = comment.likes?.some(
+      (like): like is { user: number } =>
+        typeof like.user === 'number' && like.user === user.user.id,
+    )
 
-    // Mark operation as pending
-    setPendingLikes((prev) => new Set(prev).add(operationKey));
+    setPendingLikes((prev) => new Set(prev).add(operationKey))
 
-    // Store original comment for potential rollback
-    const originalComment = { ...comment };
-
-    // Create the updated likes array
+    const originalComment = { ...comment }
     const updatedLikes = clientSideAlreadyLiked
-      ? comment.likes?.filter((like) => {
-          const likeUserId = typeof like.user === 'string' ? like.user : (like.user as any).id;
-          return likeUserId !== user.user.id;
-        })
-      : [...(comment.likes || []), { user: user.user.id }];
+      ? comment.likes?.filter((like) => like.user !== user.user.id)
+      : [...(comment.likes ?? []), { user: user.user.id }]
 
-    // Apply optimistic update
+    // Optimistic update
     setNewsPosts((prevPosts) =>
       prevPosts.map((p) =>
         p.id === postId
           ? {
               ...p,
-              comments: p.comments.map((c) =>
-                c.id === commentId ? { ...c, likes: updatedLikes } : c,
-              ),
+              comments: {
+                ...p.comments,
+                docs: p.comments?.docs?.map((c): Comment | number =>
+                  typeof c !== 'number' && c.id === commentId ? { ...c, likes: updatedLikes } : c,
+                ),
+              },
             }
           : p,
       ),
-    );
+    )
 
     try {
-      // Call server action
-      const result = await likeComment(postId, commentId, user.user.id);
+      const result = await likeComment(postId, commentId, user.user.id)
 
       if (result.status !== 'success') {
-        // Revert on error
-        console.error('Failed to toggle like on comment:', result.message);
+        console.error('Failed to toggle like on comment:', result.message)
 
-        // Roll back to original state
+        // Rollback
         setNewsPosts((prevPosts) =>
           prevPosts.map((p) =>
             p.id === postId
               ? {
                   ...p,
-                  comments: p.comments.map((c) =>
-                    c.id === commentId
-                      ? originalComment // Use stored original comment
-                      : c,
-                  ),
+                  comments: {
+                    ...p.comments,
+                    docs: p.comments?.docs?.map((c) =>
+                      typeof c !== 'number' && c.id === commentId ? originalComment : c,
+                    ),
+                  },
                 }
               : p,
           ),
-        );
-
-        alert(result.message || 'Failed to toggle like on comment.');
-      } else if (result.wasLiked !== undefined) {
-        // If server provides the accurate like state, use it
-        setNewsPosts((prevPosts) =>
-          prevPosts.map((p) => {
-            if (p.id !== postId) return p;
-
-            return {
-              ...p,
-              comments: p.comments.map((c) => {
-                if (c.id !== commentId) return c;
-
-                // Filter out any potential duplicate likes
-                const currentLikes =
-                  c.likes?.filter((like) => {
-                    const likeUserId =
-                      typeof like.user === 'string' ? like.user : (like.user as any).id;
-                    return likeUserId !== user.user.id;
-                  }) || [];
-
-                // Add user's like if server says it's liked
-                return {
-                  ...c,
-                  likes: result.wasLiked ? [...currentLikes, { user: user.user.id }] : currentLikes,
-                };
-              }),
-            };
-          }),
-        );
+        )
+        alert(result.message || 'Failed to toggle like on comment.')
+        return
       }
-    } catch (error) {
-      console.error('Error toggling like on comment:', error);
-      alert('An error occurred while toggling the like on the comment.');
 
-      // Revert on exception
+      if (result.wasLiked !== undefined) {
+        // Sync server state
+        setNewsPosts((prevPosts) =>
+          prevPosts.map((p) =>
+            p.id !== postId
+              ? p
+              : {
+                  ...p,
+                  comments: {
+                    ...p.comments,
+                    docs: p.comments?.docs?.map((c) => {
+                      if (typeof c === 'number' || c.id !== commentId) return c
+                      const currentLikes =
+                        c.likes?.filter((like) => like.user !== user.user.id) ?? []
+                      return {
+                        ...c,
+                        likes: result.wasLiked
+                          ? [...currentLikes, { user: user.user.id }]
+                          : currentLikes,
+                      }
+                    }),
+                  },
+                },
+          ),
+        )
+      }
+    } catch (err) {
+      console.error(err)
+      // Rollback
       setNewsPosts((prevPosts) =>
         prevPosts.map((p) =>
           p.id === postId
             ? {
                 ...p,
-                comments: p.comments.map((c) =>
-                  c.id === commentId
-                    ? originalComment // Use stored original comment
-                    : c,
-                ),
+                comments: {
+                  ...p.comments,
+                  docs: p.comments?.docs?.map((c) =>
+                    typeof c !== 'number' && c.id === commentId ? originalComment : c,
+                  ),
+                },
               }
             : p,
         ),
-      );
+      )
+      alert('An error occurred while toggling the like on the comment.')
     } finally {
-      // Remove from pending operations
       setPendingLikes((prev) => {
-        const updated = new Set(prev);
-        updated.delete(operationKey);
-        return updated;
-      });
+        const updated = new Set(prev)
+        updated.delete(operationKey)
+        return updated
+      })
     }
-  };
+  }
 
   /**
    * Adds a comment locally (optimistic update)
    */
   const handleAddCommentLocally = (
-    postId: string,
+    postId: number,
     commentText: string,
-    commentId: string,
-    authorId: string,
+    commentId: number,
+    authorId: number,
     authorName: string,
   ) => {
     setNewsPosts((prevPosts) =>
-      prevPosts.map((post) =>
-        post.id === postId
-          ? {
-              ...post,
-              comments: [
-                ...(post.comments ?? []),
-                {
-                  id: commentId,
-                  comment: commentText,
-                  author: { id: authorId, name: authorName },
-                  createdAt: new Date().toISOString(),
-                  likes: [],
-                },
-              ],
-            }
-          : post,
-      ),
-    );
-  };
+      prevPosts.map((p) => {
+        if (p.id !== postId) return p
+
+        const newComment: Comment = {
+          id: commentId,
+          post: postId, // required field
+          comment: commentText,
+          author: authorId,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          likes: [],
+        }
+
+        return {
+          ...p,
+          comments: {
+            ...p.comments,
+            docs: [...(p.comments?.docs ?? []), newComment],
+          },
+        }
+      }),
+    )
+  }
 
   /**
    * Deletes a comment both on server and locally
    */
-  const handleDeleteComment = async (postId: string, userId: string, commentId: string) => {
+  const handleDeleteComment = async (postId: number, userId: number, commentId: number) => {
     try {
-      const result = await deleteComment(postId, userId, commentId);
+      const result = await deleteComment(postId, userId, commentId)
 
       if (result?.status === 'success') {
         setNewsPosts((prevPosts) =>
@@ -358,20 +345,25 @@ export function useNewsLikes(
             post.id === postId
               ? {
                   ...post,
-                  comments: (post.comments ?? []).filter((comment) => comment.id !== commentId),
+                  comments: {
+                    ...post.comments,
+                    docs: (post.comments?.docs ?? []).filter(
+                      (c) => typeof c !== 'number' && c.id !== commentId,
+                    ),
+                  },
                 }
               : post,
           ),
-        );
+        )
       } else {
-        console.error('Failed to delete comment:', result?.message);
-        alert(result?.message || 'Failed to delete comment.');
+        console.error('Failed to delete comment:', result?.message)
+        alert(result?.message || 'Failed to delete comment.')
       }
     } catch (error) {
-      console.error('Error deleting comment:', error);
-      alert('An error occurred while deleting the comment.');
+      console.error('Error deleting comment:', error)
+      alert('An error occurred while deleting the comment.')
     }
-  };
+  }
 
   /**
    * Formats date strings consistently
@@ -385,12 +377,12 @@ export function useNewsLikes(
         hour: '2-digit',
         minute: '2-digit',
         timeZone: 'Europe/Stockholm',
-      }).format(new Date(dateString));
+      }).format(new Date(dateString))
     } catch (error) {
-      console.error('Date formatting error:', error);
-      return 'Invalid date';
+      console.error('Date formatting error:', error)
+      return 'Invalid date'
     }
-  };
+  }
 
   return {
     newsPosts,
@@ -400,5 +392,5 @@ export function useNewsLikes(
     handleAddCommentLocally,
     handleDeleteComment,
     formatDate,
-  };
+  }
 }

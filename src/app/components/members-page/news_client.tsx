@@ -16,7 +16,11 @@ interface NewsClientProps {
   sliceList?: boolean
 }
 
-const CommentComponent = React.memo(({ initialComment }: { initialComment: Comment | null }) => {
+const CommentComponent = React.memo(function CommentComponent({
+  initialComment,
+}: {
+  initialComment: Comment | null
+}) {
   const { user } = useAuth()
 
   const [comment, setComment] = useState<Comment | null>(initialComment)
@@ -29,9 +33,7 @@ const CommentComponent = React.memo(({ initialComment }: { initialComment: Comme
       likeComment(comment.id).then((result) => {
         setComment(result.comment)
       })
-    } catch (error) {
-
-    }
+    } catch (error) {}
   }
 
   const handleDeleteComment = async () => {
@@ -39,92 +41,102 @@ const CommentComponent = React.memo(({ initialComment }: { initialComment: Comme
       deleteComment(comment.id).then(() => {
         setComment(null)
       })
-    } catch (error) {
-    }
+    } catch (error) {}
   }
 
   const author = typeof comment?.author === 'object' ? comment.author : null
 
   if (!author) return null
 
-  return <>
-    {isModalOpen && (
-      <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-        <div className="bg-white p-2 rounded-lg shadow-lg md:w-120 w-80 flex flex-col gap-4 py-6 px-8">
-          <div className="p-2">
-            <h2 className="text-sm! mb-2">Radera kommentar?</h2>
-            <p className=" mb-2">Är du säker på att du vill radera din kommentar?</p>
-          </div>
-          <div className="flex gap-2">
-            <button
-              className="bg-primary-300 flex-1 text-white px-4 py-2 rounded hover:bg-primary-200 cursor-pointer"
-              onClick={() => {
-                handleDeleteComment()
-                setIsModalOpen(false)
-              }}
-            >
-              Radera
-            </button>
-            <button
-              className="bg-gray-300 text-black flex-1 px-4 py-2 rounded hover:bg-gray-200 cursor-pointer"
-              onClick={() => setIsModalOpen(false)}
-            >
-              Ångra
-            </button>
-          </div>
-        </div>
-      </div>
-    )}
-    <li key={comment.id} className="bg-tertiary-200 py-2 pl-4 rounded-lg">
-      <div className="flex justify-between items-center">
-        <div>
-          <p className="mb-2 wrap-break-word" style={{ overflowWrap: 'anywhere' }}>
-            {comment.comment}
-          </p>
-          <p className="text-xs! text-gray-500!">
-            {author.name} • {formatDate(comment.createdAt)}
-          </p>
-        </div>
-        <div className="flex  gap-2 justify-start">
-          {user.id === author.id && (
-            <button
-              className="cursor-pointer"
-              onClick={() => {
-                setIsModalOpen(true)
-              }}
-              aria-label="Delete comment"
-            >
-              <MdDeleteOutline size={20} color="#424847" />
-            </button>
-          )}
-          <div className="flex  gap-1">
-            <button
-              className="text-primary-500 cursor-pointer"
-              onClick={() => handleLikeComment()}
-            >
-              <Heart
-                filled={comment.likes?.some(
-                  (like) => typeof like.user === 'object' && like.user.id === user.id, // Check if the user has liked the comment
-                )}
-              />
-            </button>
-            <p className="w-10">{comment.likes?.length || 0}</p>
+  return (
+    <>
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+          <div className="bg-white p-2 rounded-lg shadow-lg md:w-120 w-80 flex flex-col gap-4 py-6 px-8">
+            <div className="p-2">
+              <h2 className="text-sm! mb-2">Radera kommentar?</h2>
+              <p className=" mb-2">Är du säker på att du vill radera din kommentar?</p>
+            </div>
+            <div className="flex gap-2">
+              <button
+                className="bg-primary-300 flex-1 text-white px-4 py-2 rounded hover:bg-primary-200 cursor-pointer"
+                onClick={() => {
+                  handleDeleteComment()
+                  setIsModalOpen(false)
+                }}
+              >
+                Radera
+              </button>
+              <button
+                className="bg-gray-300 text-black flex-1 px-4 py-2 rounded hover:bg-gray-200 cursor-pointer"
+                onClick={() => setIsModalOpen(false)}
+              >
+                Ångra
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </li>
-
-  </>
+      )}
+      <li key={comment.id} className="bg-tertiary-200 py-2 pl-4 rounded-lg">
+        <div className="flex justify-between items-center">
+          <div>
+            <p className="mb-2 wrap-break-word" style={{ overflowWrap: 'anywhere' }}>
+              {comment.comment}
+            </p>
+            <p className="text-xs! text-gray-500!">
+              {author.name} • {formatDate(comment.createdAt)}
+            </p>
+          </div>
+          <div className="flex  gap-2 justify-start">
+            {user.id === author.id && (
+              <button
+                className="cursor-pointer"
+                onClick={() => {
+                  setIsModalOpen(true)
+                }}
+                aria-label="Delete comment"
+              >
+                <MdDeleteOutline size={20} color="#424847" />
+              </button>
+            )}
+            <div className="flex  gap-1">
+              <button
+                className="text-primary-500 cursor-pointer"
+                onClick={() => handleLikeComment()}
+              >
+                <Heart
+                  filled={comment.likes?.some(
+                    (like) => typeof like.user === 'object' && like.user.id === user.id, // Check if the user has liked the comment
+                  )}
+                />
+              </button>
+              <p className="w-10">{comment.likes?.length || 0}</p>
+            </div>
+          </div>
+        </div>
+      </li>
+    </>
+  )
 })
 
-const Comments = React.memo(({ post, initialComments }: { post: number, initialComments: Comment[] }) => {
-
-  const [comments, setComments] = useState(initialComments.reduce((acc, comment) => {
-    if (typeof comment === 'object') {
-      acc[comment.id] = comment
-    }
-    return acc
-  }, {} as Record<number, Comment>))
+const Comments = React.memo(function Comments({
+  post,
+  initialComments,
+}: {
+  post: number
+  initialComments: Comment[]
+}) {
+  const [comments, setComments] = useState(
+    initialComments.reduce(
+      (acc, comment) => {
+        if (typeof comment === 'object') {
+          acc[comment.id] = comment
+        }
+        return acc
+      },
+      {} as Record<number, Comment>,
+    ),
+  )
 
   const { user } = useAuth()
 
@@ -159,7 +171,6 @@ const Comments = React.memo(({ post, initialComments }: { post: number, initialC
             // Get the comment text for optimistic UI update
             const commentText = formData.get('comment')?.toString() || ''
             await handleCreateComment(commentText)
-
           } catch (error) {
             console.error('Error saving comment:', error)
           }
@@ -187,29 +198,27 @@ const Comments = React.memo(({ post, initialComments }: { post: number, initialC
         </button>
       </Form>
     </>
-  );
+  )
 })
 
-function PostComponent({
-  initialPost
-}: {
-  initialPost: Post
-}) {
-
+function PostComponent({ initialPost }: { initialPost: Post }) {
   const [post, setPost] = useState<Post | null>(initialPost)
 
   const [comments, setComments] = useState<{ [key: number]: Comment }>(
     initialPost.comments?.docs
-      ?.filter(comment => typeof comment === 'object')
-      .reduce((acc, comment) => {
-        acc[comment.id] = comment;
-        return acc;
-      }, {} as { [key: number]: Comment }) ?? {}
+      ?.filter((comment) => typeof comment === 'object')
+      .reduce(
+        (acc, comment) => {
+          acc[comment.id] = comment
+          return acc
+        },
+        {} as { [key: number]: Comment },
+      ) ?? {},
   )
 
-  if (!post) return null
-
   const { user } = useAuth()
+
+  if (!post) return null
 
   const handleLikePost = async () => {
     const alreadyLiked = post.likes?.some((like) => {
@@ -230,14 +239,8 @@ function PostComponent({
     }
   }
 
-
-
-
   return (
-    <div
-      key={post.id}
-      className="bg-tertiary-100 p-4 md:p-6 rounded-lg shadow-md flex flex-col"
-    >
+    <div key={post.id} className="bg-tertiary-100 p-4 md:p-6 rounded-lg shadow-md flex flex-col">
       <div className="mb-6">
         <h2
           className="text-[1.5rem]! md:text-[2rem]! wrap-break-word"
@@ -253,32 +256,29 @@ function PostComponent({
         </p>
 
         <div className="flex items-center gap-1">
-          <button
-            className="text-primary-500 cursor-pointer"
-            onClick={() => handleLikePost()}
-          >
+          <button className="text-primary-500 cursor-pointer" onClick={() => handleLikePost()}>
             <Heart
-              filled={
-                post.likes?.some(
-                  (like) => typeof (like.user) === 'object' && like.user.id === user.id, // Check if the user has liked the post
-                )
-              }
+              filled={post.likes?.some(
+                (like) => typeof like.user === 'object' && like.user.id === user.id, // Check if the user has liked the post
+              )}
             />
           </button>
           <p>{post.likes?.length || 0}</p>
         </div>
       </div>
       <h3 className="text-lg font-semibold">Kommentarer:</h3>
-      <Comments post={initialPost.id} initialComments={initialPost.comments?.docs?.filter(comment => typeof comment === 'object') ?? []} />
+      <Comments
+        post={initialPost.id}
+        initialComments={
+          initialPost.comments?.docs?.filter((comment) => typeof comment === 'object') ?? []
+        }
+      />
     </div>
   )
-
 }
 
-
 function NewsClient({ initialPosts, sliceList }: NewsClientProps) {
-
-  const { user } = useAuth();
+  const { user } = useAuth()
 
   const [posts, setPosts] = useState<Post[]>(initialPosts)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -294,7 +294,7 @@ function NewsClient({ initialPosts, sliceList }: NewsClientProps) {
     }
 
     // Cleanup when the component unmounts
-    return () => { }
+    return () => {}
   }, [isModalOpen])
 
   return (

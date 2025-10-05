@@ -6,6 +6,10 @@ import { getUser } from '@/app/providers/getUser'
 import { Comment, Likes, Post } from '@/payload-types'
 import { ApiError } from 'next/dist/server/api-utils'
 
+type CommentResponse =
+  | { status: 'success'; data: { comments: Comment[] } }
+  | { status: 'error'; message: string }
+
 export async function fetchAllComments(id: number): Promise<CommentResponse> {
   if (!id) {
     return { status: 'error', message: 'Post ID is required.' }
@@ -25,12 +29,12 @@ export async function fetchAllComments(id: number): Promise<CommentResponse> {
       return { status: 'error', message: 'Post not found.' }
     }
 
-    const comments = post.comments.docs.filter(comment => typeof comment === 'object') ?? []
+    const comments = post.comments.docs.filter((comment) => typeof comment === 'object') ?? []
 
     return {
       status: 'success',
       data: {
-        comments: comments
+        comments: comments,
       },
     }
   } catch (error) {
@@ -41,23 +45,21 @@ export async function fetchAllComments(id: number): Promise<CommentResponse> {
 
 export async function createComment(
   postId: number,
-  commentId: string,
+  commentText: string,
 ): Promise<{ status: 'success' | 'error'; comment?: Comment }> {
-
   const user = await getUser()
   if (!user) {
     return { status: 'error' }
   }
 
   // Validate input
-  if (!postId || !commentId) {
+  if (!postId || !commentText) {
     return { status: 'error' }
   }
 
-  if (commentId.trim().length === 0) {
+  if (commentText.trim().length === 0) {
     return { status: 'error' }
   }
-
 
   try {
     const payload = await getPayload({ config })
@@ -66,20 +68,18 @@ export async function createComment(
       id: postId,
     })
 
-    const newComment = await payload.create(
-      {
-        collection: 'comments',
-        data: {
-          author: user,
-          comment: commentId,
-          post: post.id,
-        }
-      }
-    )
+    const newComment = await payload.create({
+      collection: 'comments',
+      data: {
+        author: user,
+        comment: commentText,
+        post: post.id,
+      },
+    })
 
     return {
       status: 'success',
-      comment: newComment
+      comment: newComment,
     }
   } catch (error) {
     console.error('Failed to save comment:', error)
@@ -87,10 +87,7 @@ export async function createComment(
   }
 }
 
-export async function deleteComment(
-  commentId: number,
-): Promise<{ status: 'success' }> {
-
+export async function deleteComment(commentId: number): Promise<{ status: 'success' }> {
   const user = await getUser()
   // Validate input
   if (!user) {
@@ -120,7 +117,7 @@ export async function deleteComment(
 
     await payload.delete({
       collection: 'comments',
-      id: commentId
+      id: commentId,
     })
 
     return {
@@ -146,9 +143,7 @@ function hasUserLiked(likes: Likes, userId: number) {
 }
 
 // Server-side post like function
-export async function likePost(
-  postId: number,
-): Promise<{ status: string; post?: Post }> {
+export async function likePost(postId: number): Promise<{ status: string; post?: Post }> {
   try {
     const user = await getUser()
     if (!user) {
@@ -198,9 +193,7 @@ export async function likePost(
 }
 
 // Server-side comment like function
-export async function likeComment(
-  commentId: number,
-): Promise<{ comment: Comment }> {
+export async function likeComment(commentId: number): Promise<{ comment: Comment }> {
   try {
     const user = await getUser()
 
@@ -223,10 +216,12 @@ export async function likeComment(
     // Check if user has already liked
     const alreadyLiked = hasUserLiked(comment.likes, user.id)
 
-    comment.likes = alreadyLiked ? comment.likes.filter((like) => {
-      const likeUserId = typeof like.user === 'object' ? like.user.id : like.user
-      return likeUserId !== user.id
-    }) : [...(comment.likes || []), { user: user.id }]
+    comment.likes = alreadyLiked
+      ? comment.likes.filter((like) => {
+          const likeUserId = typeof like.user === 'object' ? like.user.id : like.user
+          return likeUserId !== user.id
+        })
+      : [...(comment.likes || []), { user: user.id }]
 
     // Update database
     const newComment = await payload.update({
