@@ -65,15 +65,15 @@ importers:
       react-icons:
         specifier: ^5.5.0
         version: 5.5.0(react@19.1.0)
+      resend:
+        specifier: ^6.1.2
+        version: 6.1.2
       tailwindcss:
         specifier: ^4.0.8
         version: 4.1.14
       uuid:
         specifier: ^11.1.0
         version: 11.1.0
-      worker-mailer:
-        specifier: ^1.1.5
-        version: 1.1.5
     devDependencies:
       '@playwright/test':
         specifier: 1.54.1
@@ -5160,6 +5160,15 @@ packages:
     resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
     engines: {node: '>=0.10.0'}
 
+  resend@6.1.2:
+    resolution: {integrity: sha512-C9Q+YkRe57P8MQlkHG3yatSR/B6sqBGA06Ri2DveJfkz9Vm16182FC/iHB0K6IAfmqZ4yRrFebFw1EPuktLtSg==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@react-email/render': '*'
+    peerDependenciesMeta:
+      '@react-email/render':
+        optional: true
+
   resolve-dir@1.0.1:
     resolution: {integrity: sha512-R7uiTjECzvOsWSfdM0QKFNBVFcK27aHOUwdvK53BcW8zqnGdYp0Fbj82cy54+2A4P2tFM22J5kRfe1R+lM/1yg==}
     engines: {node: '>=0.10.0'}
@@ -5915,9 +5924,6 @@ packages:
   word-wrap@1.2.5:
     resolution: {integrity: sha512-BN22B5eaMMI9UMtjrGd5g5eCYPpCPDUy0FJXbYsaT5zYxjFOckS53SQDE3pWkVoWpHXVb3BrYcEN4Twa55B5cA==}
     engines: {node: '>=0.10.0'}
-
-  worker-mailer@1.1.5:
-    resolution: {integrity: sha512-Yq+LiQ25CHjdQakO3IE/srzYFS94XVQH9e0z30y/NoPyw6vLiLacYDPOBDD9CLpEMhy6vTgLQbsJzFBt9/7E2w==}
 
   workerd@1.20251001.0:
     resolution: {integrity: sha512-oT/K4YWNhmwpVmGeaHNmF7mLRfgjszlVr7lJtpS4jx5khmxmMzWZEEQRrJEpgzeHP6DOq9qWLPNT0bjMK7TchQ==}
@@ -12307,6 +12313,8 @@ snapshots:
 
   require-from-string@2.0.2: {}
 
+  resend@6.1.2: {}
+
   resolve-dir@1.0.1:
     dependencies:
       expand-tilde: 2.0.2
@@ -13213,8 +13221,6 @@ snapshots:
       stackback: 0.0.2
 
   word-wrap@1.2.5: {}
-
-  worker-mailer@1.1.5: {}
 
   workerd@1.20251001.0:
     optionalDependencies:
