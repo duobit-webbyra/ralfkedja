@@ -48,7 +48,13 @@ export default buildConfig({
     payloadCloudPlugin(),
     r2Storage({
       bucket: cloudflare.env.R2,
-      collections: { media: true },
+      collections: {
+        media: {
+          generateFileURL: ({ filename }) => {
+            return `https://pub-93ba30fcaa484171b792d3d22c7ef793.r2.dev/${filename}`
+          },
+        },
+      },
     }),
   ],
 })
