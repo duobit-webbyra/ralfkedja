@@ -17,6 +17,11 @@ const nextConfig: NextConfig = {
         hostname: 'img.youtube.com',
         port: '',
       },
+      {
+        protocol: 'https',
+        hostname: 'pub-93ba30fcaa484171b792d3d22c7ef793.r2.dev',
+        pathname: '/**',
+      },
     ],
   },
   // webpack: (webpackConfig: any) => {
