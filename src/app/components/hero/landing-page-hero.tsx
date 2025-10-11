@@ -42,6 +42,7 @@ export default function LandingPageHero() {
         src={'/nature.webp'}
         alt=""
         fill
+        priority
         style={{
           objectFit: 'cover',
           backgroundPosition: 'center',
@@ -68,6 +69,7 @@ export default function LandingPageHero() {
             <Image
               src={'/ralf-hem.webp'}
               alt="Ralf Kedja - Kroppsbalansering, Eskilstuna"
+              priority
               fill
               style={{ objectFit: 'contain' }}
               sizes="80vw"
