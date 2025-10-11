@@ -57,6 +57,7 @@ export default function ContactDetails({ data }: ContactDetailsProps) {
             src={'/ralf-kontakt.webp'}
             alt="Ralf Kedja - Kroppsbalansering, Eskilstuna"
             fill
+            priority
             className={style['image-element']}
             sizes="60vw"
           />

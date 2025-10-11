@@ -33,6 +33,7 @@ export default function LoginForm() {
       <Image
         src="/nature3.webp"
         alt="Background"
+        priority
         layout="fill"
         quality={100}
         className="-z-10 object-cover" // Ensure the image is behind all other elements

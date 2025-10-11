@@ -34,6 +34,7 @@ export default function Footer() {
               height={100}
               alt="Duobit Webbyrå"
               className={style.logo}
+              priority
             />
           </Link>
         </div>

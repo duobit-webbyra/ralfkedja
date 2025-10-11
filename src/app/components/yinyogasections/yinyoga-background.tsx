@@ -28,6 +28,7 @@ export default function YinyogaBackground() {
             <Image
               src={'/yinyoga_yinyang.webp'}
               fill
+              priority
               alt="Yin yang symbol"
               sizes="(max-width: 720px) 100vw, 50vw"
               style={{ objectFit: 'cover', background: 'var(--secondary-100)' }}

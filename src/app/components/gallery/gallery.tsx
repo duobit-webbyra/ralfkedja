@@ -1,16 +1,16 @@
-import React from 'react';
-import style from './gallery.module.scss';
-import Image from 'next/image';
-import { Link } from '@/app/components/link/link';
-import config from '@payload-config';
-import { getPayload } from 'payload';
-import type { Media } from '@payload-types';
+import React from 'react'
+import style from './gallery.module.scss'
+import Image from 'next/image'
+import { Link } from '@/app/components/link/link'
+import config from '@payload-config'
+import { getPayload } from 'payload'
+import type { Media } from '@payload-types'
 
 const GalleryGrid = async () => {
-  const payload = await getPayload({ config });
+  const payload = await getPayload({ config })
   const data = await payload.findGlobal({
     slug: 'gallery',
-  });
+  })
 
   return (
     <div className={style.container}>
@@ -19,7 +19,7 @@ const GalleryGrid = async () => {
           className={style.photographer}
           style={{ display: 'flex', width: '100%', justifyContent: 'end', fontStyle: 'italic' }}
         >
-          Fotograf:&nbsp;<Link href='https://www.nomeskilstuna.se/'>N&M Eskilstuna</Link>
+          Fotograf:&nbsp;<Link href="https://www.nomeskilstuna.se/">N&M Eskilstuna</Link>
         </p>
         {data?.images && data.images.length > 0 ? (
           <div className={style['gallery-container']}>
@@ -34,8 +34,8 @@ const GalleryGrid = async () => {
                         alt={`${(item.image as Media).alt}`}
                         fill
                         style={{ objectFit: 'cover' }}
-                        loading='lazy'
-                        sizes='(max-width: 720px) 90vw,(max-width: 1440px) 45vw, 50vw'
+                        loading="lazy"
+                        sizes="(max-width: 720px) 90vw,(max-width: 1440px) 45vw, 50vw"
                       />
                     </div>
                   </div>
@@ -47,7 +47,7 @@ const GalleryGrid = async () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default GalleryGrid;
+export default GalleryGrid

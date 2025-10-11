@@ -18,6 +18,7 @@ export default function Kroppsbalansering() {
             <Image
               src={'/kroppsbalansering.webp'}
               fill
+              priority
               alt="Kroppsbalansering"
               sizes="(max-width: 720px) 100vw, 50vw"
               style={{ objectFit: 'cover', background: 'var(--secondary-100)' }}

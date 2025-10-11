@@ -21,6 +21,7 @@ export default function SelfIntro() {
               src={'/ralf-hem.webp'}
               alt="Ralf Kedja - Kroppsbalansering, Eskilstuna"
               fill
+              priority
               className={style['image-element']}
               sizes="(max-width: 600px) 60vw, (max-width: 1200px) 30vw, 80vw"
             />

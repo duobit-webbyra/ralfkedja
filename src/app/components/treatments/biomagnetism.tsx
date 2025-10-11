@@ -19,6 +19,7 @@ export default function Biomagnetism() {
             <Image
               src={'/biomagnetism.webp'}
               fill
+              priority
               alt="Picture of the author"
               sizes="(max-width: 720px) 100vw, 50vw"
               style={{ objectFit: 'cover', background: 'var(--tertiary-100)' }}

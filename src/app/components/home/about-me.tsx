@@ -15,6 +15,7 @@ export default function AboutMeOverview() {
               src={'/lektion.webp'}
               alt=""
               fill
+              priority
               style={{ objectFit: 'cover' }}
               sizes="(max-width: 600px) 40vw, (max-width: 1024px) 50vw, 30vw"
             />
@@ -24,6 +25,7 @@ export default function AboutMeOverview() {
               src={'/om-mig.webp'}
               alt=""
               fill
+              priority
               style={{ objectFit: 'cover' }}
               sizes="(max-width: 600px) 40vw, (max-width: 1024px) 50vw, 30vw"
             />

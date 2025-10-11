@@ -29,6 +29,7 @@ Oavsett om du är ute efter att öka din rörlighet eller bara hitta ett lugn i 
             <Image
               src={'/yinyoga_class.webp'}
               fill
+              priority
               alt="Yinyoga klass"
               sizes="(max-width: 720px) 100vw, 50vw"
               style={{ objectFit: 'cover', background: 'var(--secondary-100)' }}

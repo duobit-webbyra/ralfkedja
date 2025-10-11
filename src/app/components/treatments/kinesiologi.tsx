@@ -20,6 +20,7 @@ export default function Kinesiologi() {
             <Image
               src={'/kinesiologi-behandling.webp'}
               fill
+              priority
               alt="Kinesiologi"
               sizes="(max-width: 720px) 100vw, 50vw"
               style={{ objectFit: 'cover', background: 'var(--secondary-100)' }}

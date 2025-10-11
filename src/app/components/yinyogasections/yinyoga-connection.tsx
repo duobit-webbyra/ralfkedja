@@ -21,6 +21,7 @@ Genom att hålla mjuka, passiva positioner under längre tid stimulerar yinyogan
             <Image
               src={'/yinyoga_ralf.webp'}
               fill
+              priority
               alt="Yinyoga Ralf Kedja"
               sizes="(max-width: 720px) 100vw, 50vw"
               style={{ objectFit: 'cover', background: 'var(--secondary-100)' }}

@@ -20,6 +20,7 @@ export default function StrukturellBehandling() {
             <Image
               src={'/strukturell-behandling.webp'}
               fill
+              priority
               alt="Strukturell behandling"
               sizes="(max-width: 720px) 100vw, 50vw"
               style={{ objectFit: 'cover', background: 'var(--secondary-100)' }}
