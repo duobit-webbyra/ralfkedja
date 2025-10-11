@@ -8,7 +8,6 @@ import { fileURLToPath } from 'url'
 import { CloudflareContext, getCloudflareContext } from '@opennextjs/cloudflare'
 import { GetPlatformProxyOptions } from 'wrangler'
 import { r2Storage } from '@payloadcms/storage-r2'
-
 import { Reviews } from './payload/collections/reviews'
 import { Media } from './payload/collections/media'
 import { Users } from './payload/collections/users'
@@ -51,7 +50,8 @@ export default buildConfig({
       collections: {
         media: {
           generateFileURL: ({ filename }) => {
-            return `https://pub-93ba30fcaa484171b792d3d22c7ef793.r2.dev/${filename}`
+            const baseUrl = process.env.NEXT_PUBLIC_MEDIA_URL || ''
+            return `${baseUrl}/${filename}`
           },
         },
       },
