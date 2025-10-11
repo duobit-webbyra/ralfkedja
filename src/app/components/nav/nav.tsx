@@ -8,7 +8,6 @@ import PrimaryButton from '../button/primary-button'
 import MenuOpenButton from './menu-open-button'
 import MenuCloseButton from './menu-close-button'
 import BookDirectly from '../utils/book-directly'
-import { useAuth } from '@/app/providers/auth'
 import Container from '@/app/components/essentials/Container'
 import { logoutAndRedirect } from '@/app/providers/logout'
 
@@ -21,6 +20,7 @@ const navigation: NavigationData[] = [
   { label: 'Hem', slug: '/' },
   { label: 'Behandlingar', slug: '/behandlingar' },
   { label: 'Yinyoga', slug: '/yinyoga' },
+  { label: 'Touch For Health', slug: '/touch-for-health' },
   { label: 'Kurser', slug: '/kurser' },
   { label: 'Om mig', slug: '/om-mig' },
   { label: 'Galleri', slug: '/galleri' },

@@ -58,3 +58,28 @@
     padding: 0 1rem;
   }
 }
+
+.touch-image-container {
+  width: 400px;
+  max-width: 100%;
+  margin: 0;
+  /* om du vill centrera:
+  margin-left: auto;
+  margin-right: auto;
+  */
+  margin: auto;
+  @media (max-width: 768px) {
+    width: 400px;
+  }
+
+  @media (max-width: 480px) {
+    width: 200px;
+  }
+
+  /* Se till att själva img fyller containern */
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
