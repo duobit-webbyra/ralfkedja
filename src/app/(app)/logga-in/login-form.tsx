@@ -40,11 +40,11 @@ export default function LoginForm() {
       />
 
       {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black opacity-85 -z-10"></div>
+      <div className="absolute inset-0 bg-black opacity-80 -z-10"></div>
 
       {/* Content */}
       <Container className="relative flex flex-col gap-12  text-white items-center justify-center">
-        <div className="bg-black/50 px-12 pt-8 w-full rounded-3xl max-w-[600px] shadow-lg flex flex-col gap-8">
+        <div className="bg-black/80 px-12 pt-8 w-full rounded-3xl max-w-[600px] shadow-lg flex flex-col gap-8">
           <div className="flex flex-col gap-2">
             <h1 className="text-white! text-center sm:whitespace-nowrap  text-3xl! md:text-4xl!">
               Logga in till medlemssidan
