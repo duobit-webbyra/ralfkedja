@@ -20,7 +20,7 @@ export default function Footer() {
                 color: 'var(--primary-100)',
               }}
             >
-              Copyright <FaRegCopyright /> 2024
+              Copyright <FaRegCopyright /> {new Date().getFullYear()}
             </p>
           </div>
           <ShortInfo />
