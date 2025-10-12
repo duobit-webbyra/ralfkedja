@@ -19,7 +19,6 @@ export default function Page() {
       <section>
         <LandingPageHero />
       </section>
-      <p>TEST</p>
       <Announcement />
       <section
         style={{

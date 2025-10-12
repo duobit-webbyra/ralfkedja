@@ -8,7 +8,7 @@ import {
   generateCourseInquiryEmail,
 } from '@/app/components/utils/generate-contact-email'
 import { Resend } from 'resend'
-
+import crypto from 'crypto'
 const resend = new Resend(process.env.RESEND_API_KEY!)
 
 interface CloudflareValidation {
@@ -97,6 +97,54 @@ export async function sendCourseInquiry(previousState: any, formData: FormData) 
   const message = formData.get('message')?.toString() || ''
 
   if (!email || options.length === 0) return { status: 'error', message: 'Missing required fields' }
+
+  const courseToCategory: Record<string, string> = {
+    'Biomagnetism steg 1-2': 'biomagnetism',
+    'Touch for Health steg 1-4': 'touch-for-health',
+    'Grundkurs i kinesiologi/muskeltestning': 'kinesiologi',
+  }
+
+  const categorySlugs = ['general', ...options.map((o) => courseToCategory[o])]
+
+  const categoriesRes = await payload.find({
+    collection: 'subscriber-categories',
+    where: { slug: { in: categorySlugs } },
+    limit: 100,
+  })
+
+  const categoriesToAdd = categoriesRes.docs
+
+  const existing = await payload.find({
+    collection: 'subscribers',
+    where: { email: { equals: email } },
+    limit: 1,
+  })
+
+  if (existing.totalDocs > 0) {
+    // Uppdatera befintlig subscriber
+    const subscriber = existing.docs[0]
+    const updatedCategories = Array.from(
+      new Set([...(subscriber.categories || []), ...categoriesToAdd]),
+    )
+
+    await payload.update({
+      collection: 'subscribers',
+      id: subscriber.id,
+      data: { categories: updatedCategories, unsubscribed: false },
+    })
+  } else {
+    // Skapa ny subscriber
+    const unsubscribeToken = crypto.randomBytes(20).toString('hex')
+    await payload.create({
+      collection: 'subscribers',
+      data: {
+        email,
+        unsubscribeToken,
+        unsubscribed: false,
+        categories: categoriesToAdd,
+      },
+    })
+  }
 
   const html = generateCourseInquiryEmail({
     name,

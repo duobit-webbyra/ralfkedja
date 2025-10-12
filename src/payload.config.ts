@@ -18,6 +18,9 @@ import { HighlightReviews } from './payload/globals/highlight-reviews'
 import { Posts } from './payload/collections/posts'
 import { Videos } from './payload/collections/videos'
 import { Comments } from './payload/collections/comment'
+import { Subscribers } from './payload/collections/subscribers'
+import { SubscriberCategories } from './payload/collections/subscriber-categories'
+import { Newsletters } from './payload/collections/newsletters'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -35,7 +38,17 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Comments, Posts, Videos, Reviews, Users, Media],
+  collections: [
+    Comments,
+    Posts,
+    Videos,
+    Reviews,
+    Users,
+    Media,
+    Subscribers,
+    SubscriberCategories,
+    Newsletters,
+  ],
   globals: [Announcement, Contact, Gallery, HighlightReviews],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
