@@ -6,6 +6,7 @@ import ContactMe from '@/app/components/home/contact-me'
 import AboutMeOverview from '@/app/components/home/about-me'
 import Announcement from '@/app/components/announcement/announcement'
 import { Metadata } from 'next'
+import NewsLetterComponent from '../components/news-letter/news-letter'
 
 export const metadata: Metadata = {
   title: 'Ralf Kedja',
@@ -36,12 +37,20 @@ export default function Page() {
       </section>
       <section
         style={{
+          paddingBlock: '6rem',
+        }}
+      >
+        <NewsLetterComponent />
+      </section>
+      <section
+        style={{
           backgroundColor: 'var(--primary-200)',
           paddingBlock: '4rem',
         }}
       >
         <Reviews />
       </section>
+
       <section
         style={{
           backgroundColor: 'var(--primary-300)',

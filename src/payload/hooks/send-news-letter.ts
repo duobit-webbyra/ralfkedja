@@ -53,14 +53,20 @@ export const sendNewsletterHook = async ({ doc, operation, req }: any): Promise<
     console.log('[Hook] Skickar mejl till:', sub.email)
     try {
       await resend.emails.send({
-        from: process.env.EMAIL_USER!,
+        from: 'Nyhetsbrev - Ralf Kedja <noreply@mail.ralfkedja.se>',
         to: sub.email,
+        replyTo: 'Ralf Kedja <ralked@hotmail.com>',
         subject: doc.subject,
         html: `
           ${contentHTML}
-          <hr />
-          <p style="font-size:12px;">Du får detta mejl eftersom du är prenumerant.
-          <a href="${unsubscribeBase}${sub.unsubscribeToken}">Avsluta prenumeration</a></p>
+          <hr style="margin:20px 0;" />
+
+          <p style="font-size:12px;color:#666;">
+            Du får detta mejl eftersom du registrerat dig för mitt nyhetsbrev.
+            Om du vill avsluta prenumerationen kan du klicka på länken nedan:
+            <br />
+            <a href="${unsubscribeBase}${sub.unsubscribeToken}" style="color:#1a73e8;">Avsluta prenumeration</a>
+          </p>
         `,
       })
       console.log('[Hook] Skickat till:', sub.email)

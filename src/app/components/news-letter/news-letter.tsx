@@ -1,0 +1,51 @@
+'use client'
+import React, { useTransition } from 'react'
+import { addGeneralSubscriber } from './actions'
+import PrimaryButton from '../button/primary-button'
+
+export default function NewsLetterComponent() {
+  const [pending, startTransition] = useTransition()
+  const [message, setMessage] = React.useState('')
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+
+    startTransition(async () => {
+      const result = await addGeneralSubscriber(formData)
+      setMessage(result?.message || '')
+    })
+  }
+
+  return (
+    <div className="max-w-3xl mx-auto text-center px-6">
+      <h2 className="text-3xl md:text-4xl font-semibold text-gray-900 mb-4">
+        Prenumerera på Nyhetsbrevet
+      </h2>
+      <p className="text-gray-600 mb-8 max-w-xl mx-auto">
+        {' '}
+        Håll dig uppdaterad med de senaste nyheterna och uppdateringar. Anmäl dig så får du utskick
+        direkt till din mejl.{' '}
+      </p>
+      <form
+        onSubmit={handleSubmit}
+        className="flex sm:flex-col sm:flex-row items-center justify-center gap-4"
+      >
+        <input
+          type="email"
+          name="email"
+          required
+          placeholder="Din e-postadress"
+          className="w-full sm:w-80 px-4 py-3 rounded-lg border transition"
+        />
+        <div>
+          <PrimaryButton type="submit" disabled={pending}>
+            {pending ? 'Skickar...' : 'Prenumerera'}
+          </PrimaryButton>
+        </div>
+      </form>
+
+      {message && <p className="text-sm text-green-700 mt-3">{message}</p>}
+    </div>
+  )
+}

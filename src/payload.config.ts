@@ -30,6 +30,7 @@ const cloudflare =
   process.argv.find((value) => value.match(/^(generate|migrate):?/)) || !cloudflareRemoteBindings
     ? await getCloudflareContextFromWrangler()
     : await getCloudflareContext({ async: true })
+console.log(cloudflare.env.D1)
 
 export default buildConfig({
   admin: {
