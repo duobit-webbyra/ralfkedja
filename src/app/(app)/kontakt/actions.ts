@@ -16,9 +16,6 @@ interface CloudflareValidation {
 
 export async function verifyTurnstile(previousState: any, formData: FormData) {
   const turnstileToken = formData.get('cf-turnstile-response')
-  console.log('FormData cf-turnstile-response:', formData.get('cf-turnstile-response'))
-
-  console.log('Turnstile token received:', turnstileToken) // <-- check this
 
   if (!turnstileToken) {
     return { message: 'No Turnstile token', status: 'error' }
@@ -38,7 +35,6 @@ export async function verifyTurnstile(previousState: any, formData: FormData) {
   )
 
   const verificationData: CloudflareValidation = await verificationResponse.json()
-  console.log('Turnstile verification response:', verificationData)
 
   if (!verificationData.success) {
     return { message: 'Verification failed', status: 'error' }
@@ -53,7 +49,6 @@ export async function sendEmail(previousState: any, formData: FormData) {
   if (!turnstileToken) return { status: 'error', message: 'No Turnstile token' }
 
   if (!process.env.RESEND_API_KEY) {
-    console.error('[sendEmail] RESEND_API_KEY not set')
     return { status: 'error', message: 'Email service not configured' }
   }
 
@@ -76,87 +71,109 @@ export async function sendEmail(previousState: any, formData: FormData) {
   // Send email with Resend
   try {
     await resend.emails.send({
-      from: 'noreply@mail.ralfkedja.se',
+      from: 'Ralf Kedja <noreply@mail.ralfkedja.se>',
       to: data.email,
       replyTo: email,
       subject: subject,
       html,
     })
-    console.log('[sendEmail] Email sent successfully')
     return { status: 'success' }
   } catch (err) {
-    console.error('[sendEmail] Failed to send email:', err)
     return { status: 'error', message: 'Failed to send email' }
   }
 }
 
 export async function sendCourseInquiry(previousState: any, formData: FormData) {
   try {
-    console.log('[sendCourseInquiry] Starting course inquiry submission')
-
-    // Verify Turnstile first (if you still want it)
+    // 1. Turnstile
     const turnstileToken = formData.get('cf-turnstile-response')?.toString()
-    if (!turnstileToken) return { status: 'error', message: 'No Turnstile token' }
+    if (!turnstileToken) {
+      return {
+        status: 'error',
+        message: 'Verifiering misslyckades. Försök igen.',
+      }
+    }
 
+    // 2. Konfiguration
     if (!process.env.RESEND_API_KEY) {
-      console.error('[sendCourseInquiry] RESEND_API_KEY not set')
-      return { status: 'error', message: 'Email service not configured' }
+      console.error('[sendCourseInquiry] RESEND_API_KEY saknas')
+      return {
+        status: 'error',
+        message: 'Tjänsten är tillfälligt otillgänglig. Försök igen senare.',
+      }
     }
 
     const resend = new Resend(process.env.RESEND_API_KEY)
-    console.log('[sendCourseInquiry] Resend initialized')
 
-    // Fetch contact email from Payload
-    console.log('[sendCourseInquiry] Initializing Payload')
+    // 3. Hämta mottagaradress
     const payload = await getPayload({ config })
-    console.log('[sendCourseInquiry] Fetching contact global')
     const data = await payload.findGlobal({ slug: 'contact' })
-    if (!data || !data.email) throw new Error('Failed to get contact information')
-    console.log('[sendCourseInquiry] Contact email:', data.email)
 
-    const name = formData.get('name')?.toString() || ''
-    const email = formData.get('email')?.toString() || ''
-    const phone = formData.get('phone')?.toString() || ''
+    if (!data?.email) {
+      console.error('[sendCourseInquiry] Kontaktadress saknas i Payload')
+      return {
+        status: 'error',
+        message: 'Tjänsten är tillfälligt otillgänglig. Försök igen senare.',
+      }
+    }
+
+    // 4. Läs formulärdata
+    const name = formData.get('name')?.toString().trim() || ''
+    const email = formData.get('email')?.toString().trim() || ''
+    const phone = formData.get('phone')?.toString().trim() || ''
     const options = formData.getAll('options').map((o) => o.toString())
     const preferred_location = formData.get('preferred_location')?.toString() || ''
     const message = formData.get('message')?.toString() || ''
+    const emailConsent = formData.get('email_consent')
 
-    console.log('[sendCourseInquiry] Form data extracted:', { email, options, preferred_location })
+    // 5. Server-side validering
+    if (!name || !email || !phone) {
+      return {
+        status: 'error',
+        message: 'Alla obligatoriska fält måste fyllas i.',
+      }
+    }
 
-    if (!email || options.length === 0)
-      return { status: 'error', message: 'Missing required fields' }
+    if (options.length === 0) {
+      return {
+        status: 'error',
+        message: 'Du måste välja minst en kurs.',
+      }
+    }
 
+    if (!emailConsent) {
+      return {
+        status: 'error',
+        message: 'Du måste samtycka till att bli kontaktad via e-post.',
+      }
+    }
+
+    // 6. Kurs → kategori
     const courseToCategory: Record<string, string> = {
       'Biomagnetism steg 1-2': 'biomagnetism',
       'Touch for Health steg 1-4': 'touch-for-health',
       'Grundkurs i kinesiologi/muskeltestning': 'kinesiologi',
     }
 
-    const categorySlugs = ['general', ...options.map((o) => courseToCategory[o])]
-    console.log('[sendCourseInquiry] Looking for categories with slugs:', categorySlugs)
+    const categorySlugs = ['general', ...options.map((o) => courseToCategory[o]).filter(Boolean)]
 
+    // 7. Hämta kategorier
     const categoriesRes = await payload.find({
       collection: 'subscriber-categories',
       where: { slug: { in: categorySlugs } },
       limit: 100,
     })
 
-    console.log('[sendCourseInquiry] Found', categoriesRes.docs.length, 'categories')
-
     const categoriesToAdd = categoriesRes.docs
 
-    console.log('[sendCourseInquiry] Checking for existing subscriber:', email)
+    // 8. Skapa / uppdatera subscriber
     const existing = await payload.find({
       collection: 'subscribers',
       where: { email: { equals: email } },
       limit: 1,
     })
 
-    console.log('[sendCourseInquiry] Existing subscriber docs:', existing.totalDocs)
-
     if (existing.totalDocs > 0) {
-      // Uppdatera befintlig subscriber
-      console.log('[sendCourseInquiry] Updating existing subscriber')
       const subscriber = existing.docs[0]
       const updatedCategories = Array.from(
         new Set([...(subscriber.categories || []), ...categoriesToAdd]),
@@ -167,11 +184,9 @@ export async function sendCourseInquiry(previousState: any, formData: FormData) 
         id: subscriber.id,
         data: { categories: updatedCategories },
       })
-      console.log('[sendCourseInquiry] Subscriber updated')
     } else {
-      // Skapa ny subscriber
-      console.log('[sendCourseInquiry] Creating new subscriber')
       const unsubscribeToken = crypto.randomBytes(20).toString('hex')
+
       await payload.create({
         collection: 'subscribers',
         data: {
@@ -180,9 +195,9 @@ export async function sendCourseInquiry(previousState: any, formData: FormData) 
           categories: categoriesToAdd,
         },
       })
-      console.log('[sendCourseInquiry] Subscriber created')
     }
 
+    // 9. Skicka mejl
     const html = generateCourseInquiryEmail({
       name,
       email,
@@ -192,26 +207,32 @@ export async function sendCourseInquiry(previousState: any, formData: FormData) 
       message,
     })
 
-    console.log('[sendCourseInquiry] HTML email generated, attempting to send')
-
     try {
       await resend.emails.send({
-        from: 'noreply@mail.ralfkedja.se',
+        from: 'Ralf Kedja <noreply@mail.ralfkedja.se>',
         to: data.email,
         replyTo: email,
         subject: 'Ny intresseanmälan för kurser',
         html,
       })
-      console.log('[sendCourseInquiry] Email sent successfully')
-      return { status: 'success' }
     } catch (err) {
-      console.error('[sendCourseInquiry] Failed to send email:', err)
-      return { status: 'error', message: 'Failed to send email' }
+      console.error('[sendCourseInquiry] Misslyckades att skicka e-post', err)
+      return {
+        status: 'error',
+        message: 'Kunde inte skicka din intresseanmälan. Försök igen senare.',
+      }
+    }
+
+    // 10. Success
+    return {
+      status: 'success',
+      message: 'Tack! Din intresseanmälan har skickats.',
     }
   } catch (err) {
-    console.error('[sendCourseInquiry] Unexpected error:', err)
-    const errorMsg = err instanceof Error ? err.message : 'Unknown error'
-    console.error('[sendCourseInquiry] Full error:', err)
-    return { status: 'error', message: `Error: ${errorMsg}` }
+    console.error('[sendCourseInquiry] Oväntat fel', err)
+    return {
+      status: 'error',
+      message: 'Ett oväntat fel inträffade. Försök igen senare.',
+    }
   }
 }

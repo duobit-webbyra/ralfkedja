@@ -27,8 +27,6 @@ async function handleLogin(email: string, password: string) {
       token: result.token,
     }
   } catch (error: any) {
-    console.log('Login error:', error)
-
     // Extract error message
     const errorMessage = error.message || error.data?.message
 
@@ -56,15 +54,13 @@ async function handleLogin(email: string, password: string) {
 }
 
 export async function loginAction(email: string, password: string) {
-
-  console.log(email, password)
   const result = await handleLogin(email, password)
 
   if (!result.success) {
     return { error: result.error }
   }
 
-  ; (await cookies()).set('payload-token', result.token, {
+  ;(await cookies()).set('payload-token', result.token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',

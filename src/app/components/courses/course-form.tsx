@@ -24,17 +24,19 @@ export default function CourseForm() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     const form = event.currentTarget
-    const checkboxes = form.querySelectorAll('input[type="checkbox"]')
-    const isChecked = Array.from(checkboxes).some(
-      (checkbox) => (checkbox as HTMLInputElement).checked,
-    )
+    const courseCheckboxes = form.querySelectorAll(
+      'input[name="options"]',
+    ) as NodeListOf<HTMLInputElement>
 
-    if (!isChecked) {
+    const hasSelectedCourse = Array.from(courseCheckboxes).some((checkbox) => checkbox.checked)
+
+    if (!hasSelectedCourse) {
       event.preventDefault()
-      setError('Välj minst ett alternativ.')
-    } else {
-      setError('')
+      setError('Du måste välja minst en kurs.')
+      return
     }
+
+    setError('')
   }
 
   return (
@@ -114,14 +116,27 @@ export default function CourseForm() {
               name="message"
             ></TextArea>
           </div>
-          {error && <p style={{ color: 'var(--secondary-200)' }}>{error}</p>}
+          <div className={style['checkbox-group']}>
+            <div className={style['input-selection']}>
+              <input type="checkbox" name="email_consent" id="email_consent" required />
+              <label htmlFor="email_consent">
+                Jag samtycker till att få e-post med information och nyheter om de kurser jag
+                anmäler intresse för. Jag kan när som helst avregistrera mig.
+              </label>
+            </div>
+          </div>
+          <Turnstile />
+          <Submit />
+          {error && (
+            <p role="alert" style={{ color: 'var(--secondary-200)' }}>
+              {error}
+            </p>
+          )}{' '}
           {state?.message && (
             <p style={{ color: state?.status === 'success' ? 'green' : 'var(--secondary-200)' }}>
               {state.message}
             </p>
           )}
-          <Turnstile />
-          <Submit />
         </Form>
       </div>
     </div>
