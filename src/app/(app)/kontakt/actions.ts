@@ -130,7 +130,7 @@ export async function sendCourseInquiry(previousState: any, formData: FormData) 
     await payload.update({
       collection: 'subscribers',
       id: subscriber.id,
-      data: { categories: updatedCategories, unsubscribed: false },
+      data: { categories: updatedCategories },
     })
   } else {
     // Skapa ny subscriber
@@ -140,7 +140,6 @@ export async function sendCourseInquiry(previousState: any, formData: FormData) 
       data: {
         email,
         unsubscribeToken,
-        unsubscribed: false,
         categories: categoriesToAdd,
       },
     })
