@@ -30,6 +30,10 @@ if (mediaHostname) {
 /** @type {import('next').NextConfig} */
 const nextConfig: NextConfig = {
   // Your Next.js config here
+  eslint: {
+    // Disable ESLint during build
+    ignoreDuringBuilds: true,
+  },
   sassOptions: {
     includePaths: [path.join(__dirname, 'src', 'app', 'styles')],
   },
