@@ -5,9 +5,8 @@ import config from '@payload-config'
 import crypto from 'crypto'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY!)
-
 export async function addGeneralSubscriber(formData: FormData): Promise<{ message: string }> {
+  const resend = new Resend(process.env.RESEND_API_KEY!)
   const payload = await getPayload({ config })
   const email = formData.get('email')?.toString().trim().toLowerCase()
   if (!email) {
