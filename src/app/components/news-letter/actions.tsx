@@ -85,6 +85,7 @@ export async function addGeneralSubscriber(formData: FormData): Promise<{ messag
 }
 
 export async function sendWelcomeEmail(email: string, unsubscribeToken: string) {
+  const resend = new Resend(process.env.RESEND_API_KEY!)
   const unsubscribeBase = `${process.env.NEXT_PUBLIC_APP_URL}/nyhetsbrev-avregistrering/`
 
   try {
