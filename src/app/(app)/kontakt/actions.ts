@@ -93,7 +93,7 @@ export async function sendEmail(previousState: any, formData: FormData) {
 export async function sendCourseInquiry(previousState: any, formData: FormData) {
   try {
     console.log('[sendCourseInquiry] Starting course inquiry submission')
-    
+
     // Verify Turnstile first (if you still want it)
     const turnstileToken = formData.get('cf-turnstile-response')?.toString()
     if (!turnstileToken) return { status: 'error', message: 'No Turnstile token' }
@@ -123,75 +123,76 @@ export async function sendCourseInquiry(previousState: any, formData: FormData) 
 
     console.log('[sendCourseInquiry] Form data extracted:', { email, options, preferred_location })
 
-    if (!email || options.length === 0) return { status: 'error', message: 'Missing required fields' }
+    if (!email || options.length === 0)
+      return { status: 'error', message: 'Missing required fields' }
 
-  const courseToCategory: Record<string, string> = {
-    'Biomagnetism steg 1-2': 'biomagnetism',
-    'Touch for Health steg 1-4': 'touch-for-health',
-    'Grundkurs i kinesiologi/muskeltestning': 'kinesiologi',
-  }
+    const courseToCategory: Record<string, string> = {
+      'Biomagnetism steg 1-2': 'biomagnetism',
+      'Touch for Health steg 1-4': 'touch-for-health',
+      'Grundkurs i kinesiologi/muskeltestning': 'kinesiologi',
+    }
 
-  const categorySlugs = ['general', ...options.map((o) => courseToCategory[o])]
-  console.log('[sendCourseInquiry] Looking for categories with slugs:', categorySlugs)
+    const categorySlugs = ['general', ...options.map((o) => courseToCategory[o])]
+    console.log('[sendCourseInquiry] Looking for categories with slugs:', categorySlugs)
 
-  const categoriesRes = await payload.find({
-    collection: 'subscriber-categories',
-    where: { slug: { in: categorySlugs } },
-    limit: 100,
-  })
-  
-  console.log('[sendCourseInquiry] Found', categoriesRes.docs.length, 'categories')
-
-  const categoriesToAdd = categoriesRes.docs
-
-  console.log('[sendCourseInquiry] Checking for existing subscriber:', email)
-  const existing = await payload.find({
-    collection: 'subscribers',
-    where: { email: { equals: email } },
-    limit: 1,
-  })
-  
-  console.log('[sendCourseInquiry] Existing subscriber docs:', existing.totalDocs)
-
-  if (existing.totalDocs > 0) {
-    // Uppdatera befintlig subscriber
-    console.log('[sendCourseInquiry] Updating existing subscriber')
-    const subscriber = existing.docs[0]
-    const updatedCategories = Array.from(
-      new Set([...(subscriber.categories || []), ...categoriesToAdd]),
-    )
-
-    await payload.update({
-      collection: 'subscribers',
-      id: subscriber.id,
-      data: { categories: updatedCategories },
+    const categoriesRes = await payload.find({
+      collection: 'subscriber-categories',
+      where: { slug: { in: categorySlugs } },
+      limit: 100,
     })
-    console.log('[sendCourseInquiry] Subscriber updated')
-  } else {
-    // Skapa ny subscriber
-    console.log('[sendCourseInquiry] Creating new subscriber')
-    const unsubscribeToken = crypto.randomBytes(20).toString('hex')
-    await payload.create({
-      collection: 'subscribers',
-      data: {
-        email,
-        unsubscribeToken,
-        categories: categoriesToAdd,
-      },
-    })
-    console.log('[sendCourseInquiry] Subscriber created')
-  }
 
-  const html = generateCourseInquiryEmail({
-    name,
-    email,
-    phone,
-    options,
-    preferred_location,
-    message,
-  })
-  
-  console.log('[sendCourseInquiry] HTML email generated, attempting to send')
+    console.log('[sendCourseInquiry] Found', categoriesRes.docs.length, 'categories')
+
+    const categoriesToAdd = categoriesRes.docs
+
+    console.log('[sendCourseInquiry] Checking for existing subscriber:', email)
+    const existing = await payload.find({
+      collection: 'subscribers',
+      where: { email: { equals: email } },
+      limit: 1,
+    })
+
+    console.log('[sendCourseInquiry] Existing subscriber docs:', existing.totalDocs)
+
+    if (existing.totalDocs > 0) {
+      // Uppdatera befintlig subscriber
+      console.log('[sendCourseInquiry] Updating existing subscriber')
+      const subscriber = existing.docs[0]
+      const updatedCategories = Array.from(
+        new Set([...(subscriber.categories || []), ...categoriesToAdd]),
+      )
+
+      await payload.update({
+        collection: 'subscribers',
+        id: subscriber.id,
+        data: { categories: updatedCategories },
+      })
+      console.log('[sendCourseInquiry] Subscriber updated')
+    } else {
+      // Skapa ny subscriber
+      console.log('[sendCourseInquiry] Creating new subscriber')
+      const unsubscribeToken = crypto.randomBytes(20).toString('hex')
+      await payload.create({
+        collection: 'subscribers',
+        data: {
+          email,
+          unsubscribeToken,
+          categories: categoriesToAdd,
+        },
+      })
+      console.log('[sendCourseInquiry] Subscriber created')
+    }
+
+    const html = generateCourseInquiryEmail({
+      name,
+      email,
+      phone,
+      options,
+      preferred_location,
+      message,
+    })
+
+    console.log('[sendCourseInquiry] HTML email generated, attempting to send')
 
     try {
       await resend.emails.send({

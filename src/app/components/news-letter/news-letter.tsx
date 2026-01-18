@@ -48,7 +48,13 @@ export default function NewsLetterComponent() {
         </div>
       </form>
 
-      {message && <p className={`text-sm mt-3 ${messageType === 'error' ? 'text-red-700' : 'text-green-700'}`}>{message}</p>}
+      {message && (
+        <p
+          className={`text-sm mt-3 ${messageType === 'error' ? 'text-red-700' : 'text-green-700'}`}
+        >
+          {message}
+        </p>
+      )}
     </div>
   )
 }

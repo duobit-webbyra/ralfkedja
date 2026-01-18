@@ -2,8 +2,6 @@ import payload from 'payload'
 import { Resend } from 'resend'
 import { convertLexicalToHTML } from '@payloadcms/richtext-lexical/html'
 
-const resend = new Resend(process.env.RESEND_API_KEY!)
-
 export const sendNewsletterHook = async ({ doc, operation, req }: any): Promise<void> => {
   console.log(
     '[Hook] Triggas för nyhetsbrev, doc:',
@@ -13,6 +11,13 @@ export const sendNewsletterHook = async ({ doc, operation, req }: any): Promise<
     'operation:',
     operation,
   )
+
+  if (!process.env.RESEND_API_KEY) {
+    console.error('[Hook] RESEND_API_KEY not set, skipping newsletter send')
+    return
+  }
+
+  const resend = new Resend(process.env.RESEND_API_KEY)
 
   if (doc.status !== 'sent') {
     console.log('[Hook] Avbryter, inte update eller status inte sent')

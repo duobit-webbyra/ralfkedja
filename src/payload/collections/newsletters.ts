@@ -1,5 +1,4 @@
 import type { CollectionConfig } from 'payload'
-import { Resend } from 'resend'
 import { sendNewsletterHook } from '../hooks/send-news-letter'
 import { isAdmin } from '../access/is-admin'
 
@@ -53,6 +52,15 @@ export const Newsletters: CollectionConfig = {
     },
   ],
   hooks: {
-    afterChange: [sendNewsletterHook],
+    afterChange: [
+      async (args) => {
+        try {
+          await sendNewsletterHook(args)
+        } catch (err) {
+          console.error('[Newsletter Hook] Error:', err)
+          // Don't throw - allow the operation to complete
+        }
+      },
+    ],
   },
 }
