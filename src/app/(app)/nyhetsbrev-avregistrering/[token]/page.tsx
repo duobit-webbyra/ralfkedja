@@ -3,13 +3,14 @@ import config from '@payload-config'
 import UnsubscribeClient from './unsubscribe-client'
 import type { SubscriberCategory } from '@/payload-types'
 
-export default async function Page({ params }: { params: { token: string } }) {
+export default async function Page({ params }: { params: Promise<{ token: string }> }) {
   const payload = await getPayload({ config })
+  const { token } = await params
 
   // Hämta subscribern
   const { docs } = await payload.find({
     collection: 'subscribers',
-    where: { unsubscribeToken: { equals: params.token } },
+    where: { unsubscribeToken: { equals: token } },
     limit: 1,
     depth: 2,
   })
@@ -38,7 +39,7 @@ export default async function Page({ params }: { params: { token: string } }) {
 
   return (
     <UnsubscribeClient
-      token={params.token}
+      token={token}
       categories={allCategories}
       activeCategoryIds={activeCategoryIds}
     />
