@@ -6,20 +6,27 @@ import crypto from 'crypto'
 import { Resend } from 'resend'
 
 export async function addGeneralSubscriber(formData: FormData): Promise<{ message: string }> {
-  if (!process.env.RESEND_API_KEY) {
-    console.error('[addGeneralSubscriber] RESEND_API_KEY not set')
-    return { message: 'Email service not configured' }
-  }
-
-  const resend = new Resend(process.env.RESEND_API_KEY)
-  const payload = await getPayload({ config })
-  const email = formData.get('email')?.toString().trim().toLowerCase()
-  if (!email) {
-    return { message: 'E-postadress krävs.' }
-  }
-
-  let category
   try {
+    console.log('[addGeneralSubscriber] Starting newsletter subscription')
+    
+    if (!process.env.RESEND_API_KEY) {
+      console.error('[addGeneralSubscriber] RESEND_API_KEY not set')
+      return { message: 'Email service not configured' }
+    }
+
+    const resend = new Resend(process.env.RESEND_API_KEY)
+    const payload = await getPayload({ config })
+    console.log('[addGeneralSubscriber] Payload initialized')
+    
+    const email = formData.get('email')?.toString().trim().toLowerCase()
+    if (!email) {
+      return { message: 'E-postadress krävs.' }
+    }
+    
+    console.log('[addGeneralSubscriber] Processing email:', email)
+
+    let category
+    try {
     const existing = await payload.find({
       collection: 'subscriber-categories',
       where: { slug: { equals: 'general' } },
@@ -28,23 +35,27 @@ export async function addGeneralSubscriber(formData: FormData): Promise<{ messag
 
     if (existing.docs.length > 0) {
       category = existing.docs[0]
-    } else {
-      category = await payload.create({
-        collection: 'subscriber-categories',
-        data: {
-          name: 'Generell nyhetsbrevsprenumerant',
-          slug: 'general',
-          description: 'Skickas till alla prenumeranter.',
-        },
-      })
+        console.log('[addGeneralSubscriber] Found existing general category')
+      } else {
+        console.log('[addGeneralSubscriber] Creating new general category')
+        category = await payload.create({
+          collection: 'subscriber-categories',
+          data: {
+            name: 'Generell nyhetsbrevsprenumerant',
+            slug: 'general',
+            description: 'Skickas till alla prenumeranter.',
+          },
+        })
+        console.log('[addGeneralSubscriber] General category created')
+      }
+    } catch (err) {
+      console.error('[addGeneralSubscriber] Error ensuring general category:', err)
+      return { message: 'Kunde inte skapa eller hitta kategori.' }
     }
-  } catch (err) {
-    console.error('[addGeneralSubscriber] Error ensuring general category:', err)
-    return { message: 'Kunde inte skapa eller hitta kategori.' }
-  }
 
   // 2️⃣ Generate unsubscribe token
   const unsubscribeToken = crypto.randomBytes(16).toString('hex')
+  console.log('[addGeneralSubscriber] Generated unsubscribe token')
 
   // 3️⃣ Create or update subscriber
   try {
@@ -54,6 +65,8 @@ export async function addGeneralSubscriber(formData: FormData): Promise<{ messag
       limit: 1,
     })
 
+    console.log('[addGeneralSubscriber] Found existing subscribers:', existingSub.totalDocs)
+
     if (existingSub.docs.length > 0) {
       const sub = existingSub.docs[0]
       const hasCategory = sub.categories?.some(
@@ -61,6 +74,7 @@ export async function addGeneralSubscriber(formData: FormData): Promise<{ messag
       )
 
       if (!hasCategory) {
+        console.log('[addGeneralSubscriber] Updating existing subscriber with category')
         await payload.update({
           collection: 'subscribers',
           id: sub.id,
@@ -72,6 +86,7 @@ export async function addGeneralSubscriber(formData: FormData): Promise<{ messag
       return { message: 'Du prenumererar redan på nyhetsbrevet.' }
     }
 
+    console.log('[addGeneralSubscriber] Creating new subscriber')
     await payload.create({
       collection: 'subscribers',
       data: {
@@ -80,12 +95,19 @@ export async function addGeneralSubscriber(formData: FormData): Promise<{ messag
         categories: [category.id],
       },
     })
+    console.log('[addGeneralSubscriber] Subscriber created, sending welcome email')
 
     await sendWelcomeEmail(email, unsubscribeToken)
     return { message: 'Tack! Du är nu prenumerant.' }
+    } catch (err) {
+      console.error('[addGeneralSubscriber] Error creating subscriber:', err)
+      return { message: 'Ett fel uppstod. Försök igen senare.' }
+    }
   } catch (err) {
-    console.error('[addGeneralSubscriber] Error creating subscriber:', err)
-    return { message: 'Ett fel uppstod. Försök igen senare.' }
+    console.error('[addGeneralSubscriber] Unexpected error:', err)
+    const errorMsg = err instanceof Error ? err.message : 'Unknown error'
+    console.error('[addGeneralSubscriber] Error details:', errorMsg)
+    return { message: `Error: ${errorMsg}` }
   }
 }
 

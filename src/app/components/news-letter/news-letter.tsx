@@ -6,6 +6,7 @@ import PrimaryButton from '../button/primary-button'
 export default function NewsLetterComponent() {
   const [pending, startTransition] = useTransition()
   const [message, setMessage] = React.useState('')
+  const [messageType, setMessageType] = React.useState<'success' | 'error'>('success')
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -14,6 +15,8 @@ export default function NewsLetterComponent() {
     startTransition(async () => {
       const result = await addGeneralSubscriber(formData)
       setMessage(result?.message || '')
+      const isError = result?.message?.startsWith('Error') || result?.message?.includes('Error')
+      setMessageType(isError ? 'error' : 'success')
     })
   }
 
@@ -45,7 +48,7 @@ export default function NewsLetterComponent() {
         </div>
       </form>
 
-      {message && <p className="text-sm text-green-700 mt-3">{message}</p>}
+      {message && <p className={`text-sm mt-3 ${messageType === 'error' ? 'text-red-700' : 'text-green-700'}`}>{message}</p>}
     </div>
   )
 }

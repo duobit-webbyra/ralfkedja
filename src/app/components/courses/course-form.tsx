@@ -115,6 +115,7 @@ export default function CourseForm() {
             ></TextArea>
           </div>
           {error && <p style={{ color: 'var(--secondary-200)' }}>{error}</p>}
+          {state?.message && <p style={{ color: state?.status === 'success' ? 'green' : 'var(--secondary-200)' }}>{state.message}</p>}
           <Turnstile />
           <Submit />
         </Form>
