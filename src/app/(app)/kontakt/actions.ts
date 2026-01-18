@@ -9,7 +9,6 @@ import {
 } from '@/app/components/utils/generate-contact-email'
 import { Resend } from 'resend'
 import crypto from 'crypto'
-const resend = new Resend(process.env.RESEND_API_KEY!)
 
 interface CloudflareValidation {
   success: boolean
@@ -53,6 +52,13 @@ export async function sendEmail(previousState: any, formData: FormData) {
   const turnstileToken = formData.get('cf-turnstile-response')?.toString()
   if (!turnstileToken) return { status: 'error', message: 'No Turnstile token' }
 
+  if (!process.env.RESEND_API_KEY) {
+    console.error('[sendEmail] RESEND_API_KEY not set')
+    return { status: 'error', message: 'Email service not configured' }
+  }
+
+  const resend = new Resend(process.env.RESEND_API_KEY)
+
   // Fetch contact email from Payload
   const payload = await getPayload({ config })
   const data = await payload.findGlobal({ slug: 'contact' })
@@ -68,21 +74,33 @@ export async function sendEmail(previousState: any, formData: FormData) {
   const html = generateContactEmail({ name, email, phone, subject, message })
 
   // Send email with Resend
-  await resend.emails.send({
-    from: process.env.EMAIL_USER!, // Your Gmail or verified sender in Resend
-    to: data.email, // Payload contact email
-    replyTo: email,
-    subject: subject,
-    html,
-  })
-
-  return { status: 'success' }
+  try {
+    await resend.emails.send({
+      from: 'noreply@mail.ralfkedja.se',
+      to: data.email,
+      replyTo: email,
+      subject: subject,
+      html,
+    })
+    console.log('[sendEmail] Email sent successfully')
+    return { status: 'success' }
+  } catch (err) {
+    console.error('[sendEmail] Failed to send email:', err)
+    return { status: 'error', message: 'Failed to send email' }
+  }
 }
 
 export async function sendCourseInquiry(previousState: any, formData: FormData) {
   // Verify Turnstile first (if you still want it)
   const turnstileToken = formData.get('cf-turnstile-response')?.toString()
   if (!turnstileToken) return { status: 'error', message: 'No Turnstile token' }
+
+  if (!process.env.RESEND_API_KEY) {
+    console.error('[sendCourseInquiry] RESEND_API_KEY not set')
+    return { status: 'error', message: 'Email service not configured' }
+  }
+
+  const resend = new Resend(process.env.RESEND_API_KEY)
 
   // Fetch contact email from Payload
   const payload = await getPayload({ config })
@@ -154,13 +172,18 @@ export async function sendCourseInquiry(previousState: any, formData: FormData) 
     message,
   })
 
-  await resend.emails.send({
-    from: process.env.EMAIL_USER!,
-    to: data.email,
-    replyTo: email,
-    subject: 'Ny intresseanmälan för kurser',
-    html,
-  })
-
-  return { status: 'success' }
+  try {
+    await resend.emails.send({
+      from: 'noreply@mail.ralfkedja.se',
+      to: data.email,
+      replyTo: email,
+      subject: 'Ny intresseanmälan för kurser',
+      html,
+    })
+    console.log('[sendCourseInquiry] Email sent successfully')
+    return { status: 'success' }
+  } catch (err) {
+    console.error('[sendCourseInquiry] Failed to send email:', err)
+    return { status: 'error', message: 'Failed to send email' }
+  }
 }

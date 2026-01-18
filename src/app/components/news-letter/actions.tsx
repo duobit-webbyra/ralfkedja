@@ -6,7 +6,12 @@ import crypto from 'crypto'
 import { Resend } from 'resend'
 
 export async function addGeneralSubscriber(formData: FormData): Promise<{ message: string }> {
-  const resend = new Resend(process.env.RESEND_API_KEY!)
+  if (!process.env.RESEND_API_KEY) {
+    console.error('[addGeneralSubscriber] RESEND_API_KEY not set')
+    return { message: 'Email service not configured' }
+  }
+
+  const resend = new Resend(process.env.RESEND_API_KEY)
   const payload = await getPayload({ config })
   const email = formData.get('email')?.toString().trim().toLowerCase()
   if (!email) {
@@ -85,7 +90,12 @@ export async function addGeneralSubscriber(formData: FormData): Promise<{ messag
 }
 
 export async function sendWelcomeEmail(email: string, unsubscribeToken: string) {
-  const resend = new Resend(process.env.RESEND_API_KEY!)
+  if (!process.env.RESEND_API_KEY) {
+    console.warn('[sendWelcomeEmail] RESEND_API_KEY not set, skipping email')
+    return
+  }
+
+  const resend = new Resend(process.env.RESEND_API_KEY)
   const unsubscribeBase = `${process.env.NEXT_PUBLIC_APP_URL}/nyhetsbrev-avregistrering/`
 
   try {
