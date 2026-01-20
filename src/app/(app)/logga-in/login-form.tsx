@@ -6,7 +6,7 @@ import { Form, Input } from '@/app/components/Form'
 import { Link } from '@/app/components/link/link'
 import Container from '@/app/components/essentials/Container'
 import SecondaryButton from '@/app/components/button/secondary-button'
-import Turnstile from '@/app/components/turnstile'
+import TurnstileWidget from '@/app/components/turnstile'
 import { loginAction } from '@/app/providers/login'
 import { useAuth } from '@/app/providers/auth'
 
@@ -76,7 +76,7 @@ export default function LoginForm() {
                 <SecondaryButton type="submit">Logga in</SecondaryButton>
               </div>
             </div>
-            <Turnstile />
+            <TurnstileWidget />
           </Form>
         </div>
       </Container>

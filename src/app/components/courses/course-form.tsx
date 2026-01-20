@@ -6,7 +6,7 @@ import { Input, Form, TextArea } from '../Form'
 
 import { sendCourseInquiry } from '@/app/(app)/kontakt/actions'
 import { useFormStatus } from 'react-dom'
-import Turnstile from '../turnstile'
+import TurnstileWidget from '../turnstile'
 
 const Submit = () => {
   const { pending } = useFormStatus()
@@ -125,7 +125,7 @@ export default function CourseForm() {
               </label>
             </div>
           </div>
-          <Turnstile />
+          <TurnstileWidget />
           <Submit />
           {error && (
             <p role="alert" style={{ color: 'var(--secondary-200)' }}>

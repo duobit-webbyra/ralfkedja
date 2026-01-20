@@ -1,6 +1,5 @@
 'use server'
 
-import nodemailer from 'nodemailer'
 import config from '@payload-config'
 import { getPayload } from 'payload'
 import {
@@ -9,57 +8,145 @@ import {
 } from '@/app/components/utils/generate-contact-email'
 import { Resend } from 'resend'
 import crypto from 'crypto'
+import { headers } from 'next/headers'
 
-interface CloudflareValidation {
+interface TurnstileResponse {
   success: boolean
+  challenge_ts?: string
+  hostname?: string
+  'error-codes'?: string[]
 }
 
-export async function verifyTurnstile(previousState: any, formData: FormData) {
-  const turnstileToken = formData.get('cf-turnstile-response')
+// ============================================================================
+// SHARED UTILITIES
+// ============================================================================
 
-  if (!turnstileToken) {
-    return { message: 'No Turnstile token', status: 'error' }
+async function verifyTurnstile(token: string | null): Promise<boolean> {
+  if (!token) return false
+
+  const headerStorage = await headers()
+  const remoteIp = headerStorage.get('CF-Connecting-IP') || headerStorage.get('X-Forwarded-For')
+
+  try {
+    const verificationResponse = await fetch(
+      'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+      {
+        body: JSON.stringify({
+          response: token,
+          secret: process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY,
+          remoteIp,
+        }),
+        headers: { 'Content-Type': 'application/json' },
+        method: 'POST',
+      },
+    )
+
+    const verificationData = (await verificationResponse.json()) as TurnstileResponse
+    return verificationData.success
+  } catch (e) {
+    console.error('Turnstile validation error:', e)
+    return false
+  }
+}
+
+async function getOrCreateCategory(payload: any, slug: string, name: string, description: string) {
+  const existing = await payload.find({
+    collection: 'subscriber-categories',
+    where: { slug: { equals: slug } },
+    limit: 1,
+  })
+
+  if (existing.docs.length > 0) {
+    return existing.docs[0]
   }
 
-  const params = new URLSearchParams()
-  params.append('secret', process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY!)
-  params.append('response', turnstileToken.toString())
+  return await payload.create({
+    collection: 'subscriber-categories',
+    data: { name, slug, description },
+  })
+}
 
-  const verificationResponse = await fetch(
-    'https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/flow/v0/siteverify',
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: params.toString(),
+async function addSubscriberToCategories(
+  payload: any,
+  email: string,
+  categoryIds: string[],
+): Promise<{ isNew: boolean; subscriber: any }> {
+  const existing = await payload.find({
+    collection: 'subscribers',
+    where: { email: { equals: email } },
+    limit: 1,
+  })
+
+  if (existing.docs.length > 0) {
+    const subscriber = existing.docs[0]
+    const currentCategoryIds = (subscriber.categories || []).map((c: any) =>
+      typeof c === 'object' ? c.id : c,
+    )
+
+    // Use Set to avoid duplicates
+    const uniqueCategories = Array.from(new Set([...currentCategoryIds, ...categoryIds]))
+
+    // Only update if there are new categories
+    if (uniqueCategories.length > currentCategoryIds.length) {
+      await payload.update({
+        collection: 'subscribers',
+        id: subscriber.id,
+        data: { categories: uniqueCategories },
+      })
+    }
+
+    return { isNew: false, subscriber }
+  }
+
+  // Create new subscriber
+  const unsubscribeToken = crypto.randomBytes(20).toString('hex')
+  const subscriber = await payload.create({
+    collection: 'subscribers',
+    data: {
+      email,
+      unsubscribeToken,
+      categories: categoryIds,
     },
-  )
+  })
 
-  const verificationData: CloudflareValidation = await verificationResponse.json()
-
-  if (!verificationData.success) {
-    return { message: 'Verification failed', status: 'error' }
-  }
-
-  return { message: 'Verification successful', status: 'success' }
+  return { isNew: true, subscriber }
 }
 
-export async function sendEmail(previousState: any, formData: FormData) {
-  // Verify Turnstile first (if you still want it)
-  const turnstileToken = formData.get('cf-turnstile-response')?.toString()
-  if (!turnstileToken) return { status: 'error', message: 'No Turnstile token' }
+// ============================================================================
+// CONTACT FORM
+// ============================================================================
 
+export async function sendEmail(state: any, formData: FormData) {
+  // 1. Verify Turnstile
+  const turnstileToken = formData.get('cf-turnstile-response')?.toString()
+  const isValid = await verifyTurnstile(turnstileToken)
+
+  if (!isValid) {
+    console.error('Turnstile verification failed')
+    return {
+      ...state,
+      status: 'error',
+      message: 'P1. Något gick fel. Försök igen senare',
+    }
+  }
+
+  // 2. Check configuration
   if (!process.env.RESEND_API_KEY) {
     return { status: 'error', message: 'Email service not configured' }
   }
 
   const resend = new Resend(process.env.RESEND_API_KEY)
 
-  // Fetch contact email from Payload
+  // 3. Fetch contact email from Payload
   const payload = await getPayload({ config })
   const data = await payload.findGlobal({ slug: 'contact' })
-  if (!data || !data.email) throw new Error('Failed to get contact information')
 
-  // Extract form fields
+  if (!data || !data.email) {
+    console.error('Failed to get contact information')
+    return { status: 'error', message: 'P2. Något gick fel. Försök igen senare' }
+  }
+
+  // 4. Extract form fields
   const name = formData.get('name')?.toString() || ''
   const email = formData.get('email')?.toString() || ''
   const phone = formData.get('phone')?.toString() || ''
@@ -68,10 +155,10 @@ export async function sendEmail(previousState: any, formData: FormData) {
 
   const html = generateContactEmail({ name, email, phone, subject, message })
 
-  // Send email with Resend
+  // 5. Send email with Resend
   try {
     await resend.emails.send({
-      from: 'Ralf Kedja <noreply@mail.ralfkedja.se>',
+      from: 'Ralf Kedja Kontakt <noreply@mail.ralfkedja.se>',
       to: data.email,
       replyTo: email,
       subject: subject,
@@ -79,22 +166,31 @@ export async function sendEmail(previousState: any, formData: FormData) {
     })
     return { status: 'success' }
   } catch (err) {
+    console.error('[sendEmail] Failed to send email:', err)
     return { status: 'error', message: 'Failed to send email' }
   }
 }
 
-export async function sendCourseInquiry(previousState: any, formData: FormData) {
+// ============================================================================
+// COURSE INQUIRY
+// ============================================================================
+
+export async function sendCourseInquiry(state: any, formData: FormData) {
   try {
-    // 1. Turnstile
+    // 1. Verify Turnstile
     const turnstileToken = formData.get('cf-turnstile-response')?.toString()
-    if (!turnstileToken) {
+    const isValid = await verifyTurnstile(turnstileToken)
+
+    if (!isValid) {
+      console.error('Turnstile verification failed')
       return {
+        ...state,
         status: 'error',
-        message: 'Verifiering misslyckades. Försök igen.',
+        message: 'P1. Något gick fel. Försök igen senare',
       }
     }
 
-    // 2. Konfiguration
+    // 2. Check configuration
     if (!process.env.RESEND_API_KEY) {
       console.error('[sendCourseInquiry] RESEND_API_KEY saknas')
       return {
@@ -105,7 +201,7 @@ export async function sendCourseInquiry(previousState: any, formData: FormData) 
 
     const resend = new Resend(process.env.RESEND_API_KEY)
 
-    // 3. Hämta mottagaradress
+    // 3. Fetch contact email
     const payload = await getPayload({ config })
     const data = await payload.findGlobal({ slug: 'contact' })
 
@@ -117,7 +213,7 @@ export async function sendCourseInquiry(previousState: any, formData: FormData) 
       }
     }
 
-    // 4. Läs formulärdata
+    // 4. Extract and validate form data
     const name = formData.get('name')?.toString().trim() || ''
     const email = formData.get('email')?.toString().trim() || ''
     const phone = formData.get('phone')?.toString().trim() || ''
@@ -126,7 +222,7 @@ export async function sendCourseInquiry(previousState: any, formData: FormData) 
     const message = formData.get('message')?.toString() || ''
     const emailConsent = formData.get('email_consent')
 
-    // 5. Server-side validering
+    // 5. Server-side validation
     if (!name || !email || !phone) {
       return {
         status: 'error',
@@ -148,56 +244,38 @@ export async function sendCourseInquiry(previousState: any, formData: FormData) 
       }
     }
 
-    // 6. Kurs → kategori
+    // 6. Map courses to categories
     const courseToCategory: Record<string, string> = {
       'Biomagnetism steg 1-2': 'biomagnetism',
       'Touch for Health steg 1-4': 'touch-for-health',
       'Grundkurs i kinesiologi/muskeltestning': 'kinesiologi',
     }
 
-    const categorySlugs = ['general', ...options.map((o) => courseToCategory[o]).filter(Boolean)]
+    // Get category slugs for selected courses (no 'general' here)
+    const courseCategorySlugs = options.map((o) => courseToCategory[o]).filter(Boolean)
 
-    // 7. Hämta kategorier
-    const categoriesRes = await payload.find({
-      collection: 'subscriber-categories',
-      where: { slug: { in: categorySlugs } },
-      limit: 100,
-    })
-
-    const categoriesToAdd = categoriesRes.docs
-
-    // 8. Skapa / uppdatera subscriber
-    const existing = await payload.find({
-      collection: 'subscribers',
-      where: { email: { equals: email } },
-      limit: 1,
-    })
-
-    if (existing.totalDocs > 0) {
-      const subscriber = existing.docs[0]
-      const updatedCategories = Array.from(
-        new Set([...(subscriber.categories || []), ...categoriesToAdd]),
+    // 7. Get or create categories
+    const categoryPromises = courseCategorySlugs.map((slug) => {
+      const categoryNames: Record<string, string> = {
+        biomagnetism: 'Biomagnetism',
+        'touch-for-health': 'Touch for Health',
+        kinesiologi: 'Kinesiologi',
+      }
+      return getOrCreateCategory(
+        payload,
+        slug,
+        categoryNames[slug] || slug,
+        `Prenumeranter intresserade av ${categoryNames[slug] || slug}`,
       )
+    })
 
-      await payload.update({
-        collection: 'subscribers',
-        id: subscriber.id,
-        data: { categories: updatedCategories },
-      })
-    } else {
-      const unsubscribeToken = crypto.randomBytes(20).toString('hex')
+    const categories = await Promise.all(categoryPromises)
+    const categoryIds = categories.map((c) => c.id)
 
-      await payload.create({
-        collection: 'subscribers',
-        data: {
-          email,
-          unsubscribeToken,
-          categories: categoriesToAdd,
-        },
-      })
-    }
+    // 8. Add subscriber to course-specific categories only
+    await addSubscriberToCategories(payload, email, categoryIds)
 
-    // 9. Skicka mejl
+    // 9. Send inquiry email
     const html = generateCourseInquiryEmail({
       name,
       email,
@@ -209,7 +287,7 @@ export async function sendCourseInquiry(previousState: any, formData: FormData) 
 
     try {
       await resend.emails.send({
-        from: 'Ralf Kedja <noreply@mail.ralfkedja.se>',
+        from: 'Ralf Kedja Kurser <noreply@mail.ralfkedja.se>',
         to: data.email,
         replyTo: email,
         subject: 'Ny intresseanmälan för kurser',

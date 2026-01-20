@@ -1,9 +1,10 @@
+// actions.ts
 'use server'
 
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
-export async function updateSubscriptions(token: string, selectedCategoryIds: (string | number)[]) {
+export async function updateSubscriptions(token: string, selectedCategoryIds: number[]) {
   const payload = await getPayload({ config })
 
   const { docs } = await payload.find({
@@ -19,7 +20,7 @@ export async function updateSubscriptions(token: string, selectedCategoryIds: (s
   await payload.update({
     collection: 'subscribers',
     id: subscriber.id,
-    data: { categories: selectedCategoryIds.map((id) => Number(id)) },
+    data: { categories: selectedCategoryIds },
   })
 
   return selectedCategoryIds.length

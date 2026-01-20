@@ -11,51 +11,76 @@ interface Props {
   categories: SubscriberCategory[]
   activeCategoryIds: number[]
 }
+
 export default function UnsubscribeClient({ token, categories, activeCategoryIds }: Props) {
   const [selected, setSelected] = useState<number[]>([])
+  const [message, setMessage] = useState<string>('')
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    // Initiera endast med de som är aktiva
     setSelected(activeCategoryIds)
   }, [activeCategoryIds])
 
-  const [message, setMessage] = useState<string>('')
-
   async function handleSave() {
+    setLoading(true)
+    setMessage('')
     try {
       const msg = await updateSubscriptions(token, selected)
       setMessage(msg)
     } catch (err) {
-      setMessage((err as Error).message)
+      setMessage((err as Error).message || 'Ett fel uppstod')
+    } finally {
+      setLoading(false)
     }
+  }
+
+  const handleToggle = (categoryId: number, checked: boolean) => {
+    setSelected((prev) =>
+      checked ? [...prev, categoryId] : prev.filter((id) => id !== categoryId),
+    )
+    setMessage('') // Clear message when user makes changes
   }
 
   return (
     <Container className="pt-16 pb-48">
-      <h1 className=" text-4xl! font-bold mb-4 ">Hantera dina prenumerationer</h1>
+      <h1 className="text-4xl font-bold mb-4">Hantera dina prenumerationer</h1>
+      <p className="text-gray-600 mb-6">
+        Välj vilka nyhetsbrev du vill prenumerera på. Avmarkera alla för att avsluta alla
+        prenumerationer.
+      </p>
 
       {categories.length === 0 && <p>Inga kategorier tillgängliga.</p>}
 
-      {categories.map((cat) => (
-        <label key={cat.id} className="block w-max">
-          <input
-            type="checkbox"
-            checked={selected.includes(cat.id)}
-            onChange={(e) =>
-              setSelected((prev) =>
-                e.target.checked ? [...prev, cat.id] : prev.filter((id) => id !== cat.id),
-              )
-            }
-          />
-          <span className="ml-2 ">{cat.name}</span>
-        </label>
-      ))}
-
-      <div className="w-max mt-8">
-        <PrimaryButton onClick={handleSave}>Spara inställningar</PrimaryButton>
+      <div className="space-y-3 mb-8">
+        {categories.map((cat) => (
+          <label key={cat.id} className="flex items-start gap-3 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={selected.includes(cat.id)}
+              onChange={(e) => handleToggle(cat.id, e.target.checked)}
+              className="mt-1"
+            />
+            <div>
+              <span className="font-medium">{cat.name}</span>
+              {cat.description && <p className="text-sm text-gray-600">{cat.description}</p>}
+            </div>
+          </label>
+        ))}
       </div>
 
-      {message && <p className="text-sm text-gray-700 mt-2">{message}</p>}
+      <div className="w-max">
+        <PrimaryButton onClick={handleSave} disabled={loading}>
+          {loading ? 'Sparar...' : 'Spara inställningar'}
+        </PrimaryButton>
+      </div>
+
+      {message && (
+        <p
+          className={`text-sm mt-4 ${message.includes('fel') || message.includes('Ogiltig') ? 'text-red-600' : 'text-green-600'}`}
+        >
+          {message}
+        </p>
+      )}
     </Container>
   )
 }

@@ -11,7 +11,7 @@ interface ContactFormProps {
 
 import { sendEmail } from '@/app/(app)/kontakt/actions'
 import { useFormStatus } from 'react-dom'
-import Turnstile from '@/app/components/turnstile'
+import TurnstileWidget from '@/app/components/turnstile'
 
 const Submit = () => {
   const { pending } = useFormStatus()
@@ -72,7 +72,7 @@ export default function ContactForm({ grid }: ContactFormProps) {
         name="message"
         required
       ></textarea>
-      <Turnstile />
+      <TurnstileWidget />
       <Submit />
     </form>
   )
