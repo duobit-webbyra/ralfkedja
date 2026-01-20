@@ -1,38 +1,12 @@
 'use client'
-import React, { useTransition, useRef } from 'react'
+import React from 'react'
+import { useActionState } from 'react'
 import { addGeneralSubscriber } from './actions'
 import PrimaryButton from '../button/primary-button'
 import TurnstileWidget from '../turnstile'
 
 export default function NewsLetterComponent() {
-  const [pending, startTransition] = useTransition()
-  const [message, setMessage] = React.useState('')
-  const [messageType, setMessageType] = React.useState<'success' | 'error'>('success')
-  const formRef = useRef<HTMLFormElement>(null)
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-
-    const formData = new FormData(e.currentTarget)
-    const turnstileToken = formData.get('cf-turnstile-response')
-
-    if (!turnstileToken) {
-      setMessage('Vänligen slutför säkerhetsverifieringen.')
-      setMessageType('error')
-      return
-    }
-
-    startTransition(async () => {
-      const result = await addGeneralSubscriber(formData)
-      setMessage(result?.message || '')
-      setMessageType(result?.message?.includes('Error') ? 'error' : 'success')
-
-      // Reset form on success
-      if (!result?.message?.includes('Error')) {
-        formRef.current?.reset()
-      }
-    })
-  }
+  const [state, action, pending] = useActionState(addGeneralSubscriber, { message: '' })
 
   return (
     <div className="max-w-3xl mx-auto text-center px-6">
@@ -43,11 +17,7 @@ export default function NewsLetterComponent() {
         Håll dig uppdaterad med de senaste nyheterna och uppdateringar. Anmäl dig så får du utskick
         direkt till din mejl.
       </p>
-      <form
-        ref={formRef}
-        onSubmit={handleSubmit}
-        className="flex flex-col items-center justify-center gap-4"
-      >
+      <form action={action} className="flex flex-col items-center justify-center gap-4">
         <input
           type="email"
           name="email"
@@ -65,11 +35,11 @@ export default function NewsLetterComponent() {
         </div>
       </form>
 
-      {message && (
+      {state.message && (
         <p
-          className={`text-sm mt-3 ${messageType === 'error' ? 'text-red-700' : 'text-green-700'}`}
+          className={`text-sm mt-3 ${state.message.includes('Error') ? 'text-red-700' : 'text-green-700'}`}
         >
-          {message}
+          {state.message}
         </p>
       )}
     </div>

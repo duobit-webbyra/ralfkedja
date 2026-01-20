@@ -115,7 +115,10 @@ async function addSubscriberToCategories(
   return { isNew: true, subscriber, categoriesAdded: true }
 }
 
-export async function addGeneralSubscriber(formData: FormData): Promise<{ message: string }> {
+export async function addGeneralSubscriber(
+  prevState: { message: string },
+  formData: FormData,
+): Promise<{ message: string }> {
   try {
     // 1. Verify Turnstile
     const turnstileToken = formData.get('cf-turnstile-response')?.toString()
@@ -200,6 +203,6 @@ export async function sendWelcomeEmail(email: string, unsubscribeToken: string) 
       `,
     })
   } catch (err) {
-    console.error('[sendWelcomeEmail] Error:', err)
+    return { message: 'Error: Ett fel uppstod. Försök igen senare.' }
   }
 }
