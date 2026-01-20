@@ -125,7 +125,7 @@ export async function addGeneralSubscriber(
     const isValid = await verifyTurnstile(turnstileToken)
 
     if (!isValid) {
-      return { message: 'Error: Säkerhetsverifiering misslyckades. Försök igen.' }
+      return { message: 'Säkerhetsverifiering misslyckades. Ladda om sidan för att försöka igen.' }
     }
 
     // 2. Check Resend API
