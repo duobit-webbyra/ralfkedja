@@ -15,5 +15,6 @@ export const Media: CollectionConfig = {
       required: true,
     },
   ],
-  upload: true,
+  // Upload disabled - using hardcoded gallery images instead
+  // upload: true,
 }

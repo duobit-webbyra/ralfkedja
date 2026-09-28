@@ -7,7 +7,6 @@ import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import { CloudflareContext, getCloudflareContext } from '@opennextjs/cloudflare'
 import { GetPlatformProxyOptions } from 'wrangler'
-import { r2Storage } from '@payloadcms/storage-r2'
 import { Reviews } from './payload/collections/reviews'
 import { Media } from './payload/collections/media'
 import { Users } from './payload/collections/users'
@@ -56,20 +55,7 @@ export default buildConfig({
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: sqliteD1Adapter({ binding: cloudflare.env.D1 }),
-  plugins: [
-    payloadCloudPlugin(),
-    r2Storage({
-      bucket: cloudflare.env.R2,
-      collections: {
-        media: {
-          generateFileURL: ({ filename }) => {
-            const baseUrl = process.env.NEXT_PUBLIC_MEDIA_URL || ''
-            return `${baseUrl}/${filename}`
-          },
-        },
-      },
-    }),
-  ],
+  plugins: [payloadCloudPlugin()],
 })
 
 // Adapted from https://github.com/opennextjs/opennextjs-cloudflare/blob/d00b3a13e42e65aad76fba41774815726422cc39/packages/cloudflare/src/api/cloudflare-context.ts#L328C36-L328C46
